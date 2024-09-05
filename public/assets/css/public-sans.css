@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/Public_Sans/PublicSans-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Public_Sans/PublicSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/Public_Sans/PublicSans-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/Public_Sans/PublicSans-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/Public_Sans/PublicSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: url('../fonts/Public_Sans/PublicSans-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('../fonts/Public_Sans/PublicSans-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: url('../fonts/Public_Sans/PublicSans-MediumItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: url('../fonts/Public_Sans/PublicSans-SemiBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: url('../fonts/Public_Sans/PublicSans-BoldItalic.ttf') format('truetype');
+}

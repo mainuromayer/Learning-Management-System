@@ -1,0 +1,90 @@
+.dataTables_wrapper .row
+{
+    padding: 5px;
+}
+.dataTables_paginate .pagination
+{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+} 
+.dataTables_filter
+{
+    display: flex;
+    justify-content: end;
+}
+.card-primary .card-header
+{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #696cff;
+    padding: 10px 25px;
+}
+.card-primary .card-title
+{
+    margin: 0;
+    font-size: 18px;
+    line-height: 25px;
+}
+.card-primary .card-body
+{
+    padding-top: 5px!important;
+}
+.form-card .card-body
+{
+    padding-top: 15px!important;
+}
+.required-star:after {
+    color: red;
+    content: " *";
+}
+.has-error .help-block
+{
+    font-size: 13px !important;
+    color: red !important;
+}
+
+.has-error .required
+{
+    border: 1px solid red !important;
+}
+.content-wrapper
+{
+    overflow: hidden !important;
+}
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 80px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #696cff;
+    --_m: conic-gradient(#0000 10%,#000),
+      linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: l3 1s infinite linear;
+  }
+  @keyframes l3 {to{transform: rotate(1turn)}}
+
+
+
+  .select2-selection.select2-selection--single .select2-selection__arrow {
+	height: 35px !important;
+	width: 30px !important;
+
+}
+
+.select2-selection.select2-selection--single {
+	height: 40px !important;
+	padding: 5px !important;
+    border: var(--bs-border-width) solid #d9dee3 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+	color: #697a8d !important;
+}
