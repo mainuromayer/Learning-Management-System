@@ -41,25 +41,7 @@ class PermissionSeeder extends Seeder
              'slug' => 'app.users.destroy',
          ]);
 
-        // Network Module
-        $moduleAppNetwork = Module::updateOrCreate(['title' => 'Network', 'slug'=>Str::slug('network')]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppNetwork->id,
-            'title' => 'View Network',
-            'slug' => 'app.networks.index',
-        ]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppNetwork->id,
-            'title' => 'Create Network',
-            'slug' => 'app.networks.create',
-        ]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppNetwork->id,
-            'title' => 'Edit Network',
-            'slug' => 'app.networks.edit',
-        ]);
-
-
+        
         // User Permission
         $moduleAppUserPermission = Module::updateOrCreate(['title' => 'User Permission', 'slug'=>Str::slug('user_permission')]);
         Permission::updateOrCreate([

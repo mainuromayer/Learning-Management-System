@@ -75,6 +75,7 @@ class UserController
             $user->password = Hash::make($request->get('password'));
             $user->user_type = '1';
             $user->role_id = $request->get('role');
+            $user->email = $request->get('email');
             $user->save();
             Session::flash('success', 'Data save successfully!');
             return redirect()->route('user.list');

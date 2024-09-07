@@ -37,7 +37,7 @@
                     <div class="input-group row {{$errors->has('email') ? 'has-error' : ''}}">
                         {!! Form::label('email','Email:',['class'=>'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('email', old('email'), ['class' => 'form-control required','id' => 'email', 'readonly' => 'true']) !!}
+                            {!! Form::text('email', old('email'), ['class' => 'form-control required','id' => 'email']) !!}
                             {!! $errors->first('email','<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
@@ -62,7 +62,7 @@
 
                     <!-- User Type -->
                     <div class="input-group row {{$errors->has('user_type') ? 'has-error' : ''}}">
-                        {!! Form::label('role','User Type:',['class'=>'col-md-3 control-label required-star']) !!}
+                        {!! Form::label('role','User Role:',['class'=>'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
                             {!! Form::select('role', $roles, old('role'), ['class' => 'form-control required user_type']) !!}
                             {!! $errors->first('role', '<span class="help-block">:message</span>') !!}
