@@ -33,7 +33,19 @@ class RoleSeeder extends Seeder
         // Sync modules
         $admin_role->modules()->sync($admin_modules->pluck('id'));
         
+<<<<<<< HEAD
         Role::updateOrCreate(['title' => 'Student', 'slug' => 'student', 'deletable' => false]);    
         Role::updateOrCreate(['title' => 'Instructor', 'slug' => 'instructor', 'deletable' => false]);
+=======
+        Role::updateOrCreate(['title' => 'Student', 'slug' => 'student', 'deletable' => false]);
+        Role::updateOrCreate(['title' => 'Instructor ', 'slug' => 'instructor', 'deletable' => false]);    
+        // Role::updateOrCreate(['title' => 'Accounts', 'slug' => 'accounts', 'deletable' => false]);
+        // Role::updateOrCreate(['title' => 'Branch Manager', 'slug' => 'billing', 'deletable' => false]);
+        // Role::updateOrCreate(['title' => 'Technical Support', 'slug' => 'ets', 'deletable' => false]);
+        // Role::updateOrCreate(['title' => 'BReseller', 'slug' => 'breseller', 'deletable' => false]);
+        // Role::updateOrCreate(['title' => 'MReseller', 'slug' => 'mreseller', 'deletable' => false]);
+        // Role::updateOrCreate(['title' => 'Billing', 'slug' => 'billing_manager', 'deletable' => false]);
+        // Role::updateOrCreate(['title' => 'Support Manager', 'slug' => 'support_manager', 'deletable' => false]);
+>>>>>>> 5899fba62c501a06e8cf594f801909ed05eb173a
     }
 }

@@ -19,6 +19,15 @@
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
         </li>
+        <!-- Category -->
+        @can('category')
+            <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
+                <a href="{{ route('category.list') }}"  class="menu-link ">
+                    <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
+                    <div data-i18n="User"> Category </div>
+                </a>
+            </li>
+        @endcan
 
         <!-- User -->
         @can('user')
@@ -27,6 +36,27 @@
                 <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
                 <div data-i18n="User"> User </div>
             </a>
+        </li>
+        @endcan
+        @can('user')
+        <li class="menu-item {{ Request::is('course') || Request::is('course/*') ? 'active' : '' }}">
+            <a href="{{ route('course.list') }}"  class="menu-link ">
+                <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
+                <div data-i18n="Course"> Course </div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{  Request::is('course') || Request::is('course/*') ? 'active' : '' }} ">
+                    <a href="{{ route('course.create') }}" class="menu-link">
+                        <i class="menu-icon tf-icons fas fa-user-lock fa-fw"></i>
+                        <div>Create Course</div>
+                    </a>
+                </li>
+                {{-- <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div>Process Permission</div>
+                    </a>
+                </li> --}}
+            </ul>
         </li>
         @endcan
 
