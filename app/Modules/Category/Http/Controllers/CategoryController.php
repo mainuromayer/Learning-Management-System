@@ -28,10 +28,18 @@ class CategoryController extends Controller
             if ($request->ajax() && $request->isMethod('post')) {
                 $list = Category::select('id', 'category_name', 'keywords', 'description', 'thumbnail')
                     ->orderBy('id')
-                    ->paginate(12); // Paginate with 12 items per page
+                    ->paginate(12);
 
                 // Return paginated data as JSON
-                return response()->json($list);
+                return response()->json([
+                    'data' => $list->items(),
+                    'pagination' => [
+                        'total' => $list->total(),
+                        'current_page' => $list->currentPage(),
+                        'last_page' => $list->lastPage(),
+                        'per_page' => $list->perPage(),
+                    ]
+                ]);
             } else {
                 return view("Category::list");
             }
@@ -42,6 +50,25 @@ class CategoryController extends Controller
         }
     }
 
+//    public function list(Request $request)
+//    {
+//        try {
+//            if ($request->ajax() && $request->isMethod('post')) {
+//                $list = Category::select('id', 'category_name', 'keywords', 'description', 'thumbnail')
+//                    ->orderBy('id')
+//                    ->paginate(12); // Paginate with 12 items per page
+//
+//                // Return paginated data as JSON
+//                return response()->json($list);
+//            } else {
+//                return view("Category::list");
+//            }
+//        } catch (Exception $e) {
+//            Log::error("Error in CategoryController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+//            Session::flash('error', "Something went wrong during data load [Category-101]");
+//            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     public function create(): View|RedirectResponse
     {
