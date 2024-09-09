@@ -41,6 +41,29 @@ class PermissionSeeder extends Seeder
              'slug' => 'app.users.destroy',
          ]);
 
+         // User management
+         $moduleAppCourse = Module::updateOrCreate(['title' => 'User', 'slug'=>Str::slug('user')]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppCourse->id,
+             'title' => 'Access Course',
+             'slug' => 'app.course.index',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppCourse->id,
+             'title' => 'Create Course',
+             'slug' => 'app.course.create',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppCourse->id,
+             'title' => 'Edit Course',
+             'slug' => 'app.course.edit',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppCourse->id,
+             'title' => 'Delete Course',
+             'slug' => 'app.course.destroy',
+         ]);
+
         
         // User Permission
         $moduleAppUserPermission = Module::updateOrCreate(['title' => 'User Permission', 'slug'=>Str::slug('user_permission')]);
