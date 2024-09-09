@@ -20,13 +20,14 @@ class StoreCourseRequest extends FormRequest {
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array {
-        // $rules['category_id'] = 'required'; 
-        $rules['title'] = 'required'; 
-        $rules['create_as'] = 'required'; 
-        $rules['category'] = 'required'; 
-        $rules['course_level'] = 'required'; 
-        $rules['pricing_type'] = 'required'; 
-        $rules['price'] = 'required'; 
+        $rules['categories'] = 'required';
+        $rules['instructors'] = 'required';
+        $rules['title'] = 'required';
+        $rules['create_as'] = 'required';
+        $rules['course_level'] = 'required';
+        $rules['pricing_type'] = 'required';
+        $rules['price'] = 'required';
+        $rules['status'] = 'required';
 
         return $rules;
     }
@@ -37,15 +38,15 @@ class StoreCourseRequest extends FormRequest {
      * @return array
      */
     public function messages(): array {
-        return array(
-            // 'catagory_id.required'         => 'The catagory id field is required.', 
-            'title.required'         => 'The title field is required.', 
-            'create_as.required'         => 'The catagory id field is required.', 
-            'category.required'         => 'The catagory id field is required.', 
-            'course_level.required'         => 'The course level field is required.', 
-            'pricing_type.required'         => 'The Pricing type field is required.', 
-            'price.required'         => 'The price field is required.', 
-            // 'sub_zone_name.required'  => 'The sub zone name field is required.',
-        );
+        return [
+            'categories.required'         => 'The categories field is required.',
+            'instructors.required'         => 'The instructors field is required.',
+            'title.required'               => 'The title field is required.',
+            'create_as.required'           => 'The catagory id field is required.',
+            'course_level.required'        => 'The course level field is required.',
+            'pricing_type.required'        => 'The Pricing type field is required.',
+            'price.required'               => 'The price field is required.',
+            'status.required'              => 'The status field is required.',
+        ];
     }
 }

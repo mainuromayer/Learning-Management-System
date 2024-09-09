@@ -17,7 +17,7 @@ return new class extends Migration {
                 $table->string('email')->unique();
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password', 256);
-                $table->string('user_type', 20);
+                $table->string('user_type', 20);/* admin, instructor, student */
                 $table->string('image')->nullable();
                 $table->string('nid_front')->nullable();
                 $table->string('nid_back')->nullable();

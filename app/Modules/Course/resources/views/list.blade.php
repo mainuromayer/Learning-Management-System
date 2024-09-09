@@ -11,30 +11,27 @@
 
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2"><i class="fa fa-list"></i> Course List</h3>
+                    <h3 class="card-title pt-2 pb-2">List Course</h3>
                     <div class="card-tools">
-                        <a href="{{ route('course.create') }}" class="btn btn-primary">Add Course</a>
+                        <a href="{{ route('course.create') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-plus pr-2"></i> Add Course
+                        </a>
                     </div>
                 </div>
 
-                <!-- /.card-header -->
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="list" class="table table-striped table-bordered dt-responsive " cellspacing="0"
                             width="100%">
                             <thead>
                                 <tr>
-                                    {{-- <th>Course ID</th> --}}
-                                    <th>Title</th>
-                                    <th>short Description</th>
-                                    <th> Description </th>
-                                    <th> create as </th>
-                                    <th> category id </th>
-                                    <th> course level </th>
-                                    <th> Pricing type </th>
-                                    <th> price </th>
-                                    <th> discounted price </th>
-                                    <th> thumbnail </th>
+                                     <th> # </th>{{-- id --}}
+                                    <th> Title </th>{{-- title, instructor_name, instructor_email --}}
+                                    <th> Category </th>{{-- category --}}
+                                    <th> Lesson & Section </th>{{-- lesson, section --}}
+                                    <th> Enrolled Student </th>{{-- enrolled_student:(count) --}}
+                                    <th> Status </th>{{-- active/inactive --}}
+                                    <th> price </th>{{-- price --}}
                                     <th> Action </th>
                                 </tr>
                             </thead>
@@ -42,10 +39,9 @@
 
                             </tbody>
                         </table>
-                    </div><!-- /.table-responsive -->
+                    </div>
                 </div>
-                <!-- /.panel-body -->
-            </div><!-- /.panel -->
+            </div>
 
         </div>
     </div>
@@ -66,8 +62,12 @@
                         d._token = $('input[name="_token"]').val();
                     }
                 },
-                columns: [{
-                   
+                columns: [
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
                         data: 'title',
                         name: 'title'
                     },
@@ -75,7 +75,7 @@
                         data: 'short_description',
                         name: 'short_description'
                     },
-                   
+
                     {
                         data: 'description',
                         name: 'description'
@@ -84,7 +84,7 @@
                         data: 'create_as',
                         name: 'create_as'
                     },
-                   
+
                     {
                         data: 'category',
                         name: 'category'
@@ -109,8 +109,8 @@
                         data: 'thumbnail',
                         name: 'thumbnail'
                     },
-            
-                    
+
+
                     {
                         data: 'action',
                         name: 'action'

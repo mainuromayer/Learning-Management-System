@@ -25,7 +25,7 @@ class UserController
     {
         try {
             if ($request->ajax() && $request->isMethod('post')) {
-                $list = User::select('id', 'name', 'email', 'updated_at', 'updated_by')->with('updatedByUser')->orderBy('id')->get();
+                $list = User::select('id', 'name', 'email', 'updated_at', 'updated_by')->where('user_type','admin')->with('updatedByUser')->orderBy('id')->get();
                 return Datatables::of($list)->editColumn('name', function ($list) {
                         return $list->name ?? '';
                     })->editColumn('email', function ($list) {
@@ -73,7 +73,7 @@ class UserController
             }
             $user->name = $request->get('name');
             $user->password = Hash::make($request->get('password'));
-            $user->user_type = '1';
+            $user->user_type = 'admin';
             $user->role_id = $request->get('role');
             $user->email = $request->get('email');
             $user->save();

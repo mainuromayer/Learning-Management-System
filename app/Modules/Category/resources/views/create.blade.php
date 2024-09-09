@@ -80,12 +80,11 @@
                         </div>
                     </div>
 
-
                     <!-- Description (optional) -->
                     <div class="input-group row {{ $errors->has('description') ? 'has-error' : '' }}">
                         {!! Form::label('description', 'Description:', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            {!! Form::textarea('description', old('note'), [
+                            {!! Form::textarea('description', old('description'), [
                                 'class' => 'form-control',
                                 'placeholder' => 'Description',
                             ]) !!}
@@ -146,6 +145,8 @@
             </div>
         </div>
     </div>
+
+    {!! form::close() !!}
 @endsection
 
 @section('footer-script')

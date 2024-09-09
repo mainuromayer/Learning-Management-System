@@ -50,26 +50,6 @@ class CategoryController extends Controller
         }
     }
 
-//    public function list(Request $request)
-//    {
-//        try {
-//            if ($request->ajax() && $request->isMethod('post')) {
-//                $list = Category::select('id', 'category_name', 'keywords', 'description', 'thumbnail')
-//                    ->orderBy('id')
-//                    ->paginate(12); // Paginate with 12 items per page
-//
-//                // Return paginated data as JSON
-//                return response()->json($list);
-//            } else {
-//                return view("Category::list");
-//            }
-//        } catch (Exception $e) {
-//            Log::error("Error in CategoryController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-//            Session::flash('error', "Something went wrong during data load [Category-101]");
-//            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
     public function create(): View|RedirectResponse
     {
         try {
@@ -84,7 +64,6 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         try {
-            // Determine if we are updating or creating a new category
             if ($request->has('id')) {
                 $category = Category::findOrFail($request->get('id'));
             } else {
@@ -95,7 +74,6 @@ class CategoryController extends Controller
             $thumbnail = $request->hasFile('thumbnail') ? $this->uploadFile($request->file('thumbnail')) : '';
             $category_logo = $request->hasFile('category_logo') ? $this->uploadFile($request->file('category_logo')) : '';
 
-            // Assign values to the category instance
             $category->category_name = $request->input('category_name');
             $category->icon = $request->input('icon');
 
@@ -106,7 +84,6 @@ class CategoryController extends Controller
             $category->thumbnail = $thumbnail;
             $category->category_logo = $category_logo;
 
-            // Save the category instance
             $category->save();
 
             // Set success message and redirect
@@ -140,7 +117,7 @@ class CategoryController extends Controller
             return view('Category::edit', $data);
         } catch (Exception $e) {
             Log::error("Error occurred in CategoryController@edit ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-            Session::flash('error', "Something went wrong during application data edit [Category-103]");
+            Session::flash('error', "Something went wrong during application data edit [Category-104]");
             return redirect()->back();
         }
     }

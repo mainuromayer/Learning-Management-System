@@ -25,167 +25,191 @@
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary form-card">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2"><i class="fa fa-list"></i> Edit Course</h3>
-                   
+                    <h3 class="card-title pt-2 pb-2"> Update Course </h3>
+                    <div class="card-tools">
+                        <a href="{{ route('course.list') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-list-ul pr-2"></i> Course List
+                        </a>
+                    </div>
                 </div>
 
-
-                <!-- /.card-header -->
                 <div class="card-body demo-vertical-spacing">
-                    <input type="hidden" name="id" value="{{ $data->id }}">
-                    
-                    {{-- <div class="input-group row {{ $errors->has('zone_name') ? 'has-error' : '' }}">
-                        {!! Form::label('zone_name', 'Zone', ['class' => 'col-md-3 control-label required-star']) !!}
-                        <div class="col-md-9">
-                            @php
-                                 $subzones = $subzones ?? [];
-                            @endphp
-                            {!! Form::select('zone_name[]', $subzones, old('zone_name'), [
-                                'class' => 'form-control required select2',
-                                'single' => 'single',
-                                'placeholder' => 'Choose Your Zone Area',
-                            ]) !!}
-                            {!! $errors->first('zone_name', '<span class="help-block">:message</span>') !!}
-                        </div>
-                    </div> --}}
+                    {!! Form::hidden('id', $data->id) !!}
 
+                    <!-- Title -->
                     <div class="input-group row {{ $errors->has('title') ? 'has-error' : '' }}">
-                        {!! Form::label('title', 'Title', ['class' => 'col-md-3 control-label required-star']) !!}
+                        {!! Form::label('title', 'Title:', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('title', $data->title, [
+                            {!! Form::text('title', old('title', $data->title), [
                                 'class' => 'form-control required',
-                                'placeholder' => 'Enter title ',
+                                'placeholder' => 'Title',
                             ]) !!}
                             {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
                         </div>
-                    </div>  
+                    </div>
+
+                    <!-- Short Description -->
                     <div class="input-group row {{ $errors->has('short_description') ? 'has-error' : '' }}">
-                        {!! Form::label('short_description', 'short description', ['class' => 'col-md-3 control-label required-star']) !!}
+                        {!! Form::label('short_description', 'Short Description: ', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('short_description', $data->short_description, [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Enter short description ',
+                            {!! Form::textarea('short_description', old('short_description', $data->short_description), [
+                                'class' => 'form-control',
                             ]) !!}
                             {!! $errors->first('short_description', '<span class="help-block">:message</span>') !!}
                         </div>
-                    </div>  
-                    
+                    </div>
+
+                    <!-- Description -->
                     <div class="input-group row {{ $errors->has('description') ? 'has-error' : '' }}">
-                        {!! Form::label('description', 'Description', ['class' => 'col-md-3 control-label required-star']) !!}
+                        {!! Form::label('description', 'Description: ', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('description', $data->description, [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Enter description ',
+                            {!! Form::textarea('description', old('description', $data->description), [
+                                'class' => 'form-control',
                             ]) !!}
                             {!! $errors->first('description', '<span class="help-block">:message</span>') !!}
                         </div>
-                    </div>  
-                    <div class="form-group row {{ $errors->has('create_as') ? 'has-error' : '' }}">
-                        {!! Form::label('create_as', 'Create as?', ['class' => 'col-md-3 control-label']) !!}
-                        <div class="col-md-9">
-                            <label>{!! Form::radio('create_as', 0, old('create_as') == 0 || isset($model) && $model->create_as == 0, ['class' => 'required']) !!} Active</label>
-                            <label>{!! Form::radio('create_as', 1, old('create_as') == 1 || isset($model) && $model->create_as == 1, ['class' => 'required']) !!} Inactive</label>
-                            <label>{!! Form::radio('create_as', 2, old('create_as') == 2 || isset($model) && $model->create_as == 2, ['class' => 'required']) !!} Private</label>
-                            <label>{!! Form::radio('create_as', 3, old('create_as') == 3 || isset($model) && $model->create_as == 3, ['class' => 'required']) !!} Upcoming</label>
-                            <label>{!! Form::radio('create_as', 4, old('create_as') == 4 || isset($model) && $model->create_as == 4, ['class' => 'required']) !!} Pending</label>
-                            <label>{!! Form::radio('create_as', 5, old('create_as') == 5 || isset($model) && $model->create_as == 5, ['class' => 'required']) !!} Draft</label>
-                        </div>
                     </div>
-                    <div class="input-group row {{ $errors->has('category') ? 'has-error' : '' }}">
-                        {!! Form::label('category', 'Category', ['class' => 'col-md-3 control-label required-star']) !!}
+
+                    <!-- Create as -->
+                    <div class="form-group row {{ $errors->has('create_as') ? 'has-error' : '' }}">
+                        {!! Form::label('create_as', 'Create as: ', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            {!! Form::select('category', 
-                                ['html' => 'HTML', 'laravel' => 'Laravel', 'python' => 'Python'], // options array
-                                old('category', $data->category), // selected value from $data->category
-                                ['class' => 'form-control select2 required', 'placeholder' => 'Select category'] // additional attributes
-                            ) !!}
-                            {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
+                            <label>{!! Form::radio('create_as', 1, old('create_as', $data->create_as) == 1) !!} Active </label>
+                            &nbsp;
+                            <label>{!! Form::radio('create_as', 2, old('create_as', $data->create_as) == 2) !!} Inactive </label>
+                            &nbsp;
+                            <label>{!! Form::radio('create_as', 3, old('create_as', $data->create_as) == 3) !!} Privite </label>
+                            &nbsp;
+                            <label>{!! Form::radio('create_as', 4, old('create_as', $data->create_as) == 4) !!} Upcoming </label>
+                            &nbsp;
+                            <label>{!! Form::radio('create_as', 5, old('create_as', $data->create_as) == 5) !!} Pending </label>
+                            &nbsp;
+                            <label>{!! Form::radio('create_as', 6, old('create_as', $data->create_as) == 6) !!} Draft </label>
+                            {!! $errors->first('create_as', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
-                    <div class="input-group row {{ $errors->has('course_level') ? 'has-error' : '' }}">
-                        {!! Form::label('course_level', 'Course Level', ['class' => 'col-md-3 control-label required-star']) !!}
+                    <!-- Category -->
+                    <div class="input-group row {{ $errors->has('categories') ? 'has-error' : '' }}">
+                        {!! Form::label('categories', 'Category: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::select('course_level', 
-                                ['beginner' => 'Beginner', 'intermediate' => 'Intermediate', 'advanced' => 'Advanced'], // options array
-                                old('course_level', $data->course_level), // selected value from $data->course_level
-                                ['class' => 'form-control select2 required', 'placeholder' => 'Select course level'] // additional attributes
-                            ) !!}
+                            {!! Form::select('categories', $category_list, old('categories', $data->category_id), [
+                                'class' => 'form-control select2 categories required',
+                            ]) !!}
+                            {!! $errors->first('categories', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
+                    <!-- Instructor -->
+                    <div class="input-group row {{ $errors->has('instructors') ? 'has-error' : '' }}">
+                        {!! Form::label('instructors', 'Instructor: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('instructors', $instructor_list, old('instructors', $data->instructor_id), [
+                                'class' => 'form-control select2 instructors required',
+                            ]) !!}
+                            {!! $errors->first('instructors', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
+                    <!-- Course Level -->
+                    <div class="input-group row {{ $errors->has('course_level') ? 'has-error' : '' }}">
+                        {!! Form::label('course_level', 'Course Level: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('course_level', $course_level_list, old('course_level', $data->course_level), [
+                                'class' => 'form-control select2 course_level',
+                            ]) !!}
                             {!! $errors->first('course_level', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
                     <div class="form-group row {{ $errors->has('pricing_type') ? 'has-error' : '' }}">
-                        {!! Form::label('pricing_type', 'Pricing Type?', ['class' => 'col-md-3 control-label']) !!}
+                        {!! Form::label('bill', 'Pricing Type?', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            <label>{!! Form::radio('pricing_type', 0, old('pricing_type', $data->pricing_type) == 0, ['class' => 'required']) !!} Free</label>
-                            <label>{!! Form::radio('pricing_type', 1, old('pricing_type', $data->pricing_type) == 1, ['class' => 'required']) !!} Paid</label> 
+                            <label>{!! Form::radio('pricing_type', 1, old('pricing_type', $data->pricing_type) == 1) !!} Free </label>
+                            &nbsp;
+                            <label>{!! Form::radio('pricing_type', 2, old('pricing_type', $data->pricing_type) == 2) !!} Paid </label>
+                            {!! $errors->first('pricing_type', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
-                    <div class="input-group row {{ $errors->has('price') ? 'has-error' : '' }}">
-                        {!! Form::label('price', 'Price', ['class' => 'col-md-3 control-label required-star']) !!}
-                        <div class="col-md-9">
-                            {!! Form::number('price', old('price', $data->price), [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Enter price',
-                                'step' => '0.01', // Allows decimal values (for prices)
-                                'min' => '0' // Optional: Prevents negative values
-                            ]) !!}
+                    <!-- Price -->
+                    <div class="form-group row {{ $errors->has('price') ? 'has-error' : '' }}">
+                        {!! Form::label('price', 'Price: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                {!! Form::text('price', old('price', $data->discount) ?? '0.00', [
+                                    'class' => 'form-control',
+                                    'placeholder' => '0.00',
+                                    'step' => '0.01'
+                                ]) !!}
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="bx bx-money"></i>
+                                </span>
+                            </div>
                             {!! $errors->first('price', '<span class="help-block">:message</span>') !!}
                         </div>
+                        <div class="col-md-6"></div>
                     </div>
 
-                    <div class="input-group row {{ $errors->has('discounted_price') ? 'has-error' : '' }}">
-                        {!! Form::label('discounted_price', 'Discounted Price', ['class' => 'col-md-3 control-label required-star']) !!}
-                        <div class="col-md-9">
-                            {!! Form::number('discounted_price', old('discounted_price', $data->discounted_price), [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Enter discounted price',
-                                'step' => '0.01', // Allows decimal values (for prices)
-                                'min' => '0' // Optional: Prevents negative values
-                            ]) !!}
-                            {!! $errors->first('discounted_price', '<span class="help-block">:message</span>') !!}
+                    <!-- Discount -->
+                    <div class="form-group row {{ $errors->has('discount_price') ? 'has-error' : '' }}">
+                        {!! Form::label('discount_price', 'Discount Price: ', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                {!! Form::text('discount_price', old('discount_price', $data->discount_price) ?? '0.00', [
+                                    'class' => 'form-control',
+                                    'placeholder' => '0.00',
+                                    'step' => '0.01'
+                                ]) !!}
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="bx bxs-discount"></i>
+                                </span>
+                            </div>
+                            {!! $errors->first('discount_price', '<span class="help-block">:message</span>') !!}
                         </div>
+                        <div class="col-md-6"></div>
                     </div>
 
+                    <!-- Thumbnail (optional) -->
                     <div class="input-group row {{ $errors->has('thumbnail') ? 'has-error' : '' }}">
-                        {!! Form::label('thumbnail', 'Thumbnail', ['class' => 'col-md-3 control-label']) !!}
+                        {!! Form::label('thumbnail', 'Thumbnail (optional):', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('thumbnail', old('thumbnail', $data->thumbnail), [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Enter thumbnail URL or path',
-                            ]) !!}
+                            <img id="newThumbnail" src="{{ old('thumbnail', $data->thumbnail) ? asset($data->thumbnail) : asset('images/no_image.png') }}" style="height:120px;"/>
+                            {!! Form::file('thumbnail', ['class' => 'form-control mt-3', 'id' => 'thumbnail', 'oninput' => "document.getElementById('newThumbnail').src=window.URL.createObjectURL(this.files[0])"]) !!}
                             {!! $errors->first('thumbnail', '<span class="help-block">:message</span>') !!}
-                    
-                            <!-- Optional: Display the existing thumbnail if it's a URL or file path -->
-                            @if($data->thumbnail)
-                                <div class="thumbnail-preview">
-                                    <img src="{{ $data->thumbnail }}" alt="Thumbnail" class="img-thumbnail" style="max-width: 200px; max-height: 150px;">
-                                </div>
-                            @endif
                         </div>
                     </div>
-                    
-                    
 
-                   
-                    <div class="input-group">
+                    <!-- Status -->
+                    <div class="input-group row {{ $errors->has('status') ? 'has-error' : '' }}">
+                        {!! Form::label('status', 'Status: ', ['class' => 'col-md-3 control-label  required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('status', $status_list, old('status', $data->status), [
+                                'class' => 'form-control select2 categories required',
+                            ]) !!}
+                            {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
+                    <!-- Update Button -->
+                    <div class="form-group row">
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
-                            <button class="btn btn-primary">Update</button>
+                            {!! Form::button('Update', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-primary'
+                            ]) !!}
                         </div>
                     </div>
 
 
                 </div>
-                
-                {!! form::close() !!}
 
             </div>
         </div>
     </div>
 
+    {!! form::close() !!}
 
 @endsection
 
@@ -194,9 +218,11 @@
     <script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
 
     <script>
-        $(function() {
-            $(".select2").select2();
-
+        $('.select2').select2({
+            tags: true, // Allow custom input (keywords)
+            tokenSeparators: [',', ' '], // Keywords can be separated by commas or spaces
+            placeholder: 'Select Keywords',
+            allowClear: true
         });
     </script>
 @endsection
