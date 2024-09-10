@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FrontendController;
 use App\Modules\Dashboard\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,15 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::middleware('guest')->group(function () {
+    Route::get('/', [FrontendController::class, 'frontend'])->name('home');
     Route::get('login', [LoginController::class, 'login'])->name('login');
-    Route::get('/', function () {
-        return redirect()->route('login');
-    })->name('home');
     Route::post('login-check', [LoginController::class, 'logincheck'])->name('login.check');
 });
 

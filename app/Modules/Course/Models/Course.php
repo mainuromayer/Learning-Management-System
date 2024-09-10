@@ -18,9 +18,24 @@ class Course extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function instructors(): BelongsTo
+    public function instructor(): BelongsTo
     {
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class); // Assuming a lesson belongs to a course
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class); // Assuming a section belongs to a course
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'course_student'); // Assuming a many-to-many relationship with students
+    }
 }
+

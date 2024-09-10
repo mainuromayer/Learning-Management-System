@@ -1,7 +1,10 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="javascript:void(0);" class="app-brand-link">
-            <img src="{{ asset('assets/img/icons/logo.png') }}" alt="" width="100%">
+{{--        <a href="javascript:void(0);" class="app-brand-link">--}}
+{{--            <img src="{{ asset('assets/img/icons/logo.png') }}" alt="" width="100%">--}}
+{{--        </a>--}}
+        <a href="" class="navbar-brand">
+            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>LMS</h2>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

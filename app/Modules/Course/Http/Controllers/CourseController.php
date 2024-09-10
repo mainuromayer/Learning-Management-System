@@ -22,69 +22,61 @@ class CourseController extends Controller
 {
     use FileUploadTrait;
 
-    public function list( Request $request )
+    public function list(Request $request)
     {
         try {
-            if ( $request->ajax() && $request->isMethod( 'post' ) ) {
-                $list = Course::with( ['categories:id,category_name', 'instructors:id,name,email'] )->select( 'id', 'title', 'short_description', 'description','create_as', 'category','course_level','pricing_type','price','discounted_price','thumbnail')
-                    ->orderBy( 'id' )
+            if ($request->ajax() && $request->isMethod('post')) {
+                $list = Course::with([
+                    'categories:id,category_name',
+                    'instructor.user:id,name,email' // Fetch the user details through instructor
+                ])
+                    ->select('id', 'title', 'category_id', 'instructor_id', 'short_description', 'description', 'create_as', 'course_level', 'pricing_type', 'price', 'discounted_price', 'thumbnail', 'status')
+                    ->orderBy('id')
                     ->get();
+
                 return Datatables::of($list)
-                    ->editColumn( 'title', function ($list) {
+                    ->addColumn('title', function ($list) {
                         return $list->title;
                     })
-                    ->editColumn( 'categories', function ( $list ) {
+                    ->addColumn('instructor_name', function ($list) {
+                        return $list->instructor->user->name ?? ''; // Fetch user name through instructor
+                    })
+                    ->addColumn('instructor_email', function ($list) {
+                        return $list->instructor->user->email ?? ''; // Fetch user email through instructor
+                    })
+                    ->addColumn('category', function ($list) {
                         return $list->categories->category_name ?? '';
-                    } )
-                    ->editColumn( 'instructors', function ( $list ) {
-                        return $list->instructors->name ?? '';
-                    } )
-                    ->editColumn( 'instructors', function ( $list ) {
-                        return $list->instructors->email ?? '';
-                    } )
-                    ->editColumn( 'short_description', function ($list) {
-                        return $list->short_description;
                     })
-                    ->editColumn( 'description', function ( $list ) {
-                        return $list->description;
+                    ->addColumn('lesson_section', function ($list) {
+                        // Return empty value or placeholder if lessons and sections are not available
+                        return 'N/A'; // or '' if you prefer blank
                     })
-                    ->editColumn( 'create_as', function ( $list ) {
-                        return $list->create_as;
+                    ->addColumn('enrolled_student', function ($list) {
+                        // Return empty value or placeholder if enrolled student count is not available
+                        return 'N/A'; // or '' if you prefer blank
                     })
-                    ->editColumn( 'category', function ( $list ) {
-                        return $list->category;
+                    ->addColumn('status', function ($list) {
+                        return $list->status;
                     })
-                    ->editColumn( 'course level', function ( $list ) {
-                        return $list->course_level;
-                    })
-                    ->editColumn( 'pricing_type', function ( $list ) {
-                        return $list->pricing_type;
-                    })
-                    ->editColumn( 'price', function ( $list ) {
+                    ->addColumn('price', function ($list) {
                         return $list->price;
                     })
-                    ->editColumn( 'discounted price', function ( $list ) {
-                        return $list->discounted_price;
-                    })
-                    ->editColumn('thumbnail', function ( $list ) {
-                        return $list->thumbnail;
-                    })
-                    ->addColumn( 'action', function ( $list ) {
-                        return '<a href="' . URL::to('user/edit/' . $list->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a> ';
+                    ->addColumn('action', function ($list) {
+                        return '<a href="' . URL::to('user/edit/' . $list->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })
                     ->rawColumns(['action'])
                     ->make(true);
-            } else
-            {
+            } else {
                 return view("Course::list");
             }
-        } catch ( Exception $e ) {
-            Log::error( "Error occurred in CourseController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}" );
-            Session::flash( 'error', "Something went wrong during application data load [Course-101]" );
-            return response()->json( array( 'error' => $e->getMessage() ), Response::HTTP_INTERNAL_SERVER_ERROR );
+        } catch (Exception $e) {
+            Log::error("Error occurred in CourseController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during application data load [Course-101]");
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
+
+
 
     public function create(): View | RedirectResponse {
         try {

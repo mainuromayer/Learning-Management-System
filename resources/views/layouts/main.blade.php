@@ -18,7 +18,7 @@
     <meta name="description" content=""/>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('frontend/img/favicon.ico') }}"/>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="{{ asset('assets/css/public-sans.css') }}"/>
