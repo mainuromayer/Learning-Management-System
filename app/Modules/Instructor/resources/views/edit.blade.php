@@ -41,7 +41,7 @@
                     <div class="input-group row {{ $errors->has('name') ? 'has-error' : '' }}">
                         {!! Form::label('name', 'Name:', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('name', old('name', $data->name), [
+                            {!! Form::text('name', old('name', $data->user->name), [
                                 'class' => 'form-control required',
                                 'placeholder' => 'Name'
                             ]) !!}
@@ -111,11 +111,15 @@
                 <div class="card-body demo-vertical-spacing">
 
                     <!-- Email -->
-                    <div class="input-group row {{$errors->has('email') ? 'has-error' : ''}}">
-                        {!! Form::label('email','Email:',['class'=>'col-md-3 control-label required-star']) !!}
+                    <div class="input-group row {{ $errors->has('email') ? 'has-error' : '' }}">
+                        {!! Form::label('email', 'Email: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('email', old('email', $data->email), ['class' => 'form-control required','id' => 'email', 'readonly' => 'true']) !!}
-                            {!! $errors->first('email','<span class="help-block">:message</span>') !!}
+                            {!! Form::text('email', old('email', $data->user->email), [
+                                'class' => 'form-control required',
+                                'placeholder' => 'Email',
+                                'readonly' => true,
+                            ]) !!}
+                            {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 

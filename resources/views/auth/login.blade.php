@@ -14,9 +14,12 @@
 
                                 </span>
 
-                                <span class="demo text-body fw-bold h4">
-                                    <img src="{{ asset('assets/img/icons/logo.png') }}" alt="" height="" width="260">
-                                </span>
+{{--                                <span class="demo text-body fw-bold h4">--}}
+{{--                                    <img src="{{ asset('assets/img/icons/logo.png') }}" alt="" height="" width="260">--}}
+{{--                                </span>--}}
+                                <a href="" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+                                    <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>LMS</h2>
+                                </a>
                             </a>
                         </div>
                         <!-- /Logo -->

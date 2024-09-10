@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StoreInstructorRequest extends FormRequest {
-
     public function authorize(): bool {
         return true;
     }
@@ -15,39 +14,42 @@ class StoreInstructorRequest extends FormRequest {
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|unique:users,name',
-            'email' => 'required|unique:users,email',
-            'password' => 'required',
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required_if:id,null',
             'phone' => 'required',
         ];
 
-        if ($this->user_id) {
-            $id = $this->user_id;
+        // If we are updating an existing instructor, update the rules accordingly
+        if ($this->has('id')) {
+            $id = $this->get('id');
 
-            unset($rules['password']);
-
+            // Update the rules for `name` and `email` to ignore the current record's id
             $rules['name'] = [
                 'required',
-                Rule::unique('users', 'name')->ignore($id),
+                Rule::unique('users', 'name')->ignore($id, 'id'),
             ];
 
             $rules['email'] = [
                 'required',
-                Rule::unique('users', 'email')->ignore($id),
+                'email',
+                Rule::unique('users', 'email')->ignore($id, 'id'),
             ];
+
+            // Remove the password requirement if not setting a new password
+            unset($rules['password']);
         }
 
         return $rules;
     }
 
-
-
     public function messages(): array {
         return [
-            'name.required'          => 'The name field is required.',
-            'email.required'         => 'The email field is required.',
-            'password.required'      => 'The password field is required.',
-            'phone.required'      => 'The phone field is required.',
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'password.required_if' => 'The password field is required when creating a new instructor.',
+            'phone.required' => 'The phone field is required.',
         ];
     }
 }
