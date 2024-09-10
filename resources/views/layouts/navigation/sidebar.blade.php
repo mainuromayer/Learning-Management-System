@@ -78,6 +78,12 @@
                         <div> Instructor </div>
                     </a>
                 </li>
+                <li class="menu-item {{ Request::segment(2)== 'student' ? 'active' : '' }}">
+                    <a href="{{ route('student.list') }}" class="menu-link">
+                        <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
+                        <div> Student </div>
+                    </a>
+                </li>
 
             </ul>
         </li>
@@ -114,15 +120,7 @@
             </ul>
         </li>
         @endcan
-      
-        @can('student')
-        <li class="menu-item {{ Request::is('student') || Request::is('student/*') ? 'active' : '' }}">
-            <a href="{{ route('student.list') }}"  class="menu-link ">
-                <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
-                <div data-i18n="User"> Student </div>
-            </a>
-        </li>
-        @endcan
+
 
     </ul>
 </aside>

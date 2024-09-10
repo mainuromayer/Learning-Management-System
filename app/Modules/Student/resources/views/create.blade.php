@@ -4,6 +4,9 @@
     @include('partials.datatable_css')
 
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+     <!-- FontAwesome CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         .select2 {
             width: 100% !important;
@@ -16,7 +19,7 @@
         'method' => 'post',
         'id' => 'form_id',
         'enctype' => 'multipart/form-data',
-        'files' => 'true',
+        'files' => true,
         'role' => 'form',
     ]) !!}
 
@@ -26,7 +29,11 @@
             <div class="card card-outline card-primary form-card">
                 <div class="card-header">
                     <h3 class="card-title pt-2 pb-2"><i class="fa fa-list"></i> Student Basic Info </h3>
-                    
+                    <div class="card-tools">
+                        <a href="{{ route('student.list') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-list-ul pr-2"></i> Student List
+                        </a>
+                    </div>
                 </div>
 
 
@@ -74,33 +81,19 @@
                             {!! $errors->first('address', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
-                    <div class="input-group row {{ $errors->has('image') ? 'has-error' : '' }}">
-                        {!! Form::label('image', 'image', ['class' => 'col-md-3 control-label ']) !!}
+                    <!-- User Image -->
+                    <div class="form-group row {{ $errors->has('user_image') ? 'has-error' : '' }}">
+                        {!! Form::label('user_image', 'User Image:', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('image', old('image'), [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Enter image',
+                            <img id="newUserImage" src="{{ asset('images/no_image.png') }}" style="height:120px;" />
+                            {!! Form::file('user_image', [
+                                'class' => 'form-control mt-3',
+                                'id' => 'user_image',
+                                'onchange' => "document.getElementById('newUserImage').src=window.URL.createObjectURL(this.files[0])",
                             ]) !!}
-                            {!! $errors->first('image', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('user_image', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
-
-
-                    {{-- <div class="form-group row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            {!! Form::button('Add', [
-                                'type' => 'submit',
-                                'class' => 'btn btn-primary'
-                            ]) !!}
-                            {!! Form::button('Reset', [
-                                'type' => 'button',
-                                'class' => 'btn btn-secondary',
-                                'id' => 'reset_button'
-                            ]) !!}
-                        </div>
-                    </div> --}}
-                    
 
                 </div>
                 
@@ -174,7 +167,7 @@
                                 'placeholder' => 'Enter twitter ',
                             ]) !!}
                             {!! $errors->first('twitter', '<span class="help-block">:message</span>') !!}
-                        </div>
+                        </div> 
                     </div>
                     <div class="input-group row {{ $errors->has('linkedin') ? 'has-error' : '' }}">
                         {!! Form::label('linkedin', 'Linkedin', ['class' => 'col-md-3 control-label']) !!}
@@ -214,14 +207,22 @@
     <script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
 
     <script>
-         $('#reset_button').click(function() {
+
+      
+        $(document).ready(function() {
+        
+        $('.select2').select2({
+                tags: true,
+                tokenSeparators: [',', ' '],
+                placeholder: 'Enter Keywords',
+                allowClear: true
+            });
+
+            $('#reset_button').click(function() {
             $('#form_id')[0].reset(); // Reset all form fields
             $('.select2').val(null).trigger('change'); // Reset select2 fields
-        });
-        $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: 'Choose Your Course Area',
-            allowClear: true
+            $('#newUserImage').attr('src', '{{ asset('images/no_image.png') }}'); // Reset image preview
+         
         });
     });
     </script>
