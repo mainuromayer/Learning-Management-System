@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('header-resources')
@@ -8,7 +7,6 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 p-5 pt-3">
-
             <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title pt-2 pb-2">List Course</h3>
@@ -21,28 +19,26 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="list" class="table table-striped table-bordered dt-responsive " cellspacing="0"
-                            width="100%">
+                        <table id="list" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
                             <thead>
-                                <tr>
-                                     <th> # </th>{{-- id --}}
-                                    <th> Title </th>{{-- title, instructor_name, instructor_email --}}
-                                    <th> Category </th>{{-- category --}}
-                                    <th> Lesson & Section </th>{{-- lesson, section --}}
-                                    <th> Enrolled Student </th>{{-- enrolled_student:(count) --}}
-                                    <th> Status </th>{{-- active/inactive --}}
-                                    <th> price </th>{{-- price --}}
-                                    <th> Action </th>
-                                </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Instructor Name</th>
+                                <th>Instructor Email</th>
+                                <th>Category</th>
+                                <th>Lesson & Section</th>
+                                <th>Enrolled Student</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
-                            <tbody>
-
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection
@@ -63,60 +59,18 @@
                     }
                 },
                 columns: [
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        data: 'short_description',
-                        name: 'short_description'
-                    },
-
-                    {
-                        data: 'description',
-                        name: 'description'
-                    },
-                    {
-                        data: 'create_as',
-                        name: 'create_as'
-                    },
-
-                    {
-                        data: 'category',
-                        name: 'category'
-                    },
-                    {
-                        data: 'course_level',
-                        name: 'course_level'
-                    },
-                    {
-                        data: 'pricing_type',
-                        name: 'pricing_type'
-                    },
-                    {
-                        data: 'price',
-                        name: 'price'
-                    },
-                    {
-                        data: 'discounted_price',
-                        name: 'discounted_price'
-                    },
-                    {
-                        data: 'thumbnail',
-                        name: 'thumbnail'
-                    },
-
-
-                    {
-                        data: 'action',
-                        name: 'action'
-                    }
+                    { data: 'id', name: 'id' },
+                    { data: 'title', name: 'title' },
+                    { data: 'instructor_name', name: 'instructor_name' },
+                    { data: 'instructor_email', name: 'instructor_email' },
+                    { data: 'category', name: 'category' },
+                    { data: 'lesson_section', name: 'lesson_section' },
+                    { data: 'enrolled_student', name: 'enrolled_student' },
+                    { data: 'status', name: 'status' },
+                    { data: 'price', name: 'price' },
+                    { data: 'action', name: 'action' }
                 ],
-                "Sorting": []
+                "sorting": []
             });
         });
     </script>

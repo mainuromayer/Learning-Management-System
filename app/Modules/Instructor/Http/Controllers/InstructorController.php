@@ -30,17 +30,34 @@ class InstructorController extends Controller
     {
         try {
             if ($request->ajax() && $request->isMethod('post')) {
-                $list = Instructor::with(['courses:id,instructor_id'])->select('id', 'phone', 'address', 'user_image', 'email', 'password', 'facebook', 'twitter', 'linkedin')->orderBy('id')->get();
+                $list = Instructor::join('users', 'instructors.user_id', '=', 'users.id')
+//                    ->leftJoin('courses', 'instructors.id', '=', 'courses.instructor_id')
+                    ->select('instructors.id', 'users.name', 'users.email', 'instructors.phone')
+//                    ->selectRaw('COUNT(courses.id) as course_count')
+                    ->groupBy('instructors.id', 'users.name', 'users.email', 'instructors.phone')
+                    ->orderBy('instructors.id')
+                    ->get();
 
-                return Datatables::of($list)->editColumn('email', function ($list) {
-                    return $list->email;
-                })->editColumn('phone', function ($list) {
-                    return $list->phone;
-                })->addColumn('action', function ($list) {
-                    return '<a href="' . route('instructor.edit', $list->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a> ';
-                })->rawColumns(['action'])->make(true);
+                return Datatables::of($list)
+                    ->editColumn('name', function ($item) {
+                        return $item->name;
+                    })
+                    ->editColumn('email', function ($item) {
+                        return $item->email;
+                    })
+                    ->editColumn('phone', function ($item) {
+                        return $item->phone;
+                    })
+                    ->addColumn('course_count', function ($item) {
+                        return $item->course_count ?? 0;
+                    })
+                    ->addColumn('action', function ($item) {
+                        return '<a href="' . route('instructor.edit', $item->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
             } else {
-                return view("Instructor::list");
+                return view('Instructor::list');
             }
         } catch (Exception $e) {
             Log::error("Error occurred in InstructorController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
