@@ -20,11 +20,28 @@ class StoreStudentRequest extends FormRequest {
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array {
-        // $rules['category_id'] = 'required'; 
-        $rules['name'] = 'required'; 
-        $rules['phone'] = 'required';  
-        // $rules['email'] = 'required';  
-        // $rules['password'] = 'required';  
+        $rules = [
+            'name' => 'required|unique:users,name',
+            'email' => 'required|unique:users,email',
+            'password' => 'required',
+            'phone' => 'required',
+        ];
+
+        if ($this->user_id) {
+            $id = $this->user_id;
+
+            unset($rules['password']);
+
+            $rules['name'] = [
+                'required',
+                Rule::unique('users', 'name')->ignore($id),
+            ];
+
+            $rules['email'] = [
+                'required',
+                Rule::unique('users', 'email')->ignore($id),
+            ];
+        }
 
         return $rules;
     }
@@ -36,11 +53,10 @@ class StoreStudentRequest extends FormRequest {
      */
     public function messages(): array {
         return array(
-            // 'catagory_id.required'         => 'The catagory id field is required.', 
-            'name.required'         => 'The name field is required.', 
-            'phone.required'         => 'The phone field is required.', 
-            // 'email.required'         => 'The email field is required.', 
-            // 'password.required'         => 'The password field is required.',  
-        );
+           'name.required'          => 'The name field is required.',
+            'email.required'         => 'The email field is required.',
+            'password.required'      => 'The password field is required.',
+            'phone.required'      => 'The phone field is required.',
+        ); 
     }
 }
