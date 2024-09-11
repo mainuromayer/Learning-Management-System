@@ -3,7 +3,7 @@
 namespace App\Modules\Student\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use App\Modules\Student\Http\Requests\StoreStudentRequest;
 use App\Modules\Student\Models\Student;
 use Exception;
@@ -22,12 +22,12 @@ use App\Modules\Course\Models\Course;
 use App\Modules\User\Models\User;
 use App\Modules\UserPermission\Models\Role;
 use App\Traits\FileUploadTrait;
-      
- 
+
+
 class StudentController extends Controller
 {
 
-    use FileUploadTrait; 
+    use FileUploadTrait;
 
 
     public function list(Request $request)
@@ -39,8 +39,8 @@ class StudentController extends Controller
                     ->groupBy('students.id', 'users.name', 'users.email', 'students.phone')
                     ->orderBy('students.id')
                     ->get();
-    
-                    return Datatables::of($list)
+
+                return Datatables::of($list)
                     ->editColumn('name', function ($item) {
                         return $item->name;
                     })
@@ -50,9 +50,6 @@ class StudentController extends Controller
                     ->editColumn('phone', function ($item) {
                         return $item->phone;
                     })
-                    // ->addColumn('course_count', function ($item) {
-                    //     return $item->course_count ?? 0;
-                    // })
                     ->addColumn('action', function ($item) {
                         return '<a href="' . route('student.edit', $item->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })
@@ -67,63 +64,8 @@ class StudentController extends Controller
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
-        // try {
-        //     if ($request->ajax() && $request->isMethod('post')) {
-        //         $list = Student::with(['courses:id,student_id'])->select('id', 'phone', 'address', 'user_image', 'email', 'password', 'facebook', 'twitter', 'linkedin')->orderBy('id')->get();
-        //         return Datatables::of($list)->editColumn('email', function ($list) {
-        //             return $list->email;
-        //         })->editColumn('phone', function ($list) {
-        //             return $list->phone;
-        //         })->addColumn('action', function ($list) {
-        //             return '<a href="' . route('student.edit', $list->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a> ';
-        //         })->rawColumns(['action'])->make(true);
-        //     } else {
-        //         return view("Student::list");
-        //     }
-        // } catch (Exception $e) {
-        //     Log::error("Error occurred in StudentController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-        //     Session::flash('error', "Something went wrong during application data load [Student-101]");
-        //     return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        // }
-    // } 
 
 
-    // public function list( Request $request )
-    // {
-    //     try {
-    //         if ($request->ajax() && $request->isMethod('post')) {
-    //             $list = Student::select( 'id', 'name', 'phone')
-    //                 ->orderBy( 'id' )
-    //                 ->get();
-    //             return Datatables::of($list)
-    //                 ->editColumn( 'id', function ($list) {
-    //                     return $list->id;
-    //                 })
-    //                 ->editColumn( 'name', function ($list) {
-    //                     return $list->name;
-    //                 })
-    //                 ->editColumn( 'phone', function ($list) {
-    //                     return $list->phone;
-    //                 })
-    //                 ->addColumn( 'action', function ( $list ) {
-    //                     return '<a href="' . URL::to( 'student/edit/' . $list->id ) .
-    //                         '" class="btn btn-sm btn-outline-dark"> <i class="fa fa-edit"></i> Edit</a> ';
-    //                 })
-    //                 ->rawColumns(['action'])
-    //                 ->make(true);
-    //         }
-    //         else
-    //         {
-    //             return view("Student::list");
-    //         }
-    //     } catch ( Exception $e ) {
-    //         Log::error( "Error occurred in StudentController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}" );
-    //         Session::flash( 'error', "Something went wrong during application data load [Student-101]" );
-    //         return response()->json( array( 'error' => $e->getMessage() ), Response::HTTP_INTERNAL_SERVER_ERROR );
-    //     }
-
-    // }
 
     public function create(): View|RedirectResponse
     {
@@ -136,57 +78,6 @@ class StudentController extends Controller
         }
     }
 
-    // public function store(StoreStudentRequest $request)
-    // {
-    //     try {
-    //         DB::transaction(function () use ($request) {
-    //             if ($request->has('id')) {
-    //                 $student = Student::findOrFail($request->get('id'));
-    //             } else {
-    //                 $student = new Student();
-    //             }
-
-    //             if (!$student->user_id) {
-    //                 $user = new User();
-    //                 $user->name = $request->get('name');
-    //                 $user->password = Hash::make($request->get('password'));
-    //                 $user->user_type = 'student';
-    //                 $role = Role::where('slug', 'student')->first(); // use first() to get a single role
-    //                 $user->role_id = $role->id ?? '';
-    //                 $user->email = $request->get('email');
-    //                 $user->save();
-
-    //                 $student->user_id = $user->id;
-    //             }
-
-    //             // Handle file uploads
-    //             $user_image = $request->hasFile('user_image') ? $this->uploadFile($request->file('user_image')) : $student->user_image;
-
-    //             $student->biography = $request->get('biography');
-    //             $student->phone = $request->get('phone');
-    //             $student->address = $request->get('address');
-    //             $student->user_image = $user_image;
-    //             $student->facebook = $request->get('facebook');
-    //             $student->twitter = $request->get('twitter');
-    //             $student->linkedin = $request->get('linkedin');
-    //             $student->save();
-    //         });
-
-    //         Session::flash('success', 'Data saved successfully!');
-    //         return redirect()->route('student.list');
-    //     } catch (Exception $e) {
-    //         Log::error("Error occurred in StudentController@store ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-    //         Session::flash('error', "Something went wrong during application data store [Student-103]");
-    //         return Redirect::back()->withInput();
-    //     }
-    // }
-
-
-    // public function create(): View | RedirectResponse {
-    //     $data['zone_list'] = array('' => 'Select One' ) + Zone::pluck( 'zone_name', 'id' )->toArray();
-        
-    //     return view( 'Student::create');
-    // }
 
     public function store(StoreStudentRequest $request)
     {
@@ -235,39 +126,10 @@ class StudentController extends Controller
 
 
 
-    // public function store( StoreStudentRequest $request ) { 
-
-    //     if ( $request->get( 'id' ) ) {
-    //         $student = Student::findOrFail( $request->get( 'id' ) );
-    //     } else {
-    //         $student = new Student();
-    //     }
-    //     $student->name = $request->get('name');
-    //     $student->biography = $request->get('biography');
-    //     $student->phone = $request->get('phone'); 
-    //     $student->address = $request->get('address'); 
-    //     $student->image = $request->get('image'); 
-    //     $student->email = $request->get('email'); 
-    //     $student->password = $request->get('password'); 
-    //     $student->facebook = $request->get('facebook'); 
-    //     $student->twitter = $request->get('twitter'); 
-    //     $student->linkedin = $request->get('linkedin');  
-       
-    //     $student->save();
-    //     Session::flash( 'success', 'Data save successfully!' );
-    //     return redirect()->route( 'student.list' );
-    // }
- 
-
-
     public function edit($id): View|RedirectResponse
     {
         try {
             $data['data'] = Student::findOrFail($id);
-            // $data['course_list'] = ['' => 'Select One'] + Course::all()->mapWithKeys(function ($course) {
-            //         return [$course->id => "{$course->course_id} - ({$course->title})"];
-            //     })->toArray();
-
             return view('Student::edit', $data);
         } catch (Exception $e) {
             Log::error("Error occurred in StudentController@edit ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
@@ -275,17 +137,5 @@ class StudentController extends Controller
             return redirect()->back();
         }
     }
-
-
-    // public function edit( $id ): View | RedirectResponse {
-    //     try { 
-    //         $data['data'] = Student::findOrFail( $id );
-    //         return view( 'Student::edit', $data );
-    //     } catch ( Exception $e ) {
-    //         Log::error( "Error occurred in Student@edit ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}" );
-    //         Session::flash( 'error', "Something went wrong during application data edit [Student-103]" );
-    //         return redirect()->back();
-    //     }
-    // }
 
 }

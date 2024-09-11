@@ -24,7 +24,7 @@
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary form-card">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2">Update Instructor</h3>
+                    <h3 class="card-title pt-2 pb-2">Update Student</h3>
                     <div class="card-tools">
                         <a href="{{ route('student.list') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-list-ul pr-2"></i> Student List
@@ -37,7 +37,7 @@
 
                     {!! Form::hidden('id', $data->id) !!}
 
-                    <!-- Instructor Name -->
+                    <!-- Student Name -->
                     <div class="input-group row {{ $errors->has('name') ? 'has-error' : '' }}">
                         {!! Form::label('name', 'Name:', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <!-- Instructor Phone -->
+                    <!-- Phone -->
                     <div class="input-group row {{ $errors->has('phone') ? 'has-error' : '' }}">
                         {!! Form::label('phone', 'Phone:', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
@@ -111,14 +111,17 @@
                 <div class="card-body demo-vertical-spacing">
 
                     <!-- Email -->
-                    <div class="input-group row {{$errors->has('email') ? 'has-error' : ''}}">
-                        {!! Form::label('email','Email:',['class'=>'col-md-3 control-label required-star']) !!}
+                    <div class="input-group row {{ $errors->has('email') ? 'has-error' : '' }}">
+                        {!! Form::label('email', 'Email: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('email', old('email', $data->user->email), ['class' => 'form-control required','id' => 'email', 'readonly' => 'true']) !!}
-                            {!! $errors->first('email','<span class="help-block">:message</span>') !!}
+                            {!! Form::text('email', old('email', $data->user->email), [
+                                'class' => 'form-control required',
+                                'placeholder' => 'Email',
+                                'readonly' => true,
+                            ]) !!}
+                            {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
                         </div>
-                    </div> 
-                    
+                    </div>
 
                 </div>
             </div>

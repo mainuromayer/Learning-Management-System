@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <!-- Instructor Phone -->
+                    <!-- Phone -->
                     <div class="input-group row {{ $errors->has('phone') ? 'has-error' : '' }}">
                         {!! Form::label('phone', 'Phone:', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">

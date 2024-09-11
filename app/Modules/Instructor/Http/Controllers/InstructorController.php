@@ -31,9 +31,9 @@ class InstructorController extends Controller
         try {
             if ($request->ajax() && $request->isMethod('post')) {
                 $list = Instructor::join('users', 'instructors.user_id', '=', 'users.id')
-//                    ->leftJoin('courses', 'instructors.id', '=', 'courses.instructor_id')
+                    ->leftJoin('courses', 'instructors.id', '=', 'courses.instructor_id')
                     ->select('instructors.id', 'users.name', 'users.email', 'instructors.phone')
-//                    ->selectRaw('COUNT(courses.id) as course_count')
+                    ->selectRaw('COUNT(courses.id) as course_count')
                     ->groupBy('instructors.id', 'users.name', 'users.email', 'instructors.phone')
                     ->orderBy('instructors.id')
                     ->get();

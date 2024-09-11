@@ -30,7 +30,7 @@
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary form-card">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2">Create New Instructor</h3>
+                    <h3 class="card-title pt-2 pb-2">Instructor Basic Info</h3>
                     <div class="card-tools">
                         <a href="{{ route('instructor.list') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-list-ul pr-2"></i> Instructor List
@@ -137,8 +137,8 @@
                                 'class' => 'form-control required',
                                 'placeholder' => 'Password'
                             ]) !!}
-                            {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
-                        </div>
+                                   {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
+                 </div>
                     </div>
 
                 </div>

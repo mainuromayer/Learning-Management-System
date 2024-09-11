@@ -11,20 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('students', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('name');
-        //     $table->string('biography')->nullable();
-        //     $table->string('phone');
-        //     $table->string('address')->nullable();
-        //     $table->string('image')->nullable();
-        //     $table->string('email')->nullable();
-        //     $table->string('password')->nullable();
-        //     $table->string('facebook')->nullable();
-        //     $table->string('twitter')->nullable();
-        //     $table->string('linkedin')->nullable();
-        //     $table->timestamps();
-        // });
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

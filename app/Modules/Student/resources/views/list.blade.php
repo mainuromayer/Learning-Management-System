@@ -25,7 +25,6 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                {{-- <th>Number Of Course</th> --}}
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -58,7 +57,6 @@
                     { data: 'name', name: 'users.name' },
                     { data: 'email', name: 'users.email' },
                     { data: 'phone', name: 'instructors.phone' },
-                    // { data: 'course_count', name: 'course_count' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ],
                 "Sorting": []
