@@ -24,7 +24,7 @@
         </li>
 
         <!-- Category -->
-        @can('user')
+        @can('category')
             <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
                 <a href="{{ route('category.list') }}"  class="menu-link ">
                     <i class="menu-icon tf-icons bx bx-category-alt"></i>
@@ -34,27 +34,32 @@
         @endcan
 
         <!-- Course -->
-        @can('user')
+        @can('course')
             <li class="menu-item {{ Request::is('course') || Request::is('course/*') ? 'active' : '' }}">
                 <a href="{{ route('course.list') }}"  class="menu-link ">
                     <i class="menu-icon tf-icons bx bx-folder-open"></i>
                     <div data-i18n="Course"> Course </div>
                 </a>
-                <ul class="menu-sub">
-                    <li class="menu-item {{  Request::is('course') || Request::is('course/*') ? 'active' : '' }} ">
-                        <a href="{{ route('course.create') }}" class="menu-link">
-                            <i class="menu-icon tf-icons fas fa-user-lock fa-fw"></i>
-                            <div>Create Course</div>
-                        </a>
-                    </li>
-                    {{-- <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link">
-                            <div>Process Permission</div>
-                        </a>
-                    </li> --}}
-                </ul>
             </li>
         @endcan
+
+{{--        <!-- Class -->--}}
+{{--        @can('assignment')--}}
+{{--            <li class="menu-item {{ Request::is('class') || Request::is('class/*') ? 'active' : '' }} {{ Request::segment(1)== 'class' ? 'open' : '' }}">--}}
+{{--                <a href="javascript:void(0);"  class="menu-link menu-toggle">--}}
+{{--                    <i class="menu-icon tf-icons bx bx-bookmark-alt-plus"></i>--}}
+{{--                    <div data-i18n="Class"> Class </div>--}}
+{{--                </a>--}}
+{{--                <ul class="menu-sub">--}}
+{{--                    <li class="menu-item {{ Request::segment(2)== 'assignment' ? 'active' : '' }}">--}}
+{{--                        <a href="{{ route('assignment.list') }}" class="menu-link">--}}
+{{--                            <i class="menu-icon tf-icons bx bx-book-reader"></i>--}}
+{{--                            <div data-i18n="Assignment"> Assignment </div>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </li>--}}
+{{--        @endcan--}}
 
 
         <!-- User -->

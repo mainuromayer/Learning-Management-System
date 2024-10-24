@@ -37,7 +37,7 @@
 
                         <div class=" mb-3 form-password-toggle  {{$errors->has('password') ? 'has-error' : ''}}">
                             <div class="d-flex justify-content-between">
-                                {!! Form::label('password','Passord',['class'=>'form-label required-star']) !!}
+                                {!! Form::label('password','Password',['class'=>'form-label required-star']) !!}
                                 <a href="auth-forgot-password-basic.html">
                                     <small>Forgot Password?</small>
                                 </a>

@@ -90,24 +90,24 @@
                     </div>
 
                     <!-- Category -->
-                    <div class="input-group row {{ $errors->has('categories') ? 'has-error' : '' }}">
-                        {!! Form::label('categories', 'Category: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                    <div class="input-group row {{ $errors->has('category') ? 'has-error' : '' }}">
+                        {!! Form::label('category', 'Category: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::select('categories', $category_list, old('categories', $data->category_id), [
-                                'class' => 'form-control select2 categories required',
+                            {!! Form::select('category', $category_list, old('category', $data->category_id), [
+                                'class' => 'form-control select2 category required',
                             ]) !!}
-                            {!! $errors->first('categories', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
                     <!-- Instructor -->
-                    <div class="input-group row {{ $errors->has('instructors') ? 'has-error' : '' }}">
-                        {!! Form::label('instructors', 'Instructor: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                    <div class="input-group row {{ $errors->has('instructor') ? 'has-error' : '' }}">
+                        {!! Form::label('instructor', 'Instructor: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::select('instructors', $instructor_list, old('instructors', $data->instructor_id), [
-                                'class' => 'form-control select2 instructors required',
+                            {!! Form::select('instructor', $instructor_list, old('instructor', $data->instructor_id), [
+                                'class' => 'form-control select2 instructor required',
                             ]) !!}
-                            {!! $errors->first('instructors', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('instructor', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
@@ -122,6 +122,7 @@
                         </div>
                     </div>
 
+                    <!-- Pricing Type -->
                     <div class="form-group row {{ $errors->has('pricing_type') ? 'has-error' : '' }}">
                         {!! Form::label('bill', 'Pricing Type?', ['class' => 'col-md-3 control-label']) !!}
                         <div class="col-md-9">
@@ -137,7 +138,7 @@
                         {!! Form::label('price', 'Price: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-3">
                             <div class="input-group">
-                                {!! Form::text('price', old('price', $data->discount) ?? '0.00', [
+                                {!! Form::text('price', old('price', $data->price) ?? '0.00', [
                                     'class' => 'form-control',
                                     'placeholder' => '0.00',
                                     'step' => '0.01'
@@ -185,7 +186,7 @@
                         {!! Form::label('status', 'Status: ', ['class' => 'col-md-3 control-label  required-star']) !!}
                         <div class="col-md-9">
                             {!! Form::select('status', $status_list, old('status', $data->status), [
-                                'class' => 'form-control select2 categories required',
+                                'class' => 'form-control select2 required',
                             ]) !!}
                             {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
                         </div>

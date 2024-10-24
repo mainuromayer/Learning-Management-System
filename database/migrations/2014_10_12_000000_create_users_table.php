@@ -28,10 +28,10 @@ return new class extends Migration {
                 $table->timestamp('delete_data_time')->nullable();
                 $table->string('last_active')->nullable();
                 $table->rememberToken()->nullable();
-                $table->integer('created_by')->nullable();
-                $table->integer('updated_by')->nullable();
                 $table->timestamps();
-                $table->softDeletes();
+                $table->softDeletes();                $table->integer('created_by')->nullable();
+                $table->integer('updated_by')->nullable();
+
             });
         }
     }

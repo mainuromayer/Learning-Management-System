@@ -89,24 +89,24 @@
                     </div>
 
                     <!-- Category -->
-                    <div class="input-group row {{ $errors->has('categories') ? 'has-error' : '' }}">
-                        {!! Form::label('categories', 'Category: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                    <div class="input-group row {{ $errors->has('category') ? 'has-error' : '' }}">
+                        {!! Form::label('category', 'Category: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::select('categories', $category_list, old('categories'), [
-                                'class' => 'form-control select2 categories required',
+                            {!! Form::select('category', $category_list, old('category'), [
+                                'class' => 'form-control select2 category required',
                             ]) !!}
-                            {!! $errors->first('categories', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
                     <!-- Instructor -->
-                    <div class="input-group row {{ $errors->has('instructors') ? 'has-error' : '' }}">
-                        {!! Form::label('instructors', 'Instructor: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                    <div class="input-group row {{ $errors->has('instructor') ? 'has-error' : '' }}">
+                        {!! Form::label('instructor', 'Instructor: ', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::select('instructors', $instructor_list, old('instructors'), [
-                                'class' => 'form-control select2 instructors required',
+                            {!! Form::select('instructor', $instructor_list, old('instructor'), [
+                                'class' => 'form-control select2 instructor required',
                             ]) !!}
-                            {!! $errors->first('instructors', '<span class="help-block">:message</span>') !!}
+                            {!! $errors->first('instructor', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
 
@@ -189,7 +189,7 @@
                         {!! Form::label('status', 'Status: ', ['class' => 'col-md-3 control-label  required-star']) !!}
                         <div class="col-md-9">
                             {!! Form::select('status', $status_list, old('status'), [
-                                'class' => 'form-control select2 categories required',
+                                'class' => 'form-control select2 required',
                             ]) !!}
                             {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
                         </div>

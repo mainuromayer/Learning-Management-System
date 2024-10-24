@@ -56,13 +56,10 @@
                             let thumbnail = category.thumbnail ? category.thumbnail : "{{ asset('images/no_image.png') }}";
                             let description = category.description ? category.description : 'No description available'; // Fallback if description is null
 
-                            // Truncate description to 100 characters
                             description = description.length > 100 ? description.substring(0, 100) + '...' : description;
 
-                            // Ensure keywords are handled properly
-                            let keywords = category.keywords ? JSON.parse(category.keywords) : []; // Convert JSON to array if not empty
+                            let keywords = category.keywords ? JSON.parse(category.keywords) : [];
 
-                            // Create HTML for keywords
                             let keywordsHtml = keywords.length > 0
                                 ? keywords.map(keyword => `<span class="p-1 mx-1 small bg-primary text-white rounded mr-1">${keyword}</span>`).join('')
                                 : '<span class="p-1 mx-1 small bg-secondary text-white rounded">No keywords available</span>';
@@ -85,22 +82,34 @@
                             categoryGrid.append(categoryHtml);
                         });
 
-                        // Create pagination controls
-                        let paginationHtml = '';
-                        if (data.pagination.total > 0) {
-                            for (let i = 1; i <= data.pagination.last_page; i++) {
-                                paginationHtml += `
-                                <button class="btn btn-sm ${i === data.pagination.current_page ? 'btn-primary' : 'btn-secondary'} mx-1"
-                                data-page="${i}">${i}</button>
-                            `;
+                        const total = data.pagination.total;
+                        const current = data.pagination.current_page;
+                        const last = data.pagination.last_page;
+
+                        // Create Previous Button
+                        let prevButton = `<button class="btn btn-sm btn-secondary mx-1" data-page="${current - 1}" ${current === 1 ? 'disabled' : ''}>Prev</button>`;
+                        pagination.append(prevButton);
+
+                        // Numbered pages logic (similar to before)
+                        for (let i = 1; i <= last; i++) {
+                            if (i === 1 || i === last || (i >= current - 1 && i <= current + 1)) {
+                                let pageButton = `<button class="btn btn-sm ${i === current ? 'btn-primary' : 'btn-secondary'} mx-1" data-page="${i}">${i}</button>`;
+                                pagination.append(pageButton);
+                            } else if (i === current - 2 || i === current + 2) {
+                                pagination.append('<span class="mx-1">...</span>');
                             }
                         }
-                        pagination.append(paginationHtml);
+
+                        // Create Next Button
+                        let nextButton = `<button class="btn btn-sm btn-secondary mx-1" data-page="${current + 1}" ${current === last ? 'disabled' : ''}>Next</button>`;
+                        pagination.append(nextButton);
 
                         // Attach click event to pagination buttons
                         $('#pagination button').on('click', function () {
                             let page = $(this).data('page');
-                            loadCategories(page);
+                            if (!$(this).attr('disabled')) { // Ensure we don't process clicks on disabled buttons
+                                loadCategories(page);
+                            }
                         });
                     },
                     error: function (xhr, status, error) {
@@ -114,3 +123,4 @@
         });
     </script>
 @endsection
+

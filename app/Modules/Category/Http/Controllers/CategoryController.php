@@ -28,9 +28,8 @@ class CategoryController extends Controller
             if ($request->ajax() && $request->isMethod('post')) {
                 $list = Category::select('id', 'category_name', 'keywords', 'description', 'thumbnail')
                     ->orderBy('id')
-                    ->paginate(12);
+                    ->paginate(9); // Limit to 9 categories per page
 
-                // Return paginated data as JSON
                 return response()->json([
                     'data' => $list->items(),
                     'pagination' => [
@@ -49,6 +48,7 @@ class CategoryController extends Controller
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
 
     public function create(): View|RedirectResponse
     {

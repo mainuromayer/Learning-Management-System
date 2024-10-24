@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
 
         // Update or create the Admin role
         $admin_role = Role::updateOrCreate(
-            ['slug' => 'admin'], 
+            ['slug' => 'admin'],
             ['title' => 'Admin', 'deletable' => false]
         );
 
@@ -32,8 +32,12 @@ class RoleSeeder extends Seeder
 
         // Sync modules
         $admin_role->modules()->sync($admin_modules->pluck('id'));
-        
-        Role::updateOrCreate(['title' => 'Student', 'slug' => 'student', 'deletable' => false]);    
+
+        Role::updateOrCreate( ['title' => 'Dashboard', 'slug' => 'dashboard', 'deletable' => false] );
+        Role::updateOrCreate(['title' => 'Category', 'slug' => 'category', 'deletable' => false]);
+        Role::updateOrCreate(['title' => 'Course', 'slug' => 'course', 'deletable' => false]);
+        Role::updateOrCreate(['title' => 'Student', 'slug' => 'student', 'deletable' => false]);
         Role::updateOrCreate(['title' => 'Instructor', 'slug' => 'instructor', 'deletable' => false]);
+        Role::updateOrCreate(['title' => 'Assignment', 'slug' => 'assignment', 'deletable' => false]);
     }
 }

@@ -14,14 +14,15 @@ class StoreCourseRequest extends FormRequest {
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array {
-        $rules['categories'] = 'required';
-        $rules['instructors'] = 'required';
+        $rules['category'] = 'required|exists:categories,id';
+        $rules['instructor'] = 'required|exists:instructors,id';
         $rules['title'] = 'required';
         $rules['create_as'] = 'required';
         $rules['course_level'] = 'required';
@@ -39,10 +40,10 @@ class StoreCourseRequest extends FormRequest {
      */
     public function messages(): array {
         return [
-            'categories.required'         => 'The categories field is required.',
-            'instructors.required'         => 'The instructors field is required.',
+            'category.required'            => 'The category field is required.',
+            'instructor.required'          => 'The instructor field is required.',
             'title.required'               => 'The title field is required.',
-            'create_as.required'           => 'The catagory id field is required.',
+            'create_as.required'           => 'The category id field is required.',
             'course_level.required'        => 'The course level field is required.',
             'pricing_type.required'        => 'The Pricing type field is required.',
             'price.required'               => 'The price field is required.',
