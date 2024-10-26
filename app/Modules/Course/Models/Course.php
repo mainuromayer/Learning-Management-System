@@ -33,7 +33,7 @@ class Course extends Model
         return $this->hasMany(Lesson::class); // Assuming a lesson belongs to a course
     }
 
-    public function sections():HasMany
+    public function section():HasMany
     {
         return $this->hasMany(Section::class); // Assuming a section belongs to a course
     }

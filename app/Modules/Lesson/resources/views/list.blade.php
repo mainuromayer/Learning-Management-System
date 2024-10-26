@@ -25,9 +25,9 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Section</th>
-                                <th>Status</th>
                                 <th>Created By</th>
                                 <th>Updated By</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>

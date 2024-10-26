@@ -126,6 +126,10 @@
                 $('#dynamic-fields').empty().hide(); // Clear and hide dynamic fields
                 $('#common-fields').hide(); // Hide common fields
 
+                // Reset old values in common fields
+                $('#common-fields input[type="text"], #common-fields input[type="number"], #common-fields textarea').val('');
+                $('#common-fields select').prop('selectedIndex', 0).trigger('change');
+
                 // Show relevant fields based on the selected lesson type
                 if (selectedType) {
                     $('#common-fields').show(); // Show common fields
@@ -134,137 +138,184 @@
 
                     if (selectedType === 'youtube_video') {
                         $('#dynamic-fields').append(`
-                            <div class="input-group row mb-3">
-                                {!! Form::label('video', 'YouTube Video URL:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="input-group row mb-3 {{ $errors->has('video') ? 'has-error' : '' }}">
+                            {!! Form::label('video', 'Video:', ['class' => 'col-md-3 control-label']) !!}
+                                <div class="col-md-9">
+                                {!! Form::text('video', old('video'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Video Url',
+                                ]) !!}
+                            {!! $errors->first('video', '<span class="help-block">:message</span>') !!}
+                            </div>
+                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('hours') || $errors->has('minutes') || $errors->has('seconds') ? 'has-error' : '' }}">
+                            {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::text('video', old('video'), ['class' => 'form-control']) !!}
+                                <div class="input-group">
+                                    {!! Form::number('hours', old('hours', floor($duration / 3600)), ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => '0']) !!}
+                                    {!! $errors->first('hours', '<span class="help-block">:message</span>') !!}
+
+                                    {!! Form::number('minutes', old('minutes', floor(($duration % 3600) / 60)), ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => '0']) !!}
+                                    {!! $errors->first('minutes', '<span class="help-block">:message</span>') !!}
+
+                                    {!! Form::number('seconds', old('seconds', $duration % 60), ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => '0']) !!}
+                                    {!! $errors->first('seconds', '<span class="help-block">:message</span>') !!}
+                                </div>
                             </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
+                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                            <div class="input-group">
-                                {!! Form::number('hours', old('hours'), ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => 0]) !!}
-                                {!! Form::number('minutes', old('minutes'), ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => 0, 'max' => 59]) !!}
-                                {!! Form::number('seconds', old('seconds'), ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => 0, 'max' => 59]) !!}
+                                {!! Form::textarea('summary', old('summary'), [
+                                'class' => 'form-control',
+                                'placeholder' => 'Summary',
+                                ]) !!}
+                            {!! $errors->first('summary', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
-                            </div>
-                            </div>`);
+                        </div>`);
                     } else if (selectedType === 'image') {
                         $('#dynamic-fields').append(`
-                            <div class="input-group row mb-3">
-                                {!! Form::label('attachment', 'Upload Image:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="input-group row mb-3 {{ $errors->has('attachment') ? 'has-error' : '' }}">
+                            {!! Form::label('attachment', 'Attachment:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::file('attachment', ['class' => 'form-control']) !!}
+                                {!! Form::file('attachment', [
+                                    'class' => 'form-control',
+                                    'id' => 'attachment',
+                                ]) !!}
+                            {!! $errors->first('attachment', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
+                                {!! Form::textarea('summary', old('summary'), [
+                                'class' => 'form-control',
+                                'placeholder' => 'Summary',
+                                ]) !!}
+                            {!! $errors->first('summary', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>`);
-                    } else if (selectedType === 'video') {
+                        </div>`);
+                    } else if (selectedType === 'video' || selectedType === 'google_drive') {
                         $('#dynamic-fields').append(`
-                            <div class="input-group row mb-3">
-                                {!! Form::label('video', 'Upload Video File:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="input-group row mb-3 {{ $errors->has('video') ? 'has-error' : '' }}">
+                            {!! Form::label('video', 'Video:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::file('video', ['class' => 'form-control']) !!}
+                            {!! Form::text('video', old('video'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Video Url',
+                                    ]) !!}
+                            {!! $errors->first('video', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
+                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('hours') || $errors->has('minutes') || $errors->has('seconds') ? 'has-error' : '' }}">
+                            {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                            <div class="input-group">
-                                {!! Form::number('hours', old('hours'), ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => 0]) !!}
-                                {!! Form::number('minutes', old('minutes'), ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => 0, 'max' => 59]) !!}
-                                {!! Form::number('seconds', old('seconds'), ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => 0, 'max' => 59]) !!}
+                                <div class="input-group">
+                                    {!! Form::number('hours', old('hours', floor($duration / 3600)), ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => '0']) !!}
+                                    {!! $errors->first('hours', '<span class="help-block">:message</span>') !!}
+
+                                    {!! Form::number('minutes', old('minutes', floor(($duration % 3600) / 60)), ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => '0']) !!}
+                                    {!! $errors->first('minutes', '<span class="help-block">:message</span>') !!}
+
+                                    {!! Form::number('seconds', old('seconds', $duration % 60), ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => '0']) !!}
+                                    {!! $errors->first('seconds', '<span class="help-block">:message</span>') !!}
+                                </div>
                             </div>
-                            </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                        </div>
+
+
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
+                            {!! Form::textarea('summary', old('summary'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Summary',
+                                    ]) !!}
+                            {!! $errors->first('summary', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>`);
-                    } else if (selectedType === 'google_drive') {
-                        $('#dynamic-fields').append(`
-                            <div class="input-group row mb-3">
-                                {!! Form::label('video', 'Video URL:', ['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-9">
-                                {!! Form::text('video', old('video'), ['class' => 'form-control']) !!}
-                            </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-9">
-                            <div class="input-group">
-                                {!! Form::number('hours', old('hours'), ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => 0]) !!}
-                            {!! Form::number('minutes', old('minutes'), ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => 0, 'max' => 59]) !!}
-                            {!! Form::number('seconds', old('seconds'), ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => 0, 'max' => 59]) !!}
-                            </div>
-                            </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
-                            </div>
-                            </div>`);
+                        </div>`);
                     } else if (selectedType === 'text') {
                         $('#dynamic-fields').append(`
-                            <div class="input-group row mb-3">
-                                {!! Form::label('text', 'Text Content:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="input-group row mb-3 {{ $errors->has('text') ? 'has-error' : '' }}">
+                            {!! Form::label('text', 'Text Content::', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::textarea('text', old('text'), ['class' => 'form-control']) !!}
+                            {!! Form::textarea('text', old('text'), [
+                                'class' => 'form-control',
+                                'placeholder' => 'Text Content',
+                                ]) !!}
+                            {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
+                                {!! Form::textarea('summary', old('summary'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Summary',
+                                ]) !!}
+                            {!! $errors->first('summary', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>`);
+                        </div>`);
                     } else if (selectedType === 'iframe') {
                         $('#dynamic-fields').append(`
-                            <div class="input-group row mb-3">
-                                {!! Form::label('iframe', 'Iframe Embed Code:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('iframe', 'Iframe Embed Code:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::textarea('iframe', old('iframe'), ['class' => 'form-control']) !!}
+                                {!! Form::textarea('iframe', old('iframe'), [
+                                    'class' => 'form-control',
+                                ]) !!}
+                            {!! $errors->first('iframe', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>
-                            <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
+                                {!! Form::textarea('summary', old('summary'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Summary',
+                                ]) !!}
+                            {!! $errors->first('summary', '<span class="help-block">:message</span>') !!}
                             </div>
-                            </div>`);
+                        </div>`);
                     } else if (selectedType === 'document') {
                         $('#dynamic-fields').append(`
-                        <div class="input-group row mb-3">
-                                {!! Form::label('document', 'Upload Document:', ['class' => 'col-md-3 control-label']) !!}
-                        <div class="col-md-9">
-                                {!! Form::file('document', ['class' => 'form-control']) !!}
+                        <div class="input-group row mb-3 {{ $errors->has('document') ? 'has-error' : '' }}">
+                            {!! Form::label('document', 'Upload Document:', ['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-9">
+                                {!! Form::file('document', [
+                                    'class' => 'form-control',
+                                    'id' => 'document',
+                                ]) !!}
+                            {!! $errors->first('document', '<span class="help-block">:message</span>') !!}
+                            </div>
                         </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('attachment') ? 'has-error' : '' }}">
+                            {!! Form::label('attachment', 'Attachment:', ['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-9">
+                                {!! Form::file('attachment', [
+                                    'class' => 'form-control',
+                                    'id' => 'attachment',
+                                ]) !!}
+                            {!! $errors->first('attachment', '<span class="help-block">:message</span>') !!}
+                            </div>
                         </div>
-                        <div class="input-group row mb-3">
-                                {!! Form::label('attachment', 'Attachment (if any):', ['class' => 'col-md-3 control-label']) !!}
-                        <div class="col-md-9">
-                                {!! Form::file('attachment', ['class' => 'form-control']) !!}
-                        </div>
-                        </div>
-                        <div class="input-group row mb-3">
-                                {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                        <div class="col-md-9">
-                                {!! Form::textarea('summary', old('summary'), ['class' => 'form-control']) !!}
-                        </div>
+
+                        <div class="input-group row mb-3 {{ $errors->has('summary') ? 'has-error' : '' }}">
+                            {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-9">
+                                {!! Form::textarea('summary', old('summary'), [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Summary',
+                                ]) !!}
+                            {!! $errors->first('summary', '<span class="help-block">:message</span>') !!}
+                            </div>
                         </div>`);
                     }
                 }

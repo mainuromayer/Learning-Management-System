@@ -27,7 +27,7 @@ class LessonController extends Controller
         try {
             if($request->ajax() && $request->isMethod('post')){
                 $list = Lesson::with(['createdBy:id,name', 'updatedBy:id,name', 'section:id,title'])
-                    ->select('id', 'title', 'section_id', 'status', 'created_by', 'updated_by')
+                    ->select('id', 'title', 'course_section_id', 'status', 'created_by', 'updated_by')
                     ->orderBy('id')
                     ->get();
 
@@ -70,9 +70,19 @@ class LessonController extends Controller
         try {
             $data['section_list'] = ['' => 'Select One'] + Section::pluck('title', 'id')->toArray();
             $data['status_list'] = ['' => 'Select One', 'active' => 'active', 'inactive' => 'inactive'];
-            $data['lesson_type_list'] = ['' => 'Select One', 'youtube_video' => 'YouTube Video', 'image' => 'Image', 'video' => 'Video', 'google_drive' => 'Google Drive', 'text' => 'Text', 'iframe' => 'iFrame', 'document' => 'Document'];
+            $data['lesson_type_list'] = [
+                '' => 'Select One',
+                'youtube_video' => 'YouTube Video',
+                'image' => 'Image',
+                'video' => 'Video',
+                'google_drive' => 'Google Drive',
+                'text' => 'Text',
+                'iframe' => 'iFrame',
+                'document' => 'Document'
+            ];
+            $data['duration'] = 0;
 
-            return view('Lesson::create', $data);
+            return view('Lesson::create', $data); // Pass data to the view
         } catch (Exception $e) {
             Log::error("Error occurred in LessonController@create ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             Session::flash('error', "Something went wrong during application data create [Lesson-102]");
@@ -88,35 +98,64 @@ class LessonController extends Controller
                 $lesson->updated_by = auth()->id();
             } else {
                 $lesson = new Lesson();
+                $oldAttachment = null;
+                $oldDocument = null;
+                $oldGoogleDrive = null;
             }
+
+            // Handle file uploads
+            $image = $request->hasFile('image')
+                ? $this->uploadFile($request->file('image'))
+                : ($lesson->image ?? null);
+            $iframe = $request->hasFile('iframe')
+                ? $this->uploadFile($request->file('iframe'))
+                : ($lesson->iframe ?? null);
+
+            $attachmentData = [];
+            if ($request->hasFile('attachment')) {
+                $attachmentData[] = $this->uploadFile($request->file('attachment'));
+            } elseif ($oldAttachment) {
+                // Use the old attachment if no new file is uploaded
+                $attachmentData[] = $oldAttachment[0];
+            }
+            $lesson->attachment = !empty($attachmentData) ? json_encode($attachmentData) : null;
+
+            $documentData = [];
+            if ($request->hasFile('document')) {
+                $documentData[] = $this->uploadFile($request->file('document'));
+            } elseif ($oldDocument) {
+                // Use the old document if no new file is uploaded
+                $documentData[] = $oldDocument[0];
+            }
+            $lesson->document = !empty($documentData) ? json_encode($documentData) : null;
+
+            $googleDriveData = [];
+            if ($request->hasFile('google_drive')) {
+                $googleDriveData[] = $this->uploadFile($request->file('google_drive'));
+            } elseif ($oldGoogleDrive) {
+                // Use the old google_drive if no new file is uploaded
+                $googleDriveData[] = $oldGoogleDrive[0];
+            }
+            $lesson->google_drive = !empty($googleDriveData) ? json_encode($googleDriveData) : null;
 
             $lesson->title = $request->get('title');
             $lesson->course_section_id = $request->get('section');
             $lesson->lesson_type = $request->get('lesson_type');
             $lesson->summary = $request->get('summary');
             $lesson->text = $request->get('text');
-            $lesson->iframe = $request->get('iframe');
+            $lesson->image = $image;
+            $lesson->video = $request->get('video');
+            $lesson->iframe = $iframe;
+
+            $hours = (int) $request->get('hours', 0);
+            $minutes = (int) $request->get('minutes', 0);
+            $seconds = (int) $request->get('seconds', 0);
+            $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+            $durationFormatted = gmdate("H:i:s", $totalSeconds);
+            $lesson->duration = $durationFormatted;
+
             $lesson->status = $request->get('status');
             $lesson->created_by = auth()->id();
-
-            // Handle file uploads
-            if ($request->hasFile('video_file')) {
-                $lesson->video_file = $request->file('video_file')->store('videos', 'public');
-            }
-
-            if ($request->hasFile('attachment')) {
-                $lesson->attachment = $request->file('attachment')->store('attachments', 'public');
-            }
-
-            if ($request->hasFile('document')) {
-                $lesson->document = $request->file('document')->store('documents', 'public');
-            }
-
-            // Additional fields based on lesson type
-            if ($request->get('lesson_type') == 'youtube_video') {
-                $lesson->video_url = $request->get('video_url');
-                $lesson->duration = $request->get('hours') * 3600 + $request->get('minutes') * 60 + $request->get('seconds');
-            }
 
             $lesson->save();
             Session::flash('success', 'Data saved successfully!');
@@ -132,6 +171,10 @@ class LessonController extends Controller
     {
         try {
             $data['data'] = Lesson::findOrFail($id);
+            $durationParts = explode(':', $data['data']->duration);
+            $totalSeconds = ($durationParts[0] * 3600) + ($durationParts[1] * 60) + ($durationParts[2]);
+            $data['data']->total_seconds = $totalSeconds;
+
             $data['section_list'] = ['' => 'Select One'] + Section::pluck('title', 'id')->toArray();
             $data['status_list'] = ['' => 'Select One', 'active' => 'active', 'inactive' => 'inactive'];
             $data['lesson_type_list'] = ['' => 'Select One', 'youtube_video' => 'YouTube Video', 'image' => 'Image', 'video' => 'Video', 'google_drive' => 'Google Drive', 'text' => 'Text', 'iframe' => 'iFrame', 'document' => 'Document'];
@@ -143,4 +186,5 @@ class LessonController extends Controller
             return redirect()->back();
         }
     }
+
 }
