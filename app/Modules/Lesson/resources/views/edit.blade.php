@@ -416,122 +416,120 @@
                 $('#dynamic-fields').append(`
                 <div class="input-group row mb-3">
                     {!! Form::label('video', 'Video:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::text('video', '', ['class' => 'form-control', 'placeholder' => 'Video Url']) !!}
+                    <div class="col-md-9">
+                        {!! Form::text('video', '', ['class' => 'form-control', 'placeholder' => 'Video Url']) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group row mb-3">
-{!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-                    <div class="input-group">
-{!! Form::number('hours', '', ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => '0', 'id' => 'hours']) !!}
-                {!! Form::number('minutes', '', ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => '0', 'id' => 'minutes']) !!}
-                {!! Form::number('seconds', '', ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => '0', 'id' => 'seconds']) !!}
+                <div class="input-group row mb-3">
+                    {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            {!! Form::number('hours', '', ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => '0', 'id' => 'hours']) !!}
+                            {!! Form::number('minutes', '', ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => '0', 'id' => 'minutes']) !!}
+                            {!! Form::number('seconds', '', ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => '0', 'id' => 'seconds']) !!}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="input-group row mb-3">
-{!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
-                </div>
-            </div>
-`);
+                <div class="input-group row mb-3">
+                    {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
+                    </div>
+                </div>`);
             }
 
             function addImageFields() {
                 $('#dynamic-fields').append(`
                 <div class="input-group row mb-3">
                     {!! Form::label('attachment', 'Attachment:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::file('attachment', ['class' => 'form-control']) !!}
+                    <div class="col-md-9">
+                        {!! Form::file('attachment', ['class' => 'form-control']) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group row mb-3">
-{!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
-                </div>
-            </div>
-`);
+                <div class="input-group row mb-3">
+                    {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
+                    </div>
+                </div>`);
             }
 
             function addVideoFields() {
                 $('#dynamic-fields').append(`
                 <div class="input-group row mb-3">
                     {!! Form::label('video', 'Video:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::text('video', '', ['class' => 'form-control', 'placeholder' => 'Video Url']) !!}
+                    <div class="col-md-9">
+                        {!! Form::text('video', '', ['class' => 'form-control', 'placeholder' => 'Video Url']) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group row mb-3">
-{!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-                    <div class="input-group">
-{!! Form::number('hours', '', ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => '0', 'id' => 'hours']) !!}
-                {!! Form::number('minutes', '', ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => '0', 'id' => 'minutes']) !!}
-                {!! Form::number('seconds', '', ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => '0', 'id' => 'seconds']) !!}
-                </div>
-            </div>
-        </div>
-        <div class="input-group row mb-3">
-{!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
-                </div>
-            </div>
-`);
+                <div class="input-group row mb-3">
+                    {!! Form::label('duration', 'Duration:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            {!! Form::number('hours', '', ['class' => 'form-control mr-2', 'placeholder' => 'Hours', 'min' => '0', 'id' => 'hours']) !!}
+                            {!! Form::number('minutes', '', ['class' => 'form-control mr-2', 'placeholder' => 'Minutes', 'min' => '0', 'id' => 'minutes']) !!}
+                            {!! Form::number('seconds', '', ['class' => 'form-control mr-2', 'placeholder' => 'Seconds', 'min' => '0', 'id' => 'seconds']) !!}
+                        </div>
+                    </div>
+                 </div>
+
+                <div class="input-group row mb-3">
+                    {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
+                    </div>
+                </div>`);
             }
 
             function addTextFields() {
                 $('#dynamic-fields').append(`
                 <div class="input-group row mb-3">
                     {!! Form::label('text', 'Text Content:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('text', '', ['class' => 'form-control', 'placeholder' => 'Text Content']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('text', '', ['class' => 'form-control', 'placeholder' => 'Text Content']) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group row mb-3">
-{!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
-                </div>
-            </div>
-`);
+
+                <div class="input-group row mb-3">
+                    {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
+                    </div>
+                </div>`);
             }
 
             function addIframeFields() {
                 $('#dynamic-fields').append(`
                 <div class="input-group row mb-3">
                     {!! Form::label('iframe', 'Iframe:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('iframe', '', ['class' => 'form-control', 'placeholder' => 'Iframe Code']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('iframe', '', ['class' => 'form-control', 'placeholder' => 'Iframe Code']) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group row mb-3">
-{!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
-                </div>
-            </div>
-`);
+
+                <div class="input-group row mb-3">
+                    {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
+                    </div>
+                </div>`);
             }
 
             function addDocumentFields() {
                 $('#dynamic-fields').append(`
                 <div class="input-group row mb-3">
                     {!! Form::label('document', 'Document:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::file('document', ['class' => 'form-control']) !!}
+                    <div class="col-md-9">
+                        {!! Form::file('document', ['class' => 'form-control']) !!}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group row mb-3">
-{!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
-                <div class="col-md-9">
-{!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
-                </div>
-            </div>
-`);
+
+                <div class="input-group row mb-3">
+                    {!! Form::label('summary', 'Summary:', ['class' => 'col-md-3 control-label']) !!}
+                    <div class="col-md-9">
+                        {!! Form::textarea('summary', '', ['class' => 'form-control', 'placeholder' => 'Summary']) !!}
+                    </div>
+                </div>`);
             }
 
             var initialLessonType = $('#lesson_type_select').val();
@@ -570,9 +568,4 @@
             });
         });
     </script>
-
-
-
-
-
 @endsection
