@@ -20,4 +20,15 @@ class FrontendController extends Controller
             return view('frontend.index', ['error' => 'Unable to retrieve frontend data.']);
         }
     }
+
+
+    public function about()
+    {
+        try {
+            return view('frontend.pages.about');
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@frontend ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return view('frontend.about', ['error' => 'Unable to retrieve frontend data.']);
+        }
+    }
 }

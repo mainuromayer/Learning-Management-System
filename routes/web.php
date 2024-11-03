@@ -18,10 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [FrontendController::class, 'frontend'])->name('home');
     Route::get('login', [LoginController::class, 'login'])->name('login');
     Route::post('login-check', [LoginController::class, 'logincheck'])->name('login.check');
 });
+
+Route::get('/', [FrontendController::class, 'frontend'])->name('home');
+Route::get('/home', [FrontendController::class, 'frontend'])->name('homes');
+Route::get('/about', [FrontendController::class, 'about'])->name('about');
+
+
 
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );
