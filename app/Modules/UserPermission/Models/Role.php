@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Modules\UserPermission\Models;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Model;
-use App\Modules\UserPermission\Models\Permission;
 use App\Modules\UserPermission\Models\Module;
+use App\Modules\UserPermission\Models\Permission;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {

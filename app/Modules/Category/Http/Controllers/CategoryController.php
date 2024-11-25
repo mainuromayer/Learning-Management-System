@@ -53,7 +53,11 @@ class CategoryController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            return view('Category::create');
+            $data['boxicons'] = [
+                'bx-user', 'bx-home', 'bx-cog', 'bx-heart', 'bx-bell', 'bx-search', 'bx-star', 'bx-trash', 'bx-pencil', 
+                'bx-camera', 'bx-calendar', 'bx-message', 'bx-cart', 'bx-lock', 'bx-cloud', 'bx-wallet'
+            ];
+            return view('Category::create', $data);
         } catch (Exception $e) {
             Log::error("Error occurred in CategoryController@create ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             Session::flash('error', "Something went wrong during application data create [Category-102]");
@@ -65,27 +69,31 @@ class CategoryController extends Controller
     {
         try {
             if ($request->has('id')) {
+                // Find the existing category by ID
                 $category = Category::findOrFail($request->get('id'));
             } else {
+                // Create a new category
                 $category = new Category();
             }
-
-            // Handle file uploads
-            $thumbnail = $request->hasFile('thumbnail') ? $this->uploadFile($request->file('thumbnail')) : '';
-            $category_logo = $request->hasFile('category_logo') ? $this->uploadFile($request->file('category_logo')) : '';
-
+    
+            // Handle file uploads, if any
+            $thumbnail = $request->hasFile('thumbnail') ? $this->uploadFile($request->file('thumbnail')) : $category->thumbnail;
+            $category_logo = $request->hasFile('category_logo') ? $this->uploadFile($request->file('category_logo')) : $category->category_logo;
+    
+            // Update category data
             $category->category_name = $request->input('category_name');
             $category->icon = $request->input('icon');
-
+            
             // Convert keywords to JSON format
             $category->keywords = json_encode($request->input('keywords', []));
-
+            
             $category->description = $request->input('description', '');
             $category->thumbnail = $thumbnail;
             $category->category_logo = $category_logo;
-
+    
+            // Save the category
             $category->save();
-
+    
             // Set success message and redirect
             Session::flash('success', 'Data saved successfully!');
             return redirect()->route('category.list');
@@ -96,11 +104,17 @@ class CategoryController extends Controller
             return Redirect::back()->withInput();
         }
     }
+    
 
     public function edit($id): View|RedirectResponse
     {
         try {
             $data['data'] = Category::findOrFail($id);
+
+            $data['boxicons'] = [
+                'bx-user', 'bx-home', 'bx-cog', 'bx-heart', 'bx-bell', 'bx-search', 'bx-star', 'bx-trash', 'bx-pencil', 
+                'bx-camera', 'bx-calendar', 'bx-message', 'bx-cart', 'bx-lock', 'bx-cloud', 'bx-wallet'
+            ];
 
             // Retrieve all keywords and flatten the array
             $allKeywords = Category::pluck('keywords')->map(function($keywords) {

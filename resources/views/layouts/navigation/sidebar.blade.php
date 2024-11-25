@@ -28,7 +28,7 @@
             <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
                 <a href="{{ route('category.list') }}"  class="menu-link ">
                     <i class="menu-icon tf-icons bx bx-category-alt"></i>
-                    <div data-i18n="User"> Category </div>
+                    <div data-i18n="Category"> Category </div>
                 </a>
             </li>
         @endcan
@@ -39,6 +39,16 @@
                 <a href="{{ route('course.list') }}"  class="menu-link ">
                     <i class="menu-icon tf-icons bx bx-folder-open"></i>
                     <div data-i18n="Course"> Course </div>
+                </a>
+            </li>
+        @endcan
+
+        <!-- Enroll Student -->
+        @can('user')
+            <li class="menu-item {{ Request::is('enroll_student') || Request::is('enroll_student/*') ? 'active' : '' }}">
+                <a href="{{ route('enroll_student.list') }}"  class="menu-link ">
+                    <i class="menu-icon tf-icons bx bx-log-in-circle"></i>
+                    <div data-i18n="EnrollStudent"> EnrollStudent </div>
                 </a>
             </li>
         @endcan

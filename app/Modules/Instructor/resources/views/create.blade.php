@@ -191,6 +191,17 @@
                         </div>
                     </div>
 
+                                        <!-- Status -->
+                                        <div class="input-group row {{ $errors->has('status') ? 'has-error' : '' }}">
+                                            {!! Form::label('status', 'Status: ', ['class' => 'col-md-3 control-label  required-star']) !!}
+                                            <div class="col-md-9">
+                                                {!! Form::select('status', $status_list, old('status'), [
+                                                    'class' => 'form-control select2 categories required',
+                                                ]) !!}
+                                                {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
+                                            </div>
+                                        </div>
+
                     <!-- Add and Reset Buttons -->
                     <div class="form-group row">
                         <div class="col-md-3"></div>

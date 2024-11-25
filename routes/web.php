@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [FrontendController::class, 'frontend'])->name('home');
     Route::get('login', [LoginController::class, 'login'])->name('login');
     Route::post('login-check', [LoginController::class, 'logincheck'])->name('login.check');
 });
+
+
+Route::get('/', [FrontendController::class, 'home'])->name('home');
+Route::get('/instructor_page', [FrontendController::class, 'instructorPage'])->name('instructor_page');
+Route::get('/instructor_details/{id}', [FrontendController::class, 'instructorDetails'])->name('instructor_details');
 
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );

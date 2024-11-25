@@ -41,6 +41,13 @@ class PermissionSeeder extends Seeder
         Permission::updateOrCreate(['module_id' => $moduleAppCourse->id, 'title' => 'Delete Course', 'slug' => 'app.course.destroy',]);
 
 
+        // EnrollStudent Permission
+        $moduleAppEnrollStudent = Module::updateOrCreate(['title' => 'EnrollStudent', 'slug' => Str::slug('enroll_student')]);
+        Permission::updateOrCreate(['module_id' => $moduleAppEnrollStudent->id, 'title' => 'Access Enroll Student', 'slug' => 'app.enroll_student.index',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppEnrollStudent->id, 'title' => 'Create Enroll Student', 'slug' => 'app.enroll_student.create',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppEnrollStudent->id, 'title' => 'Edit Enroll Student', 'slug' => 'app.enroll_student.edit',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppEnrollStudent->id, 'title' => 'Delete Enroll Student', 'slug' => 'app.enroll_student.destroy',]);
+
         // Assignment Permission
         $moduleAppAssignment = Module::updateOrCreate(['title' => 'Assignment', 'slug' => Str::slug('assignment')]);
         Permission::updateOrCreate(['module_id' => $moduleAppAssignment->id, 'title' => 'Access Assignment', 'slug' => 'app.assignment.index',]);

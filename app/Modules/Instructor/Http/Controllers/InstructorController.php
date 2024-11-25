@@ -31,12 +31,13 @@ class InstructorController extends Controller
         try {
             if ($request->ajax() && $request->isMethod('post')) {
                 $list = Instructor::join('users', 'instructors.user_id', '=', 'users.id')
-                    ->leftJoin('courses', 'instructors.id', '=', 'courses.instructor_id')
-                    ->select('instructors.id', 'users.name', 'users.email', 'instructors.phone')
-                    ->selectRaw('COUNT(courses.id) as course_count')
-                    ->groupBy('instructors.id', 'users.name', 'users.email', 'instructors.phone')
-                    ->orderBy('instructors.id')
-                    ->get();
+                ->leftJoin('courses', 'instructors.id', '=', 'courses.instructor_id')
+                ->where('instructors.status', 'active') // Only active instructors
+                ->select('instructors.id', 'users.name', 'users.email', 'instructors.phone')
+                ->selectRaw('COUNT(courses.id) as course_count')
+                ->groupBy('instructors.id', 'users.name', 'users.email', 'instructors.phone')
+                ->orderBy('instructors.id')
+                ->get();
 
                 return Datatables::of($list)
                     ->editColumn('name', function ($item) {
@@ -69,7 +70,11 @@ class InstructorController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            return view('Instructor::create');
+            $data['status_list'] = ['' => 'Select One', 'active' => 'active', 'inactive' => 'inactive'];
+            $data['course_list'] = ['' => 'Select One'] + Course::all()->mapWithKeys(function ($course) {
+                return [$course->id => "{$course->course_id} - ({$course->title})"];
+            })->toArray();
+            return view('Instructor::create', $data);
         } catch (Exception $e) {
             Log::error("Error occurred in InstructorController@create ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             Session::flash('error', "Something went wrong during application data create [Instructor-102]");
@@ -95,6 +100,7 @@ class InstructorController extends Controller
                     $role = Role::where('slug', 'instructor')->first(); // use first() to get a single role
                     $user->role_id = $role->id ?? '';
                     $user->email = $request->get('email');
+                    
                     $user->save();
 
                     $instructor->user_id = $user->id;
@@ -110,6 +116,7 @@ class InstructorController extends Controller
                 $instructor->facebook = $request->get('facebook');
                 $instructor->twitter = $request->get('twitter');
                 $instructor->linkedin = $request->get('linkedin');
+                $instructor->status = $request->get('status');
                 $instructor->save();
             });
 
@@ -130,6 +137,7 @@ class InstructorController extends Controller
             $data['course_list'] = ['' => 'Select One'] + Course::all()->mapWithKeys(function ($course) {
                     return [$course->id => "{$course->course_id} - ({$course->title})"];
                 })->toArray();
+                $data['status_list'] = ['' => 'Select One', 'active' => 'active', 'inactive' => 'inactive'];
 
             return view('Instructor::edit', $data);
         } catch (Exception $e) {

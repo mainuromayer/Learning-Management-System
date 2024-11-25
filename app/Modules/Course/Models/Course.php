@@ -40,7 +40,12 @@ class Course extends Model
 
     public function student():BelongsToMany
     {
-        return $this->belongsToMany(Student::class, 'course_student'); // Assuming a many-to-many relationship with students
+        return $this->belongsToMany(Student::class);
     }
+
+    // public function student():BelongsToMany
+    // {
+    //     return $this->belongsToMany(Student::class, 'course_student'); // Assuming a many-to-many relationship with students
+    // }
 }
 

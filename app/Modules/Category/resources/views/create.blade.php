@@ -5,6 +5,9 @@
 
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 
+    <!-- Boxicons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/boxicons/css/boxicons.min.css" rel="stylesheet">
+
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -16,8 +19,18 @@
         .select2 {
             width: 100% !important;
         }
+        .icon-item {
+            font-size: 30px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .icon-item:hover {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
     </style>
 @endsection
+
 @section('content')
     {!! Form::open([
         'route' => 'category.store',
@@ -28,15 +41,13 @@
         'role' => 'form',
     ]) !!}
 
-
     <div class="row">
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary form-card">
                 <div class="card-header">
                     <h3 class="card-title pt-2 pb-2"> Create New Category </h3>
                     <div class="card-tools">
-                        <a href="{{ route('category.list') }}" class="btn btn-sm btn-primary"><i
-                                class="bx bx-list-ul pr-2"></i> Category List </a>
+                        <a href="{{ route('category.list') }}" class="btn btn-sm btn-primary"><i class="bx bx-list-ul pr-2"></i> Category List </a>
                     </div>
                 </div>
 
@@ -54,15 +65,19 @@
                         </div>
                     </div>
 
-                    <!-- Icon -->
+                    <!-- Icon Picker -->
                     <div class="input-group row {{ $errors->has('icon') ? 'has-error' : '' }}">
                         {!! Form::label('icon', 'Icon:', ['class' => 'col-md-3 control-label required-star']) !!}
                         <div class="col-md-9">
-                            {!! Form::text('icon', old('icon'), [
-                                'class' => 'form-control required',
-                                'placeholder' => 'Icon',
-                                'id' => 'icon-picker'
+                            {!! Form::text('icon', old('icon') ?: '', [
+                                'class' => 'form-control mb-2 required',
+                                'placeholder' => 'Icon (bx bx-user)',
+                                'id' => 'icon-picker-input',
+                                'readonly' => true
                             ]) !!}
+                            <button type="button" class="btn btn-primary" id="icon-picker-button">
+                                <i class="bx bx-search"></i> Select Icon
+                            </button>
                             {!! $errors->first('icon', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
@@ -122,7 +137,6 @@
                         </div>
                     </div>
 
-
                     <!-- Add and Reset Buttons -->
                     <div class="form-group row">
                         <div class="col-md-3"></div>
@@ -146,7 +160,35 @@
         </div>
     </div>
 
-    {!! form::close() !!}
+<!-- Modal for Icon Picker -->
+<div class="modal fade" id="icon-picker-modal" tabindex="-1" role="dialog" aria-labelledby="icon-picker-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="icon-picker-modal-label">Select Icon</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Search Bar -->
+                <input type="text" id="icon-search" class="form-control mb-3" placeholder="Search for an icon...">
+
+                <!-- Icon Grid -->
+                <div id="icon-grid" class="d-flex flex-wrap">
+                    @foreach($boxicons as $icon)
+                        <div class="icon-item" data-icon="{{ $icon }}">
+                            <i class="bx {{ $icon }}"></i>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @endsection
 
 @section('footer-script')
@@ -157,26 +199,48 @@
     <script src="https://cdn.jsdelivr.net/npm/fonticonpicker@3.0.0/dist/js/jquery.fonticonpicker.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // Initialize Select2
-            $('.select2').select2({
-                tags: true, // Allow custom input (keywords)
-                tokenSeparators: [',', ' '], // Keywords can be separated by commas or spaces
-                placeholder: 'Enter Keywords',
-                allowClear: true
-            });
+$(document).ready(function () {
+    // Initialize Select2
+    $('.select2').select2({
+        tags: true, // Allow custom input (keywords)
+        tokenSeparators: [',', ' '], // Keywords can be separated by commas or spaces
+        placeholder: 'Enter Keywords',
+        allowClear: true
+    });
 
-            // Initialize FontIconPicker
-            $('#icon-picker').fontIconPicker({
-                source: ['fa-home', 'fa-user', 'fa-cog', 'fa-heart'], // Add more valid icon classes
-                theme: 'fip-grey'
-            });
+    // Open the modal when the button is clicked
+    $('#icon-picker-button').click(function() {
+        $('#icon-picker-modal').modal('show');
+    });
 
-            // Reset form fields when Reset button is clicked
-            $('#reset_button').click(function() {
-                $('#form_id')[0].reset(); // Reset all form fields
-                $('.select2').val(null).trigger('change'); // Reset select2 fields
-            });
+    // Handle icon selection
+    $('.icon-item').click(function() {
+        var selectedIcon = $(this).data('icon');
+        $('#icon-picker-input').val('bx ' + selectedIcon); // Set the selected icon class in the input field
+        $('#icon-picker-modal').modal('hide'); // Close the modal
+    });
+
+    // Filter icons based on search input
+    $('#icon-search').on('input', function() {
+        var searchValue = $(this).val().toLowerCase();
+        $('.icon-item').each(function() {
+            var iconClass = $(this).data('icon').toLowerCase();
+            if (iconClass.indexOf(searchValue) !== -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
+    });
+
+    // Reset form fields when Reset button is clicked
+    $('#reset_button').click(function() {
+        $('#form_id')[0].reset(); // Reset all form fields
+        $('.select2').val(null).trigger('change'); // Reset select2 fields
+        $('#newThumbnail').attr('src', '{{ asset('images/no_image.png') }}'); // Reset thumbnail image
+        $('#newCategoryLogo').attr('src', '{{ asset('images/no_image.png') }}'); // Reset category logo image
+    });
+});
+
     </script>
 @endsection

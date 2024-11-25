@@ -18,6 +18,7 @@ class StoreInstructorRequest extends FormRequest {
             'email' => 'required|email',
             'password' => 'required_if:id,null',
             'phone' => 'required',
+            'status' => 'required',
         ];
 
         // If we are updating an existing instructor, update the rules accordingly
@@ -50,6 +51,7 @@ class StoreInstructorRequest extends FormRequest {
             'email.email' => 'The email must be a valid email address.',
             'password.required_if' => 'The password field is required when creating a new instructor.',
             'phone.required' => 'The phone field is required.',
+            'status.required' => 'The status field is required.',
         ];
     }
 }
