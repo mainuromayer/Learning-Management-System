@@ -60,11 +60,12 @@
                     { data: 'image', name: 'image', orderable: false, searchable: false },
                     { data: 'name', name: 'name' },
                     { data: 'email', name: 'email' },
-                    { data: 'course_title', name: 'course.title' },
+                    { data: 'course_title', name: 'course_title' },
                     { data: 'enrollment_date', name: 'created_at' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
             });
         });
     </script>
+    
 @endsection

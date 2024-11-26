@@ -2,16 +2,17 @@
 
 namespace App\Modules\Course\Models;
 
-use App\Modules\Category\Models\Category;
-use App\Modules\Instructor\Models\Instructor;
 use App\Modules\Lesson\Models\Lesson;
 use App\Modules\Section\Models\Section;
 use App\Modules\Student\Models\Student;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Modules\Category\Models\Category;
+use App\Modules\Instructor\Models\Instructor;
+use App\Modules\EnrollStudent\Models\EnrollStudent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Course extends Model
 {
@@ -38,14 +39,14 @@ class Course extends Model
         return $this->hasMany(Section::class); // Assuming a section belongs to a course
     }
 
-    public function student():BelongsToMany
+    public function students()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class, 'enroll_students'); // Specify the pivot table name
     }
 
-    // public function student():BelongsToMany
-    // {
-    //     return $this->belongsToMany(Student::class, 'course_student'); // Assuming a many-to-many relationship with students
-    // }
+    public function enrollments()
+    {
+        return $this->hasMany(EnrollStudent::class, 'course_id');
+    }
 }
 

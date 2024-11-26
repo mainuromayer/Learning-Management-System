@@ -18,9 +18,10 @@
     'method' => 'post',
     'id' => 'form_id',
     'enctype' => 'multipart/form-data',
-    'files' => 'true',
     'role' => 'form',
 ]) !!}
+
+{!! Form::hidden('student_id', $enrollment->student->id) !!}
 
 <div class="row">
     <div class="col-md-12 p-5 pt-3">
@@ -47,7 +48,7 @@
                 <div class="input-group row">
                     {!! Form::label('course_id', 'Courses:', ['class' => 'col-md-3 control-label required-star']) !!}
                     <div class="col-md-9">
-                        {!! Form::select('course_id[]', $course_list, $enrollment->course->pluck('id')->toArray(), [
+                        {!! Form::select('course_id[]', $course_list, $selected_courses, [
                             'class' => 'form-control select2 required',
                             'multiple' => 'multiple',
                             'data-placeholder' => 'Select Courses'
@@ -75,7 +76,6 @@
 </div>
 
 {!! form::close() !!}
-
 @endsection
 
 @section('footer-script')
