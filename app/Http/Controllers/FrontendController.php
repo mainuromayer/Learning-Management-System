@@ -1,11 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Modules\Instructor\Models\Instructor;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Modules\Course\Models\Course;
+use App\Modules\Instructor\Models\Instructor;
 
 class FrontendController extends Controller
 {
@@ -20,6 +21,7 @@ class FrontendController extends Controller
             // $data['committeeTypes'] = CommitteeType::all(); // Add this line
 
             $data['instructors'] = Instructor::where('status', 'active')->latest()->take(4)->get();
+            $data['courses'] = Course::where('status', 'active')->latest()->take(4)->get();
             return view('frontend.pages.home', $data);
         } catch (Exception $e) {
             Log::error("Error occurred in FrontendController@home ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
@@ -50,6 +52,19 @@ class FrontendController extends Controller
             return view('frontend.pages.instructor_details_page', ['error' => 'Unable to retrieve instructor details.']);
         }
     }
+
+
+    public function coursesPage()
+{
+    try {
+        $data['courses'] = Course::where('status', 'active')->latest()->paginate(6); // Adjust to fetch only active courses
+        return view('frontend.pages.course_page', $data); // Pass courses to the view
+    } catch (Exception $e) {
+        Log::error("Error occurred in FrontendController@coursesPage ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+        return view('frontend.pages.course_page', ['error' => 'Unable to retrieve courses.']);
+    }
+}
+
 
 
     // public function frontend()

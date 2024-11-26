@@ -16,7 +16,7 @@
           </div>
           <!-- Interactive Courses -->
           <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-              <a href="link-to-interactive-courses" class="text-decoration-none">
+              <a href="{{ route('courses_page') }}" class="text-decoration-none">
                   <div class="service-item d-flex flex-column align-items-center text-center pt-3 h-100">
                       <div class="p-4">
                           <i class="fa fa-3x fa-globe text-primary mb-4"></i>

@@ -9,9 +9,11 @@
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="{{ $loop->index * 0.2 + 0.1 }}s">
                             <div class="team-item bg-light">
                                 <div class="overflow-hidden">
+                                    <!-- Inline style to set fixed height for images -->
                                     <img class="img-fluid"
                                         src="{{ $instructor->user_image ? asset($instructor->user_image) : asset('images/no_image.png') }}"
-                                        alt="">
+                                        alt=""
+                                        style="height: 200px; width: 100%; object-fit: cover;">
                                 </div>
                                 <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                                     <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -38,7 +40,7 @@
                                         {{ $instructor->user->email ?? 'Instructor Email Not Available' }}
                                     </small><br>
                                     <small>
-                                        {{ $instructor->phone ?? 'Instructor Email Not Available' }}
+                                        {{ $instructor->phone ?? 'Instructor Phone Not Available' }}
                                     </small><br><br>
                                     <a class="text-uppercase"
                                         href="{{ route('instructor_details', $instructor->id) }}">Read More <i

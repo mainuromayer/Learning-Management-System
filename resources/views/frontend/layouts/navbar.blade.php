@@ -11,7 +11,7 @@
           <a href="{{ route('home') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" class="nav-item nav-link active">Home</a>
           <a href="{{ route('instructor_page') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'instructor_page' ? 'active' : '' }}" class="nav-item nav-link active">Instructor</a>
           <a href="javascript:void(0);" class="nav-item nav-link">About</a>
-          <a href="javascript:void(0);" class="nav-item nav-link">Courses</a>
+          <a href="{{ route('courses_page') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'courses_page' ? 'active' : '' }}">Courses</a>
           <div class="nav-item dropdown">
               <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
               <div class="dropdown-menu fade-down m-0">
