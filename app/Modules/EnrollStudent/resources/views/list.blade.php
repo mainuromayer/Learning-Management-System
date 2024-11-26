@@ -9,31 +9,32 @@
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2">Enrollments List</h3>
+                    <h3 class="card-title pt-2 pb-2">List Enrollment</h3>
                     <div class="card-tools">
+
                         <a href="{{ route('enroll_student.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Enrollment
                         </a>
+
                     </div>
                 </div>
 
-                <div class="card-body mt-4">
-                    <table id="enrollments-table" class="table table-striped table-bordered" style="width: 100%">
-                        <thead>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="list" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
+                            <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Image</th>
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Course Title</th>
                                 <th>Enrollment Date</th>
                                 <th>Action</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be populated by AJAX -->
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,28 +45,27 @@
     @include('partials.datatable_js')
 
     <script>
-        $(function () {
-            $('#enrollments-table').DataTable({
+        $(function() {
+            $('#list').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ route('enroll_student.list') }}",
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
+                    method: 'post',
+                    data: function(d) {
+                        d._token = $('input[name="_token"]').val();
                     }
                 },
                 columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'image', name: 'image', orderable: false, searchable: false },
                     { data: 'name', name: 'name' },
                     { data: 'email', name: 'email' },
                     { data: 'course_title', name: 'course_title' },
-                    { data: 'enrollment_date', name: 'created_at' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
-                ]
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'action', name: 'action' }
+                ],
+                "sorting": []
             });
         });
     </script>
-    
 @endsection
