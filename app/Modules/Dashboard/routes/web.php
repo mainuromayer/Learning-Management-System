@@ -17,5 +17,7 @@ Route::group(['middleware' => ['web', 'auth', 'admin']], function () {
 // Student routes
 Route::group(['middleware' => ['auth', 'student']], function () {
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::post('/student/courses', [StudentDashboardController::class, 'getCourses'])->name('student.courses');
+    Route::get('/course/{courseId}/continue', [StudentDashboardController::class, 'continueCourse'])->name('course.continue');
     // Other student routes...
 });
