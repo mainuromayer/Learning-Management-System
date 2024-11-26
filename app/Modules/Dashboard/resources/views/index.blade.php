@@ -11,7 +11,7 @@
   {{-- @else --}}
         <div class="row">
             <div class="col-md-12">
-                @include('Dashboard::dashboard')
+                @yield('content')
             </div>
         </div>
    {{-- @endif --}}

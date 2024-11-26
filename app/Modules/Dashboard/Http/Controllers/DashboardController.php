@@ -8,13 +8,26 @@ use Illuminate\View\View;
 class DashboardController extends Controller
 {
 
-    /**
-     * Display the module welcome screen
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index():View
+    public function __construct()
     {
-        return view("Dashboard::index");
+        // You can also apply the 'admin' middleware here if needed
+        $this->middleware('admin');
     }
+
+    public function index()
+    {
+        return view('Dashboard::dashboard');
+    }
+
+    // public function manageUsers()
+    // {
+    //     // Logic to manage users
+    //     return view('admin.users');
+    // }
+
+    // public function settings()
+    // {
+    //     // Admin settings page
+    //     return view('admin.settings');
+    // }
 }

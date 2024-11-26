@@ -22,10 +22,22 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+    
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+    
+            $user = Auth::user();
+    
+            if ($user->role && $user->role->slug === 'admin') {
+
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->role && $user->role->slug === 'student') {
+                return redirect()->route('student.dashboard');
+            } else {
+                return redirect()->route('home');
+            }
         }
+    
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');

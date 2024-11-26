@@ -15,127 +15,130 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <!-- Dashboards -->
-        <li class="menu-item {{ Request::is('dashboard') || Request::is('dashboard/*') ? 'active' : '' }}">
-            <a href="{{ route('dashboard') }}" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Dashboards">Dashboards</div>
-            </a>
-        </li>
+        
 
-        <!-- Category -->
-        @can('category')
-            <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
-                <a href="{{ route('category.list') }}"  class="menu-link ">
-                    <i class="menu-icon tf-icons bx bx-category-alt"></i>
-                    <div data-i18n="Category"> Category </div>
+        <!-- Admin-specific menu items -->
+        @if(Auth::user() && Auth::user()->role->slug === 'admin')
+<!-- Dashboards -->
+<li class="menu-item {{ Request::is('dashboard') || Request::is('dashboard/*') ? 'active' : '' }}">
+    <a href="{{ route('admin.dashboard') }}" class="menu-link ">
+        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+        <div data-i18n="Dashboards">Dashboards</div>
+    </a>
+</li>
+
+            <!-- Category -->
+            @can('category')
+                <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
+                    <a href="{{ route('category.list') }}" class="menu-link ">
+                        <i class="menu-icon tf-icons bx bx-category-alt"></i>
+                        <div data-i18n="Category">Category</div>
+                    </a>
+                </li>
+            @endcan
+
+            <!-- Course -->
+            @can('course')
+                <li class="menu-item {{ Request::is('course') || Request::is('course/*') ? 'active' : '' }}">
+                    <a href="{{ route('course.list') }}" class="menu-link ">
+                        <i class="menu-icon tf-icons bx bx-folder-open"></i>
+                        <div data-i18n="Course">Course</div>
+                    </a>
+                </li>
+            @endcan
+
+            <!-- Enroll Student -->
+            @can('user')
+                <li class="menu-item {{ Request::is('enroll_student') || Request::is('enroll_student/*') ? 'active' : '' }}">
+                    <a href="{{ route('enroll_student.list') }}" class="menu-link ">
+                        <i class="menu-icon tf-icons bx bx-log-in-circle"></i>
+                        <div data-i18n="EnrollStudent">Enroll Student</div>
+                    </a>
+                </li>
+            @endcan
+
+            <!-- User management -->
+            @can('user')
+            <li class="menu-item {{ Request::is('users') || Request::is('users/*') ? 'active' : '' }} {{ Request::segment(1)== 'users' ? 'open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-user-plus"></i>
+                    <div data-i18n="User">Users</div>
                 </a>
-            </li>
-        @endcan
+                <ul class="menu-sub">
+                    <li class="menu-item {{ Request::segment(2)== 'user' ? 'active' : '' }}">
+                        <a href="{{ route('user.list') }}" class="menu-link">
+                            <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
+                            <div>Admin User</div>
+                        </a>
+                    </li>
 
-        <!-- Course -->
-        @can('course')
+                    <li class="menu-item {{ Request::segment(2)== 'instructor' ? 'active' : '' }}">
+                        <a href="{{ route('instructor.list') }}" class="menu-link">
+                            <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
+                            <div>Instructor</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ Request::segment(2)== 'student' ? 'active' : '' }}">
+                        <a href="{{ route('student.list') }}" class="menu-link">
+                            <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
+                            <div>Student</div>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            @endcan
+
+            <!-- Settings -->
+            @can('user-permission')
+            <li class="menu-item {{ Request::is('settings') || Request::is('settings/*') ? 'active' : '' }} {{ Request::segment(1)== 'settings' ? 'open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-cog"></i>
+                    <div data-i18n="Dashboards">Settings</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ Request::segment(2)== 'user-permission' ? 'active' : '' }}">
+                        <a href="{{ route('user-permission') }}" class="menu-link">
+                            <i class="menu-icon tf-icons fas fa-user-lock fa-fw"></i>
+                            <div>User Permission</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
+        @endif
+
+        <!-- Instructor-specific menu items -->
+        @if(Auth::user() && Auth::user()->role->slug === 'instructor')
+            <!-- Instructor-specific links can go here -->
+            <!-- For example: -->
             <li class="menu-item {{ Request::is('course') || Request::is('course/*') ? 'active' : '' }}">
-                <a href="{{ route('course.list') }}"  class="menu-link ">
+                <a href="{{ route('course.list') }}" class="menu-link ">
                     <i class="menu-icon tf-icons bx bx-folder-open"></i>
-                    <div data-i18n="Course"> Course </div>
+                    <div data-i18n="Course">My Courses</div>
                 </a>
             </li>
-        @endcan
+        @endif
 
-        <!-- Enroll Student -->
-        @can('user')
-            <li class="menu-item {{ Request::is('enroll_student') || Request::is('enroll_student/*') ? 'active' : '' }}">
-                <a href="{{ route('enroll_student.list') }}"  class="menu-link ">
-                    <i class="menu-icon tf-icons bx bx-log-in-circle"></i>
-                    <div data-i18n="EnrollStudent"> EnrollStudent </div>
+        <!-- Student-specific menu items -->
+        @if(Auth::user() && Auth::user()->role->slug === 'student')
+            <!-- Student-specific links can go here -->
+            <!-- Dashboards -->
+            <li class="menu-item {{ Request::is('dashboard') || Request::is('dashboard/*') ? 'active' : '' }}">
+                <a href="{{ route('student.dashboard') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div data-i18n="Dashboards">Dashboards</div>
                 </a>
             </li>
-        @endcan
 
-{{--        <!-- Class -->--}}
-{{--        @can('assignment')--}}
-{{--            <li class="menu-item {{ Request::is('class') || Request::is('class/*') ? 'active' : '' }} {{ Request::segment(1)== 'class' ? 'open' : '' }}">--}}
-{{--                <a href="javascript:void(0);"  class="menu-link menu-toggle">--}}
-{{--                    <i class="menu-icon tf-icons bx bx-bookmark-alt-plus"></i>--}}
-{{--                    <div data-i18n="Class"> Class </div>--}}
-{{--                </a>--}}
-{{--                <ul class="menu-sub">--}}
-{{--                    <li class="menu-item {{ Request::segment(2)== 'assignment' ? 'active' : '' }}">--}}
-{{--                        <a href="{{ route('assignment.list') }}" class="menu-link">--}}
-{{--                            <i class="menu-icon tf-icons bx bx-book-reader"></i>--}}
-{{--                            <div data-i18n="Assignment"> Assignment </div>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
-{{--        @endcan--}}
-
-
-        <!-- User -->
-        @can('user')
-        <li class="menu-item {{ Request::is('users') || Request::is('users/*') ? 'active' : '' }} {{ Request::segment(1)== 'users' ? 'open' : '' }}">
-            <a href="javascript:void(0);"  class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-user-plus"></i>
-                <div data-i18n="User"> Users </div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ Request::segment(2)== 'user' ? 'active' : '' }}">
-                    <a href="{{ route('user.list') }}" class="menu-link">
-                        <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
-                        <div> Admin User </div>
-                    </a>
-                </li>
-
-                <li class="menu-item {{ Request::segment(2)== 'instructor' ? 'active' : '' }}">
-                    <a href="{{ route('instructor.list') }}" class="menu-link">
-                        <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
-                        <div> Instructor </div>
-                    </a>
-                </li>
-                <li class="menu-item {{ Request::segment(2)== 'student' ? 'active' : '' }}">
-                    <a href="{{ route('student.list') }}" class="menu-link">
-                        <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
-                        <div> Student </div>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-        @endcan
-
-
-        <!-- Settings -->
-        @can('user-permission')
-        <li class="menu-item {{ Request::is('settings') || Request::is('settings/*') ? 'active' : '' }} {{ Request::segment(1)== 'settings' ? 'open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cog"></i>
-                <div data-i18n="Dashboards">Settings</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ Request::segment(2)== 'user-permission' ? 'active' : '' }}">
-                    <a href="{{ route('user-permission') }}" class="menu-link">
-                        <i class="menu-icon tf-icons fas fa-user-lock fa-fw"></i>
-                        <div> User Permission</div>
-                    </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="javascript:void(0);" class="menu-link">
-                                <div>Menu Permission</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="javascript:void(0);" class="menu-link">
-                                <div>Process Permission</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-            </ul>
-        </li>
-        @endcan
-
+            {{-- <!-- For example: -->
+            <li class="menu-item {{ Request::is('my-courses') || Request::is('my-courses/*') ? 'active' : '' }}">
+                <a href="{{ route('student.courses') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons bx bx-book"></i>
+                    <div data-i18n="My Courses">My Courses</div>
+                </a>
+            </li> --}}
+        @endif
 
     </ul>
 </aside>
