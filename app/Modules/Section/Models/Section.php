@@ -3,9 +3,10 @@
 namespace App\Modules\Section\Models;
 
 use App\Modules\User\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Modules\Course\Models\Course;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
@@ -21,5 +22,10 @@ class Section extends Model
     public function updatedBy():BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

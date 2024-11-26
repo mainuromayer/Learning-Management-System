@@ -39,9 +39,6 @@ class AssignmentController extends Controller
                     ->addColumn('title', function ($list) {
                         return $list->title;
                     })
-                    ->addColumn('description', function ($list) {
-                        return $list->description;
-                    })
                     ->addColumn('instructor_name', function ($list) {
                         return $list->instructor->user->name ?? ''; // Fetch user name through instructor
                     })
@@ -49,11 +46,9 @@ class AssignmentController extends Controller
                         return $list->status;
                     })
                     ->addColumn('created_by', function($list){
-                        return optional($list->createdBy)->name; // Show the name of the user who created the section
+                        return optional($list->createdBy)->name;
                     })
-                    ->addColumn('updated_by', function($list){
-                        return optional($list->updatedBy)->name; // Show the name of the user who updated the section
-                    })
+
                     ->addColumn('action', function ($list) {
                         return '<a href="' . URL::to('assignment/edit/' . $list->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })

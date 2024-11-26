@@ -14,6 +14,18 @@
                         <a href="{{ route('quiz.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Quiz
                         </a>
+                        <a href="{{ route('lesson.create') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-plus pr-2"></i> Add Lesson
+                        </a>
+                        <a href="{{ route('section.create') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-plus pr-2"></i> Add Section
+                        </a>
+                        <a href="{{ route('assignment.create') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-plus pr-2"></i> Add Assignment
+                        </a>
+                        <a href="{{ route('course.create') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-plus pr-2"></i> Add Course
+                        </a>
                     </div>
                 </div>
 

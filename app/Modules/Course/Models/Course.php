@@ -49,4 +49,3 @@ class Course extends Model
         return $this->hasMany(EnrollStudent::class, 'course_id');
     }
 }
-

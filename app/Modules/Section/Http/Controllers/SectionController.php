@@ -2,20 +2,21 @@
 
 namespace App\Modules\Section\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Modules\Section\Http\Requests\StoreSectionRequest;
-use App\Modules\Section\Models\Section;
-use App\Traits\FileUploadTrait;
 use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use App\Traits\FileUploadTrait;
 use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use App\Modules\Course\Models\Course;
+use Illuminate\Http\RedirectResponse;
+use App\Modules\Section\Models\Section;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\Response;
+use App\Modules\Section\Http\Requests\StoreSectionRequest;
 
 class SectionController extends Controller
 {
@@ -63,6 +64,7 @@ class SectionController extends Controller
 
     public function create(): View | RedirectResponse {
         try {
+            $data['course_list'] = ['' => 'Select One'] + Course::pluck('title', 'id')->toArray();
             $data['status_list'] = ['' => 'Select One', 'active' => 'active', 'inactive' => 'inactive'];
             return view('Section::create',$data);
         } catch(Exception $exception){
@@ -98,6 +100,7 @@ class SectionController extends Controller
     public function edit($id): View | RedirectResponse {
         try {
             $data = Section::findOrFail($id);
+            $data['course_list'] = ['' => 'Select One'] + Course::pluck('title', 'id')->toArray();
             $status_list = ['' => 'Select One', 'active' => 'active', 'inactive' => 'inactive'];
 
             return view("Section::edit", compact('data', 'status_list')); // Pass the data and status list to view

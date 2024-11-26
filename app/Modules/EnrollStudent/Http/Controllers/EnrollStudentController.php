@@ -40,7 +40,7 @@ class EnrollStudentController extends Controller {
                         return $enrollment->student->user->email;
                     })
                     ->addColumn('course_title', function ($enrollment) {
-                        return $enrollment->courses->title;
+                        return $enrollment->courses ? $enrollment->courses->title : 'No Course Assigned';
                     })
                     ->addColumn('created_at', function ($enrollment) {
                         return $enrollment->created_at;

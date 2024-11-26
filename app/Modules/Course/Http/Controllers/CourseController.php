@@ -2,22 +2,24 @@
 
 namespace App\Modules\Course\Http\Controllers;
 
+use Exception;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Traits\FileUploadTrait;
+use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use App\Modules\Course\Models\Course;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use App\Modules\Category\Models\Category;
 use App\Modules\Instructor\Models\Instructor;
-use App\Traits\FileUploadTrait;
-use Illuminate\Http\Request;
-use App\Modules\Course\Http\Requests\StoreCourseRequest;
-use App\Modules\Course\Models\Course;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
-use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use yajra\Datatables\Datatables;
+use App\Modules\EnrollStudent\Models\EnrollStudent;
+use App\Modules\Course\Http\Requests\StoreCourseRequest;
+
 class CourseController extends Controller
 {
     use FileUploadTrait;
@@ -47,11 +49,8 @@ class CourseController extends Controller
                     ->addColumn('category', function ($list) {
                         return $list->category->category_name;
                     })
-                    ->addColumn('lesson_section', function ($list) {
-                        return '';
-                    })
                     ->addColumn('enrolled_student', function ($list) {
-                        return '';
+                        return $list->enrollments()->count();
                     })
                     ->addColumn('status', function ($list) {
                         return $list->status;

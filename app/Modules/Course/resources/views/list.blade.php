@@ -11,34 +11,18 @@
                 <div class="card-header">
                     <h3 class="card-title pt-2 pb-2">List Course</h3>
                     <div class="card-tools">
-                        {{--                        <a href="{{ route('quiz.list') }}" class="btn btn-sm btn-primary">--}}
-                        {{--                            <i class="bx bx-list-ul pr-2"></i> Quiz List--}}
-                        {{--                        </a>--}}
                         <a href="{{ route('quiz.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Quiz
                         </a>
-
-                        {{--                        <a href="{{ route('lesson.list') }}" class="btn btn-sm btn-primary">--}}
-                        {{--                            <i class="bx bx-list-ul pr-2"></i> Lesson List--}}
-                        {{--                        </a>--}}
                         <a href="{{ route('lesson.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Lesson
                         </a>
-
-{{--                        <a href="{{ route('section.list') }}" class="btn btn-sm btn-primary">--}}
-{{--                            <i class="bx bx-list-ul pr-2"></i> Section List--}}
-{{--                        </a>--}}
                         <a href="{{ route('section.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Section
                         </a>
-
-{{--                        <a href="{{ route('assignment.list') }}" class="btn btn-sm btn-primary">--}}
-{{--                            <i class="bx bx-list-ul pr-2"></i> Assignment List--}}
-{{--                        </a>--}}
                         <a href="{{ route('assignment.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Assignment
                         </a>
-
                         <a href="{{ route('course.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Course
                         </a>
@@ -55,7 +39,6 @@
                                 <th>Instructor Name</th>
                                 <th>Instructor Email</th>
                                 <th>Category</th>
-                                <th>Lesson & Section</th>
                                 <th>Enrolled Student</th>
                                 <th>Status</th>
                                 <th>Price</th>
@@ -92,7 +75,6 @@
                     { data: 'instructor_name', name: 'instructor_name' },
                     { data: 'instructor_email', name: 'instructor_email' },
                     { data: 'category', name: 'category' },
-                    { data: 'lesson_section', name: 'lesson_section' },
                     { data: 'enrolled_student', name: 'enrolled_student' },
                     { data: 'status', name: 'status' },
                     { data: 'price', name: 'price' },

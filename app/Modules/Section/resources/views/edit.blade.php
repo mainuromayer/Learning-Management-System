@@ -49,6 +49,17 @@
                         </div>
                     </div>
 
+                    <!-- Course -->
+                    <div class="input-group row {{ $errors->has('status') ? 'has-error' : '' }}">
+                        {!! Form::label('course', 'Course:', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('course', $course_list, old('course', $data->course_id), [
+                                'class' => 'form-control select2 course required',
+                            ]) !!}
+                            {!! $errors->first('course', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
                     <!-- Status -->
                     <div class="input-group row {{ $errors->has('status') ? 'has-error' : '' }}">
                         {!! Form::label('status', 'Status:', ['class' => 'col-md-3 control-label required-star']) !!}
