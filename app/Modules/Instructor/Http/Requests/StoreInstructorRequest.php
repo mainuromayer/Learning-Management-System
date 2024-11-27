@@ -6,8 +6,10 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreInstructorRequest extends FormRequest {
-    public function authorize(): bool {
+class StoreInstructorRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
         return true;
     }
 
@@ -21,30 +23,35 @@ class StoreInstructorRequest extends FormRequest {
             'status' => 'required',
         ];
 
-        // If we are updating an existing instructor, update the rules accordingly
-        if ($this->has('id')) {
-            $id = $this->get('id');
+        if ($this->get('id')) {
+            // Check if we're updating an existing instructor
+            $instructor = \App\Modules\Instructor\Models\Instructor::find($this->get('id'));
 
-            // Update the rules for `name` and `email` to ignore the current record's id
-            $rules['name'] = [
-                'required',
-                Rule::unique('users', 'name')->ignore($id, 'id'),
-            ];
+            if ($instructor && $instructor->user_id) {
+                $userId = $instructor->user_id; // Get the associated user's ID
 
-            $rules['email'] = [
-                'required',
-                'email',
-                Rule::unique('users', 'email')->ignore($id, 'id'),
-            ];
+                // Update name validation: Ignore the current user's name during the update
+                $rules['name'] = [
+                    'required',
+                    Rule::unique('users', 'name')->ignore($userId),  // Ignore the current name for this user
+                ];
 
-            // Remove the password requirement if not setting a new password
-            unset($rules['password']);
+                // Update email validation: Ignore the current user's email during the update
+                $rules['email'] = [
+                    'required',
+                    Rule::unique('users', 'email')->ignore($userId), // Ignore the current email for this user
+                ];
+
+                // Remove password requirement for updates
+                unset($rules['password']);
+            }
         }
 
         return $rules;
     }
 
-    public function messages(): array {
+    public function messages(): array
+    {
         return [
             'name.required' => 'The name field is required.',
             'email.required' => 'The email field is required.',

@@ -88,39 +88,42 @@ class InstructorController extends Controller
             DB::transaction(function () use ($request) {
                 if ($request->has('id')) {
                     $instructor = Instructor::findOrFail($request->get('id'));
+                    $user = $instructor->user;  // Fetch the associated user
                 } else {
                     $instructor = new Instructor();
-                }
-
-                if (!$instructor->user_id) {
                     $user = new User();
-                    $user->name = $request->get('name');
-                    $user->password = Hash::make($request->get('password'));
                     $user->user_type = 'instructor';
                     $role = Role::where('slug', 'instructor')->first(); // use first() to get a single role
                     $user->role_id = $role->id ?? '';
-                    $user->email = $request->get('email');
-                    
-                    $user->save();
-
-                    $instructor->user_id = $user->id;
                 }
 
-                // Handle file uploads
-                $user_image = $request->hasFile('user_image') ? $this->uploadFile($request->file('user_image')) : $instructor->user_image;
+                // Update or create user
+                $user->name = $request->get('name');
+                $user->email = $request->get('email');
+                if ($request->filled('password')) {
+                    $user->password = Hash::make($request->get('password'));  // Update password if provided
+                }
+                $user->save();  // Save user
 
+                // Associate user with instructor
+                $instructor->user_id = $user->id;
                 $instructor->biography = $request->get('biography');
                 $instructor->phone = $request->get('phone');
                 $instructor->address = $request->get('address');
-                $instructor->user_image = $user_image;
                 $instructor->facebook = $request->get('facebook');
                 $instructor->twitter = $request->get('twitter');
                 $instructor->linkedin = $request->get('linkedin');
                 $instructor->status = $request->get('status');
-                $instructor->save();
+
+                // Handle file upload for instructor image (if any)
+                if ($request->hasFile('user_image')) {
+                    $instructor->user_image = $this->uploadFile($request->file('user_image'));
+                }
+
+                $instructor->save();  // Save instructor record
             });
 
-            Session::flash('success', 'Data saved successfully!');
+            Session::flash('success', 'Instructor data saved successfully!');
             return redirect()->route('instructor.list');
         } catch (Exception $e) {
             Log::error("Error occurred in InstructorController@store ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");

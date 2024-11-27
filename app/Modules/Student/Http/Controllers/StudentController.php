@@ -83,39 +83,46 @@ class StudentController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
+                // Check if it's an update or create a new student
                 if ($request->has('id')) {
+                    // Existing student
                     $student = Student::findOrFail($request->get('id'));
+                    $user = $student->user;  // Fetch the associated user (related to student)
                 } else {
+                    // New student
                     $student = new Student();
-                }
-
-                if (!$student->user_id) {
                     $user = new User();
-                    $user->name = $request->get('name');
-                    $user->password = Hash::make($request->get('password'));
-                    $user->user_type = 'student';
-                    $role = Role::where('slug', 'student')->first(); // use first() to get a single role
-                    $user->role_id = $role->id ?? '';
-                    $user->email = $request->get('email');
-                    $user->save();
-
-                    $student->user_id = $user->id;
+                    $user->user_type = 'student';  // Mark the user as a student
+                    $role = Role::where('slug', 'student')->first();
+                    $user->role_id = $role->id ?? '';  // Assign the "student" role
                 }
-
-                // Handle file uploads
-                $user_image = $request->hasFile('user_image') ? $this->uploadFile($request->file('user_image')) : $student->user_image;
-
-                $student->biography = $request->get('biography');
+    
+                // Update user details (name, email)
+                $user->name = $request->get('name');
+                $user->email = $request->get('email');
+                if ($request->filled('password')) {
+                    $user->password = Hash::make($request->get('password'));  // Update password if provided
+                }
+                $user->save();  // Save user
+    
+                // Update student details
+                $student->user_id = $user->id;  // Associate student with the user
                 $student->phone = $request->get('phone');
+                $student->biography = $request->get('biography');
                 $student->address = $request->get('address');
-                $student->user_image = $user_image;
                 $student->facebook = $request->get('facebook');
                 $student->twitter = $request->get('twitter');
                 $student->linkedin = $request->get('linkedin');
-                $student->save();
+                
+                // Handle file upload for student image (if any)
+                if ($request->hasFile('user_image')) {
+                    $student->user_image = $this->uploadFile($request->file('user_image'));
+                }
+    
+                $student->save();  // Save student record
             });
-
-            Session::flash('success', 'Data saved successfully!');
+    
+            Session::flash('success', 'Student data saved successfully!');
             return redirect()->route('student.list');
         } catch (Exception $e) {
             Log::error("Error occurred in StudentController@store ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
@@ -123,6 +130,7 @@ class StudentController extends Controller
             return Redirect::back()->withInput();
         }
     }
+    
 
 
 
