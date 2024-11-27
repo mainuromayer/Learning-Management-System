@@ -27,6 +27,16 @@
     </a>
 </li>
 
+<!-- AboutUs -->
+@can('user')
+<li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
+    <a href="{{ route('about_us.showForm') }}" class="menu-link ">
+        <i class="menu-icon tf-icons bx bx-category-alt"></i>
+        <div data-i18n="AboutUs">AboutUs</div>
+    </a>
+</li>
+@endcan
+
             <!-- Category -->
             @can('category')
                 <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">

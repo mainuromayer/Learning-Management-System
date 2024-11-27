@@ -2,21 +2,22 @@
 
 namespace App\Modules\Assignment\Http\Controllers;
 
+use Exception;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Traits\FileUploadTrait;
+use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
-use App\Modules\Assignment\Http\Requests\StoreAssignmentRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 use App\Modules\Assignment\Models\Assignment;
 use App\Modules\Instructor\Models\Instructor;
-use App\Traits\FileUploadTrait;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
-use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use yajra\Datatables\Datatables;
+use App\Modules\Assignment\Http\Requests\StoreAssignmentRequest;
 
 class AssignmentController extends Controller
 {
@@ -139,5 +140,35 @@ class AssignmentController extends Controller
             return redirect()->back();
         }
     }
+
+    public function removeImage(Request $request)
+{
+    try {
+        // Get the image path from the request
+        $imagePath = $request->get('image');
+
+        // Remove the image from the storage
+        if (Storage::exists('public/' . $imagePath)) {
+            Storage::delete('public/' . $imagePath);
+            // Optionally remove the image path from the database if needed
+            // $aboutUs = AboutUs::first();
+            // $gallery = json_decode($aboutUs->gallery);
+            // if (($key = array_search($imagePath, $gallery)) !== false) {
+            //     unset($gallery[$key]);
+            //     $aboutUs->gallery = json_encode($gallery);
+            //     $aboutUs->save();
+            // }
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Image not found.']);
+
+    } catch (Exception $e) {
+        Log::error("Error removing image: {$e->getMessage()}");
+        return response()->json(['success' => false, 'message' => 'Error removing image.']);
+    }
+}
+
 
 }

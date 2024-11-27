@@ -212,4 +212,11 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'modules' => [
+    'AboutUs' => [
+        'path' => base_path('app/Modules/AboutUs/Models/AboutUs'),
+    ],
+]
+
+
 ];
