@@ -51,34 +51,37 @@
                         </div>
                     </div>
 
-<!-- Points Section -->
-<div class="input-group row {{ $errors->has('points') ? 'has-error' : '' }}">
-    {!! Form::label('points', 'Points:', ['class' => 'col-md-3 control-label']) !!}
-    <div class="col-md-9">
-        <div id="points-wrapper">
-            @if (isset($data) && $data->points)
-                @foreach (json_decode($data->points) as $point)
-                    <div class="input-group mb-3 point-item">
-                        {!! Form::text('points[]', $point, ['class' => 'form-control', 'placeholder' => 'Enter point']) !!}
-                        <button type="button" class="btn btn-secondary remove-point"><i class="bx bx-no-entry"></i></button>
+                    <!-- Points Section -->
+                    <div class="input-group row {{ $errors->has('points') ? 'has-error' : '' }}">
+                        {!! Form::label('points', 'Points:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="col-md-9">
+                            <div id="points-wrapper">
+                                @if (isset($data) && $data->points)
+                                    @foreach (json_decode($data->points) as $point)
+                                        <div class="input-group mb-3 point-item">
+                                            {!! Form::text('points[]', $point, ['class' => 'form-control', 'placeholder' => 'Enter point']) !!}
+                                            <button type="button" class="btn btn-secondary remove-point"><i
+                                                    class="bx bx-no-entry"></i></button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="input-group mb-3 point-item">
+                                        {!! Form::text('points[]', '', ['class' => 'form-control', 'placeholder' => 'Enter point']) !!}
+                                        <button type="button" class="btn btn-secondary remove-point"><i
+                                                class="bx bx-no-entry"></i></button>
+                                    </div>
+                                @endif
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm mt-2" id="add-point"><i
+                                    class="bx bx-plus-medical"></i></button>
+                            {!! $errors->first('points', '<span class="help-block">:message</span>') !!}
+                        </div>
                     </div>
-                @endforeach
-            @else
-                <div class="input-group mb-3 point-item">
-                    {!! Form::text('points[]', '', ['class' => 'form-control', 'placeholder' => 'Enter point']) !!}
-                    <button type="button" class="btn btn-secondary remove-point"><i class="bx bx-no-entry"></i></button>
-                </div>
-            @endif
-        </div>
-        <button type="button" class="btn btn-success btn-sm mt-2" id="add-point"><i class="bx bx-plus-medical"></i></button>
-        {!! $errors->first('points', '<span class="help-block">:message</span>') !!}
-    </div>
-</div>
 
 
 
 
-        
+
 
                     <!-- Address -->
                     <div class="input-group row {{ $errors->has('address') ? 'has-error' : '' }}">
@@ -141,37 +144,43 @@
                     </div>
 
                     <!-- Image -->
-<div class="input-group row {{ $errors->has('thumbnail') ? 'has-error' : '' }}">
-    {!! Form::label('image', 'Image:', ['class' => 'col-md-3 control-label']) !!}
-    <div class="col-md-9">
-        <img id="newImage" 
-             src="{{ old('image', isset($data) && $data->image ? asset('storage/'.$data->image) : asset('images/no_image.png')) }}" 
-             style="height:120px;"/>
-        {!! Form::file('image', ['class' => 'form-control mt-3', 'id' => 'image', 'oninput' => "document.getElementById('newImage').src=window.URL.createObjectURL(this.files[0])"]) !!}
-        {!! $errors->first('image', '<span class="help-block">:message</span>') !!}
-    </div>
-</div>
-
-
-<!-- Gallery (Multiple Images) -->
-<div class="input-group row {{ $errors->has('gallery') ? 'has-error' : '' }}">
-    {!! Form::label('gallery', 'Gallery (Images):', ['class' => 'col-md-3 control-label']) !!}
-    <div class="col-md-9">
-        {!! Form::file('gallery[]', ['class' => 'form-control', 'multiple' => true]) !!}
-        {!! $errors->first('gallery', '<span class="help-block">:message</span>') !!}
-
-        @if (isset($data->gallery) && !empty($data->gallery))
-            <div class="gallery-images mt-3">
-                @foreach (json_decode($data->gallery) as $image)
-                    <div class="position-relative">
-                        <img src="{{ asset('storage/' . $image) }}" alt="Gallery Image" style="height:100px; width:100px;">
-                        <div class="remove-image" onclick="removeImage(this, '{{ $image }}')">X</div>
+                    <div class="input-group row {{ $errors->has('thumbnail') ? 'has-error' : '' }}">
+                        {!! Form::label('image', 'Image:', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="col-md-9">
+                            <img id="newImage"
+                                src="{{ old('image', isset($data) && $data->image ? asset('storage/' . $data->image) : asset('images/no_image.png')) }}"
+                                style="height:120px;" />
+                            {!! Form::file('image', [
+                                'class' => 'form-control mt-3',
+                                'id' => 'image',
+                                'oninput' => "document.getElementById('newImage').src=window.URL.createObjectURL(this.files[0])",
+                            ]) !!}
+                            {!! $errors->first('image', '<span class="help-block">:message</span>') !!}
+                        </div>
                     </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
-</div>
+
+
+                    <!-- Gallery (Multiple Images) -->
+                    <div class="input-group row {{ $errors->has('gallery') ? 'has-error' : '' }}">
+                        {!! Form::label('gallery', 'Gallery (Images):', ['class' => 'col-md-3 control-label']) !!}
+                        <div class="col-md-9">
+                            {!! Form::file('gallery[]', ['class' => 'form-control', 'multiple' => true]) !!}
+                            {!! $errors->first('gallery', '<span class="help-block">:message</span>') !!}
+
+                            @if (isset($data->gallery) && !empty($data->gallery))
+                                <div class="gallery-images mt-3">
+                                    @foreach (json_decode($data->gallery) as $image)
+                                        <div class="position-relative">
+                                            <img src="{{ asset('storage/' . $image) }}" alt="Gallery Image"
+                                                style="height:100px; width:100px;">
+                                            <button type="button" class="remove-image"
+                                                onclick="removeImage(this, '{{ $image }}')">x</button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    </div>
 
 
 
@@ -200,50 +209,44 @@
             allowClear: true
         });
 
-// JavaScript to dynamically add or remove points
+        // JavaScript to dynamically add or remove points
 
 
 
-$('#add-point').on('click', function() {
-        var pointHtml = '<div class="input-group mb-3 point-item">' +
-                            '{!! Form::text("points[]", "", ["class" => "form-control", "placeholder" => "Enter point"]) !!}' +
-                            '<button type="button" class="btn btn-secondary remove-point"><i class="bx bx-no-entry"></i></button>';
-        $('#points-wrapper').append(pointHtml);
-    });
+        $('#add-point').on('click', function() {
+            var pointHtml = '<div class="input-group mb-3 point-item">' +
+                '{!! Form::text('points[]', '', ['class' => 'form-control', 'placeholder' => 'Enter point']) !!}' +
+                '<button type="button" class="btn btn-secondary remove-point"><i class="bx bx-no-entry"></i></button>';
+            $('#points-wrapper').append(pointHtml);
+        });
 
-// JavaScript to remove gallery image
-function removeImage(element, imagePath) {
-        // Optionally send AJAX request to remove the image from storage
-        if (confirm('Are you sure you want to remove this image?')) {
-            // Call an AJAX endpoint to remove the image from storage
-            $.ajax({
-                url: '{{ route("about_us.remove_image") }}',
-                method: 'POST',
-                data: function(d) {
-                    // Send CSRF token as part of the request data
-                    d._token = $('input[name="_token"]').val();
-                    d.image = imagePath;  // Add the image path to the data
-                },
-                success: function(response) {
-                    if (response.success) {
-                        // If successful, remove the image from the view
-                        $(element).closest('.position-relative').remove();
-                    } else {
-                        alert(response.message || 'Failed to remove image.');
+
+        function removeImage(element, imagePath) {
+
+            if (confirm('Are you sure you want to remove this image?')) {
+
+                $.ajax({
+                    url: '{{ route('about_us.remove_image') }}',
+                    method: 'POST',
+                    data: function(d) {
+                        d._token = $('input[name="_token"]').val();
+                        d.image = imagePath;
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $(element).closest('.position-relative').remove();
+                        } else {
+                            alert(response.message || 'Failed to remove image.');
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to remove image.');
                     }
-                },
-                error: function() {
-                    alert('Failed to remove image.');
-                }
-            });
-
-// JavaScript to remove a point item
-$(document).on('click', '.remove-point', function() {
-    $(this).closest('.point-item').remove();
-});
-
-
-
-
+                });
+            }
+        }
+                $(document).on('click', '.remove-point', function() {
+                    $(this).closest('.point-item').remove();
+                });
     </script>
 @endsection

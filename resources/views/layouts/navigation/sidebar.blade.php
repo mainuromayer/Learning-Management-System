@@ -27,15 +27,16 @@
     </a>
 </li>
 
-<!-- AboutUs -->
+<!-- About Us Menu Item -->
 @can('user')
-<li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
-    <a href="{{ route('about_us.showForm') }}" class="menu-link ">
-        <i class="menu-icon tf-icons bx bx-category-alt"></i>
-        <div data-i18n="AboutUs">AboutUs</div>
-    </a>
-</li>
+    <li class="menu-item {{ Request::is('about_us') || Request::is('about_us/*') ? 'active' : '' }}">
+        <a href="{{ route('about_us.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-category-alt"></i>
+            <div data-i18n="AboutUs">About Us</div>
+        </a>
+    </li>
 @endcan
+
 
             <!-- Category -->
             @can('category')

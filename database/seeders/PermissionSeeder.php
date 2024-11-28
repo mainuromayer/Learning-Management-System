@@ -24,6 +24,9 @@ class PermissionSeeder extends Seeder
         Permission::updateOrCreate(['module_id' => $moduleAppUser->id, 'title' => 'Edit User', 'slug' => 'app.users.edit',]);
         Permission::updateOrCreate(['module_id' => $moduleAppUser->id, 'title' => 'Delete User', 'slug' => 'app.users.destroy',]);
 
+        // AboutUs Permission
+        $moduleAppAboutUs = Module::updateOrCreate(['title' => 'AboutUs', 'slug' => Str::slug('about_us')]);
+        Permission::updateOrCreate(['module_id' => $moduleAppAboutUs->id, 'title' => 'Access About Us', 'slug' => 'app.about_us.index',]);
 
         // Category Permission
         $moduleAppCategory = Module::updateOrCreate(['title' => 'Category', 'slug' => Str::slug('category')]);

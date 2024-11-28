@@ -14,7 +14,7 @@ use App\Modules\AboutUs\Http\Requests\StoreAboutUsRequest;
 
 class AboutUsController extends Controller
 {
-    public function showForm(Request $request)
+    public function index(Request $request)
     {
         try {
             $data = AboutUs::first();  
@@ -23,10 +23,10 @@ class AboutUsController extends Controller
                 $data = new AboutUs();
             }
     
-            return view('AboutUs::form', compact('data'));
+            return view('AboutUs::index', compact('data'));
     
         } catch (Exception $e) {
-            Log::error("Error occurred in AboutUsController@showForm: {$e->getMessage()}");
+            Log::error("Error occurred in AboutUsController@index: {$e->getMessage()}");
             Session::flash('error', "Error loading About Us form.");
             return redirect()->back();
         }
@@ -70,7 +70,7 @@ public function store(StoreAboutUsRequest $request)
 
         Session::flash('success', 'Data saved successfully!');
 
-        return redirect()->route('about_us.showForm', ['id' => $about_us->id])
+        return redirect()->route('about_us.index', ['id' => $about_us->id])
                          ->with('data', $about_us);
 
     } catch (Exception $e) {

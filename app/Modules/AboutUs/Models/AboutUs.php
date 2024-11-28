@@ -9,6 +9,8 @@ class AboutUs extends Model
     protected $table = 'about_us'; // Ensure the correct table name
     
 
-    // If you are using timestamp columns in your table
+    // protected $casts = [
+    //     'gallery' => 'array',
+    // ];
     public $timestamps = true;
 }
