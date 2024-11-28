@@ -24,7 +24,7 @@ trait FileUploadTrait
             $year = date('Y');
             $month = date('m');
             $year_month = $year . '/' . $month . '/';
-            $local_path = public_path('uploads/' . $year_month); // Use public_path helper
+            $local_path = public_path('storage/' . $year_month); // Use public_path helper
             $db_path = uniqid(time() . '_', false) . '.' . $file->getClientOriginalExtension();
 
             // Create directories if they don't exist
@@ -43,7 +43,7 @@ trait FileUploadTrait
             $file->move($local_path, $db_path);
 
             // Return the path relative to the public directory
-            return 'uploads/' . $year_month . $db_path;
+            return 'storage/' . $year_month . $db_path;
 
         } catch (Exception $e) {
             Log::error("Error occurred in FileUploadTrait@uploadFile ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");

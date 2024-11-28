@@ -29,6 +29,9 @@ Route::get('/instructor_page', [FrontendController::class, 'instructorPage'])->n
 Route::get('/instructor_details/{id}', [FrontendController::class, 'instructorDetails'])->name('instructor_details');
 Route::get('/courses_page', [FrontendController::class, 'coursesPage'])->name('courses_page');
 Route::get('/about_page', [FrontendController::class, 'aboutUs'])->name('about_page');
+Route::get('/category_page', [FrontendController::class, 'categoryPage'])->name('category_page');
+Route::get('/category_details/{id}', [FrontendController::class, 'categoryDetails'])->name('category.details');
+
 
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );

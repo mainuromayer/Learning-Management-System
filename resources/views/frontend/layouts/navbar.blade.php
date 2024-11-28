@@ -12,15 +12,17 @@
           <a href="{{ route('instructor_page') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'instructor_page' ? 'active' : '' }}" class="nav-item nav-link active">Instructor</a>
           <a href="{{ route('about_page') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'about_page' ? 'active' : '' }}">About</a>
           <a href="{{ route('courses_page') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'courses_page' ? 'active' : '' }}">Courses</a>
-          <div class="nav-item dropdown">
+          <a href="{{ route('category_page') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'category_page' ? 'active' : '' }}">Category</a>
+        
+          {{-- <div class="nav-item dropdown">
               <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
               <div class="dropdown-menu fade-down m-0">
                   <a href="javascript:void(0);" class="dropdown-item">Our Team</a>
                   <a href="javascript:void(0);" class="dropdown-item">Testimonial</a>
                   <a href="javascript:void(0);" class="dropdown-item">404 Page</a>
               </div>
-          </div>
-          <a href="javascript:void(0);" class="nav-item nav-link">Contact</a>
+          </div> --}}
+          <a href="#contact" class="nav-item nav-link">Contact</a>
       </div>
 
 

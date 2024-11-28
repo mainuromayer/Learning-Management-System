@@ -14,7 +14,7 @@ Home
   @include('frontend.layouts.carousel')
   @include('frontend.layouts.service')
   @include('frontend.layouts.about')
-  @include('frontend.layouts.categories')
+  @include('frontend.layouts.category')
   @include('frontend.layouts.course')
   @include('frontend.layouts.instructor')
   @include('frontend.layouts.testimonial')
