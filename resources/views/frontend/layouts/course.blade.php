@@ -1,22 +1,27 @@
 <!-- Courses Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-            <h1 class="mb-5">Popular Courses</h1>
-        </div>
+
         <div class="row g-4 justify-content-center">
             @foreach ($courses as $course)
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="course-item bg-light">
                         <div class="position-relative overflow-hidden">
                             <!-- Display Course Image with fixed height and object-fit to cover -->
-                            <img class="img-fluid" src="{{ asset('/' . $course->thumbnail) }}" alt="{{ $course->title }}" style="height: 200px; width:100%; object-fit: cover;">
-  
+                            <img class="img-fluid" src="{{ asset('/' . $course->thumbnail) }}" alt="{{ $course->title }}"
+                                style="height: 200px; width:100%; object-fit: cover;">
+
                             <!-- Read More and Join Now Buttons -->
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="{{-- {{ route('course_details', ['course' => $course->id]) }} --}}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="{{-- {{ route('course_enroll', ['course' => $course->id]) }} --}}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
+                                <!-- Read More Button -->
+                                <a href="{{ route('course_details', $course->id) }}"
+                                    class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                                    style="border-radius: 30px 0 0 30px;">Read More</a>
+
+                                <!-- Join Now Button (if needed) -->
+                                <a href="{{ route('course_enroll', $course->id) }}"
+                                    class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                                    style="border-radius: 0 30px 30px 0;">Join Now</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
@@ -37,7 +42,8 @@
                         <div class="d-flex border-top">
                             <!-- Display Instructor Name -->
                             <small class="flex-fill text-center border-end py-2">
-                                <i class="fa fa-user-tie text-primary me-2"></i>{{ $course->instructor->user->name ?? 'Instructor' }}
+                                <i
+                                    class="fa fa-user-tie text-primary me-2"></i>{{ $course->instructor->user->name ?? 'Instructor' }}
                             </small>
                             <!-- Display Course Duration (Optional, add duration to the course model if needed) -->
                             <small class="flex-fill text-center border-end py-2">
@@ -52,17 +58,14 @@
                 </div>
             @endforeach
         </div>
-  
-        <!-- Load More Button -->
-        <div class="text-center my-5">
-            <a class="btn btn-primary py-2 px-3 animated slideInDown" href="{{-- {{ route('courses_page') }} --}}">
-                More
-                <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </a>
+
+        <!-- Read More Button -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{{ route('courses_page') }}" class="btn btn-primary"> More &nbsp;<i
+                        class="fa fa-arrow-right text-sm"></i></a>
+            </div>
         </div>
     </div>
-  </div>
-  <!-- Courses End -->
-  
+</div>
+<!-- Courses End -->

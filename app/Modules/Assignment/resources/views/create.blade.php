@@ -24,10 +24,10 @@
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary form-card">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2">Create New AboutUs</h3>
+                    <h3 class="card-title pt-2 pb-2">Create New Assignment</h3>
                     <div class="card-tools">
-                        <a href="{{ route('about_us.list') }}" class="btn btn-sm btn-primary">
-                            <i class="bx bx-list-ul pr-2"></i> AboutUs List
+                        <a href="{{ route('assignment.list') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-list-ul pr-2"></i> Assignment List
                         </a>
                     </div>
                 </div>

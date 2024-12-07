@@ -17,7 +17,7 @@ Home
   @include('frontend.layouts.category')
   @include('frontend.layouts.course')
   @include('frontend.layouts.instructor')
-  @include('frontend.layouts.testimonial')
+  {{-- @include('frontend.layouts.testimonial') --}}
   @include('frontend.layouts.footer')
 @endsection
 

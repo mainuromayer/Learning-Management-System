@@ -15,9 +15,9 @@
             <div class="col-lg-8 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="text-center text-md-start">
                     <!-- Title -->
-                    <h1 class="mb-4">{{ $about_us->title ?? 'Welcome to LMS' }}</h1>
+                    <h1 class="mb-4">{{ $about_us->title ?? 'Welcome to GUB' }}</h1>
                     <!-- Description -->
-                    <p class="mb-4">{{ $about_us->description ?? 'Default description about LMS.' }}</p>
+                    <p class="mb-4">{{ $about_us->description ?? 'Default description about GUB.' }}</p>
                     
                     <!-- List of Points -->
                     <div class="row gy-2 gx-4 mb-4">

@@ -15,7 +15,7 @@
             <!-- Right side: Dynamic Content -->
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                 <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">{{ $about_us->title ?? 'Welcome to LMS' }}</h1>
+                <h1 class="mb-4">{{ $about_us->title ?? 'Welcome to GUB' }}</h1>
                 <p class="mb-4">{{ $about_us->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }}</p>
                 <p class="mb-4">{{ $about_us->short_description ?? 'Additional description content goes here.' }}</p>
   
@@ -30,7 +30,7 @@
   
                 <!-- Dynamic 'Read More' Link -->
                 {{-- @if($about_us->read_more_link) --}}
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="{{-- {{ $about_us->read_more_link }} --}}">Read More</a>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="{{ route('about_page') }}">Read More</a>
                 {{-- @endif --}}
             </div>
         </div>

@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Modules\Dashboard\Http\Controllers\DashboardController;
 use App\Modules\Dashboard\Http\Controllers\StudentDashboardController;
+use App\Modules\Dashboard\Http\Controllers\InstructorDashboardController;
 
 
 // Admin routes
@@ -19,5 +20,11 @@ Route::group(['middleware' => ['auth', 'student']], function () {
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::post('/student/courses', [StudentDashboardController::class, 'getCourses'])->name('student.courses');
     Route::get('/course/{courseId}/continue', [StudentDashboardController::class, 'continueCourse'])->name('course.continue');
+    // Other student routes...
+});
+
+// Instructor routes
+Route::group(['middleware' => ['auth', 'instructor']], function () {
+    Route::get('/instructor/dashboard', [InstructorDashboardController::class, 'index'])->name('instructor.dashboard');
     // Other student routes...
 });

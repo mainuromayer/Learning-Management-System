@@ -11,8 +11,8 @@
                             <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Best Online Courses</h5>
                             <h1 class="display-3 text-white animated slideInDown">{{ $course->title }}</h1>
                             <p class="fs-5 text-white mb-4 pb-2">{{ Str::limit($course->short_description, 150) }}</p>
-                            <a href="{{-- {{ route('courses.show', $course->id) }} --}}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
-                            <a href="{{-- {{ route('courses.enroll', $course->id) }} --}}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
+                            <a href="{{ route('course_details', $course->id) }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
+                            <a href="{{ route('course_enroll', $course->id) }}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
                         </div>
                     </div>
                 </div>

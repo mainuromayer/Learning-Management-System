@@ -11,19 +11,23 @@
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
                             <!-- Inline style to fix the image height -->
-                            <img class="img-fluid" src="{{ $instructor->user_image ? asset($instructor->user_image) : asset('images/no_image.png') }}" alt=""
-                                 style="height: 200px; width: 100%; object-fit: cover;">
+                            <img class="img-fluid"
+                                src="{{ $instructor->user_image ? asset($instructor->user_image) : asset('images/no_image.png') }}"
+                                alt="" style="height: 200px; width: 100%; object-fit: cover;">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
                                 @if ($instructor->facebook)
-                                    <a class="btn btn-sm-square btn-primary mx-1" href="{{ $instructor->facebook }}"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-sm-square btn-primary mx-1" href="{{ $instructor->facebook }}"><i
+                                            class="fab fa-facebook-f"></i></a>
                                 @endif
                                 @if ($instructor->twitter)
-                                    <a class="btn btn-sm-square btn-primary mx-1" href="{{ $instructor->twitter }}"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-sm-square btn-primary mx-1" href="{{ $instructor->twitter }}"><i
+                                            class="fab fa-twitter"></i></a>
                                 @endif
                                 @if ($instructor->linkedin)
-                                    <a class="btn btn-sm-square btn-primary mx-1" href="{{ $instructor->linkedin }}"><i class="fab fa-linkedin-in"></i></a>
+                                    <a class="btn btn-sm-square btn-primary mx-1" href="{{ $instructor->linkedin }}"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 @endif
                             </div>
                         </div>
@@ -35,25 +39,24 @@
                                 {{ $instructor->user->email ?? 'Instructor Email Not Available' }}
                             </small><br>
                             <small>
-                              {{ $instructor->phone ?? 'Instructor Phone Not Available' }}
+                                {{ $instructor->phone ?? 'Instructor Phone Not Available' }}
                             </small><br><br>
-                            <a class="text-uppercase" href="{{ route('instructor_details', $instructor->id) }}">Read More <i class="bi bi-arrow-right"></i></a>
+                            <a class="text-uppercase" href="{{ route('instructor_details', $instructor->id) }}">Read
+                                More <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
-  
-        <!-- Load More Button -->
-        <div class="text-center my-5">
-          <a class="btn btn-primary py-2 px-3 animated slideInDown" href="{{-- {{ route('instructor_page') }} --}}">
-              More
-              <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
-                  <i class="fa fa-arrow-right"></i>
-              </div>
-          </a>
-      </div>
+
+        <!-- Read More Button -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{{ route('instructor_page') }}" class="btn btn-primary"> More &nbsp;<i
+                        class="fa fa-arrow-right text-sm"></i></a>
+            </div>
+        </div>
+
     </div>
-  </div>
-  <!-- Instructor End -->
-  
+</div>
+<!-- Instructor End -->
