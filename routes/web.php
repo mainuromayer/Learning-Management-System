@@ -35,7 +35,9 @@ Route::get('/instructor_details/{id}', [FrontendController::class, 'instructorDe
 Route::get('/courses_page', [FrontendController::class, 'coursesPage'])->name('courses_page');
 Route::get('/course_details/{id}', [FrontendController::class, 'courseDetails'])->name('course_details');
 // Route for course enrollment
-Route::get('/course_enroll/{id}', [FrontendController::class, 'enrollCourse'])->name('course_enroll');
+Route::post('/course_enroll/{id}', [FrontendController::class, 'enrollCourse'])->name('course_enroll');
+
+
 
 
 Route::get('/about_page', [FrontendController::class, 'aboutUs'])->name('about_page');

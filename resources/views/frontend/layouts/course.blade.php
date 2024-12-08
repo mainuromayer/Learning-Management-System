@@ -16,12 +16,15 @@
                                 <!-- Read More Button -->
                                 <a href="{{ route('course_details', $course->id) }}"
                                     class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                                    style="border-radius: 30px 0 0 30px;">Read More</a>
+                                    >Course Details</a>
 
-                                <!-- Join Now Button (if needed) -->
-                                <a href="{{ route('course_enroll', $course->id) }}"
-                                    class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                                    style="border-radius: 0 30px 30px 0;">Join Now</a>
+                                <!-- Enroll Now Button (Use form to send POST request) -->
+                                <form action="{{ route('course_enroll', $course->id) }}" method="POST" class="flex-shrink-0">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-primary px-3">
+                                        Enroll Now
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
