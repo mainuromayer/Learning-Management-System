@@ -45,6 +45,11 @@ Route::get('/about_page', [FrontendController::class, 'aboutUs'])->name('about_p
 Route::get('/category_page', [FrontendController::class, 'categoryPage'])->name('category_page');
 Route::get('/category_details/{id}', [FrontendController::class, 'categoryDetails'])->name('category.details');
 
+// Route for displaying the contact form
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+
+// Route for handling the contact form submission
+Route::post('/contact', [FrontendController::class, 'submitContactForm'])->name('submit_contact');
 
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );

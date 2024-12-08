@@ -22,7 +22,7 @@
                   <a href="javascript:void(0);" class="dropdown-item">404 Page</a>
               </div>
           </div> --}}
-          <a href="#contact" class="nav-item nav-link">Contact</a>
+          <a href="{{ route('contact') }}" class="nav-item nav-link {{ Route::currentRouteName() == 'contact' ? 'active' : '' }}" class="nav-item nav-link">Contact</a>
       </div>
 
 
