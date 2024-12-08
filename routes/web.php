@@ -26,12 +26,6 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisterController::class, 'register'])->name('register.store');
 });
 
-Route::get('/', [FrontendController::class, 'frontend'])->name('home');
-Route::get('/home', [FrontendController::class, 'frontend'])->name('homes');
-Route::get('/about', [FrontendController::class, 'about'])->name('about');
-
-
-
 
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 
