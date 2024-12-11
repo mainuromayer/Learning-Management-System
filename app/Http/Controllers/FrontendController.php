@@ -7,9 +7,11 @@ use App\Mail\ContactFormMail;
 use App\Models\ContactMessage;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Mail;
 use App\Modules\Course\Models\Course;
 use App\Modules\AboutUs\Models\AboutUs;
+use App\Modules\Student\Models\Student;
 use App\Modules\Category\Models\Category;
 use App\Modules\Instructor\Models\Instructor;
 use App\Modules\EnrollStudent\Models\EnrollStudent;
@@ -85,37 +87,66 @@ class FrontendController extends Controller
     public function enrollCourse($id)
     {
         try {
-            // Fetch the course by its ID
-            $course = Course::findOrFail($id);
-
-            // Check if the user is logged in
+            // Step 1: Check if the user is authenticated
             if (!auth()->check()) {
                 return redirect()->route('login')->with('error', 'You must be logged in to enroll.');
             }
-
-            // Check if the user is already enrolled in the course
+        
+            // Step 2: Get the logged-in user
             $user = auth()->user();
-            $enrollment = EnrollStudent::where('user_id', $user->id)->where('course_id', $course->id)->first();
-
-            if ($enrollment) {
-                return redirect()->route('course_details', $course->id)->with('message', 'You are already enrolled in this course.');
+        
+            // Step 3: Ensure the user is a student
+            if ($user->user_type != 'student') {
+                return redirect()->route('home')->with('error', 'You must be a student to enroll.');
+            }
+        
+            // Step 4: Get the student ID from the authenticated user
+            $student_id = $user->id; // Using the user ID directly here
+        
+            // Step 5: Ensure the student exists
+            $student = Student::where('user_id', $student_id)->first();
+            if (!$student) {
+                return redirect()->route('home')->with('error', 'Student record not found.');
             }
 
-            // Create an enrollment record
+            // Step 6: Fetch the course by its ID
+            $course = Course::findOrFail($id); 
+        
+            // Step 7: Check if the student is already enrolled in the course
+            $enrollment = EnrollStudent::where('student_id', $student->id)
+                                       ->where('course_id', $course->id)
+                                       ->first();
+        
+            if ($enrollment) {
+                return redirect()->route('student.dashboard')->with('message', 'You are already enrolled in this course.');
+            }
+        
+            // Step 8: Enroll the student in the course by inserting into the enroll_students table
             EnrollStudent::create([
-                'user_id' => $user->id,
+                'student_id' => $student->id,
                 'course_id' => $course->id,
-                'status' => 'enrolled',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
-
-            return redirect()->route('course_details', $course->id)->with('success', 'You have successfully enrolled in the course!');
+        
+            // Step 9: Flash success message and redirect
+            return redirect()->route('student.dashboard')->with('success', 'You have successfully enrolled in the course!');
+        
         } catch (Exception $e) {
+            // Step 10: Error handling
             Log::error("Error occurred in FrontendController@enrollCourse ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-            return redirect()->route('course_details', $id)->with('error', 'An error occurred while processing your enrollment.');
+    
+            return redirect()->route('home')->with('error', 'An error occurred while processing your enrollment.');
         }
     }
-
-
+    
+    
+    
+    
+    
+    
+    
+    
 
 
     public function aboutUs()

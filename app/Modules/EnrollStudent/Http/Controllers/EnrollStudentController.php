@@ -85,65 +85,67 @@ class EnrollStudentController extends Controller {
         }
     }
 
-    public function store(Request $request) {
-        DB::beginTransaction();
-    
-        try {
-            // Log the request data before validation
-            Log::info("Request Data: " . json_encode($request->all()));
-    
-            // Validate the request
-            $validated = $request->validate([
-                'student_id'  => 'required|exists:students,id', // Ensure student_id is valid
-                'course_id' => 'required|array',
-                'course_id.*' => 'exists:courses,id', // Ensure all course_ids are valid
-            ]);
-    
-            $student_id = $validated['student_id'];
-            $course_ids = $validated['course_id'];
-    
-            // Log the data for debugging purposes
-            Log::info("Student ID: {$student_id}, Course IDs: " . implode(',', $course_ids));
-    
-            // Check if the student ID is properly retrieved
-            if (!$student_id) {
-                throw new Exception("Student ID is null or invalid.");
-            }
-    
-            // Find the student
-            $student = Student::findOrFail($student_id);
-    
-            // Get the current timestamp for the pivot table
-            $currentTimestamp = now();
-    
-            // Sync courses with the student and update pivot timestamps
-            $student->courses()->sync(
-                $course_ids,
-                false // The 'false' argument here prevents detaching existing records
-            );
-    
-            // Update timestamps manually if necessary
-            foreach ($course_ids as $course_id) {
-                $student->courses()->updateExistingPivot($course_id, [
-                    'updated_at' => $currentTimestamp,
-                    'created_at' => $currentTimestamp, // Only if you want to reset the created_at field
-                ]);
-            }
-    
-            // Commit transaction
-            DB::commit();
-    
-            // Flash success message and redirect
-            Session::flash('success', 'Student enrollment updated successfully!');
-            return redirect()->route('enroll_student.list');
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error("Error occurred in EnrollStudentController@store: {$e->getMessage()}");
-            Log::error("Request Data: " . json_encode($request->all()));
-            Session::flash('error', "Something went wrong during the enrollment process.");
-            return redirect()->back()->withInput();
+public function store(Request $request)
+{
+    DB::beginTransaction();
+
+    try {
+        // Log the request data before validation
+        Log::info("Request Data: " . json_encode($request->all()));
+
+        // Validate the request
+        $validated = $request->validate([
+            'student_id'  => 'required|exists:students,id', // Ensure student_id is valid
+            'course_id' => 'required|array',
+            'course_id.*' => 'exists:courses,id', // Ensure all course_ids are valid
+        ]);
+
+        $student_id = $validated['student_id'];
+        $course_ids = $validated['course_id'];
+
+        // Log the data for debugging purposes
+        Log::info("Student ID: {$student_id}, Course IDs: " . implode(',', $course_ids));
+
+        // Check if the student ID is properly retrieved
+        if (!$student_id) {
+            throw new Exception("Student ID is null or invalid.");
         }
+
+        // Find the student
+        $student = Student::findOrFail($student_id);
+
+        // Get the current timestamp for the pivot table
+        $currentTimestamp = now();
+
+        // Sync courses with the student and update pivot timestamps
+        $student->courses()->sync(
+            $course_ids,
+            false // The 'false' argument here prevents detaching existing records
+        );
+
+        // Update timestamps manually if necessary
+        foreach ($course_ids as $course_id) {
+            $student->courses()->updateExistingPivot($course_id, [
+                'updated_at' => $currentTimestamp,
+                'created_at' => $currentTimestamp, // Only if you want to reset the created_at field
+            ]);
+        }
+
+        // Commit transaction
+        DB::commit();
+
+        // Flash success message and redirect
+        Session::flash('success', 'Student enrollment updated successfully!');
+        return redirect()->route('enroll_student.list');
+    } catch (Exception $e) {
+        DB::rollBack();
+        Log::error("Error occurred in EnrollStudentController@store: {$e->getMessage()}");
+        Log::error("Request Data: " . json_encode($request->all()));
+        Session::flash('error', "Something went wrong during the enrollment process.");
+        return redirect()->back()->withInput();
     }
+}
+
     
 
     public function edit( $id ): View | RedirectResponse {

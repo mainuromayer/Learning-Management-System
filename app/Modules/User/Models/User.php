@@ -2,13 +2,15 @@
 
 namespace App\Modules\User\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Modules\UserPermission\Models\Role;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\ModelLifeCycleTrait;
+use App\Modules\Student\Models\Student;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use App\Modules\UserPermission\Models\Role;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 class User extends Authenticatable
 {
     // use HasFactory;
@@ -32,5 +34,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    // In User model
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
 
 }
