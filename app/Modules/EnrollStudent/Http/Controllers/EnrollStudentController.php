@@ -17,8 +17,8 @@ use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use yajra\Datatables\Datatables;
 
-class EnrollStudentController extends Controller {
-
+class EnrollStudentController extends Controller
+{
 
     public function list(Request $request)
     {
@@ -28,7 +28,7 @@ class EnrollStudentController extends Controller {
                     ->select('id', 'student_id', 'course_id', 'created_at')
                     ->orderBy('id')
                     ->get();
-    
+
                 return Datatables::of($list)
                     ->addColumn('id', function ($enrollment) {
                         return $enrollment->id;
@@ -53,7 +53,7 @@ class EnrollStudentController extends Controller {
                     ->rawColumns(['action'])
                     ->make(true);
             }
-    
+
             return view('EnrollStudent::list');
         } catch (Exception $e) {
             Log::error("Error in EnrollStudentController@list: {$e->getMessage()}");
@@ -61,117 +61,125 @@ class EnrollStudentController extends Controller {
             return response()->json(['error' => 'Something went wrong.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
 
-
-
-
-    public function create(): View | RedirectResponse {
+    public function create(): View|RedirectResponse
+    {
         try {
             // Prepare student and course data for the dropdowns
-            $data['student_list'] = ['' => 'Select One'] + Student::all()->mapWithKeys( function ( $student ) {
+            $data['student_list'] = ['' => 'Select One'] + Student::all()->mapWithKeys(function ($student) {
                 return [$student->id => "{$student->user->name} - ({$student->user->email})"];
-            } )->toArray();
+            })->toArray();
 
-            $data['course_list'] = Course::all()->mapWithKeys( function ( $course ) {
+            $data['course_list'] = Course::all()->mapWithKeys(function ($course) {
                 return [$course->id => $course->title];
-            } )->toArray();
+            })->toArray();
 
-            return view( 'EnrollStudent::create', $data );
-        } catch ( Exception $e ) {
-            Log::error( "Error occurred in EnrollStudentController@create ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}" );
-            Session::flash( 'error', "Something went wrong during application data create [EnrollStudent-102]" );
+            return view('EnrollStudent::create', $data);
+        } catch (Exception $e) {
+            Log::error("Error occurred in EnrollStudentController@create ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during application data create [EnrollStudent-102]");
             return redirect()->back();
         }
     }
 
-public function store(Request $request)
-{
-    DB::beginTransaction();
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
 
-    try {
-        // Log the request data before validation
-        Log::info("Request Data: " . json_encode($request->all()));
+        try {
+            // Log the request data before validation
+            Log::info("Request Data: " . json_encode($request->all()));
 
-        // Validate the request
-        $validated = $request->validate([
-            'student_id'  => 'required|exists:students,id', // Ensure student_id is valid
-            'course_id' => 'required|array',
-            'course_id.*' => 'exists:courses,id', // Ensure all course_ids are valid
-        ]);
-
-        $student_id = $validated['student_id'];
-        $course_ids = $validated['course_id'];
-
-        // Log the data for debugging purposes
-        Log::info("Student ID: {$student_id}, Course IDs: " . implode(',', $course_ids));
-
-        // Check if the student ID is properly retrieved
-        if (!$student_id) {
-            throw new Exception("Student ID is null or invalid.");
-        }
-
-        // Find the student
-        $student = Student::findOrFail($student_id);
-
-        // Get the current timestamp for the pivot table
-        $currentTimestamp = now();
-
-        // Sync courses with the student and update pivot timestamps
-        $student->courses()->sync(
-            $course_ids,
-            false // The 'false' argument here prevents detaching existing records
-        );
-
-        // Update timestamps manually if necessary
-        foreach ($course_ids as $course_id) {
-            $student->courses()->updateExistingPivot($course_id, [
-                'updated_at' => $currentTimestamp,
-                'created_at' => $currentTimestamp, // Only if you want to reset the created_at field
+            // Validate the request
+            $validated = $request->validate([
+                'student_id' => 'required|exists:students,id', // Ensure student_id is valid
+                'course_id' => 'required|array',
+                'course_id.*' => 'exists:courses,id', // Ensure all course_ids are valid
             ]);
+
+            $student_id = $validated['student_id'];
+            $course_ids = $validated['course_id'];
+
+            // Log the data for debugging purposes
+            Log::info("Student ID: {$student_id}, Course IDs: " . implode(',', $course_ids));
+
+            // Check if the student ID is properly retrieved
+            if (!$student_id) {
+                throw new Exception("Student ID is null or invalid.");
+            }
+
+            // Find the student
+            $student = Student::findOrFail($student_id);
+
+            // Get the current timestamp for the pivot table
+            $currentTimestamp = now();
+
+            // Sync courses with the student and update pivot timestamps
+            $student->courses()->sync(
+                $course_ids,
+                false // The 'false' argument here prevents detaching existing records
+            );
+
+            // Update timestamps manually if necessary
+            foreach ($course_ids as $course_id) {
+                $student->courses()->updateExistingPivot($course_id, [
+                    'updated_at' => $currentTimestamp,
+                    'created_at' => $currentTimestamp, // Only if you want to reset the created_at field
+                ]);
+            }
+
+            // Commit transaction
+            DB::commit();
+
+            // Flash success message and redirect
+            Session::flash('success', 'Student enrollment updated successfully!');
+            return redirect()->route('enroll_student.list');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("Error occurred in EnrollStudentController@store: {$e->getMessage()}");
+            Log::error("Request Data: " . json_encode($request->all()));
+            Session::flash('error', "Something went wrong during the enrollment process.");
+            return redirect()->back()->withInput();
         }
-
-        // Commit transaction
-        DB::commit();
-
-        // Flash success message and redirect
-        Session::flash('success', 'Student enrollment updated successfully!');
-        return redirect()->route('enroll_student.list');
-    } catch (Exception $e) {
-        DB::rollBack();
-        Log::error("Error occurred in EnrollStudentController@store: {$e->getMessage()}");
-        Log::error("Request Data: " . json_encode($request->all()));
-        Session::flash('error', "Something went wrong during the enrollment process.");
-        return redirect()->back()->withInput();
     }
-}
 
-    
-
-    public function edit( $id ): View | RedirectResponse {
+    public function edit($id): View|RedirectResponse
+    {
         try {
             // Fetch the enrollment record along with its courses (many-to-many relationship)
-            $enrollment = EnrollStudent::with( 'courses' )->findOrFail( $id );
-
+            $enrollment = EnrollStudent::with('courses')->findOrFail($id);
+    
+            // Get the student ID from the enrollment record
+            $student_id = $enrollment->student_id;
+    
+            // Fetch all course IDs for the specific student
+            $enrolledCourses = EnrollStudent::where('student_id', $student_id)
+                                            ->pluck('course_id')
+                                            ->toArray();
+    
             // Prepare student and course data for the dropdowns
-            $data['student_list'] = ['' => 'Select One'] + Student::all()->mapWithKeys( function ( $student ) {
+            $data['student_list'] = ['' => 'Select One'] + Student::all()->mapWithKeys(function ($student) {
                 return [$student->id => "{$student->user->name} - ({$student->user->email})"];
-            } )->toArray();
-
-            $data['course_list'] = Course::all()->mapWithKeys( function ( $course ) {
+            })->toArray();
+    
+            // Fetch only courses that the student is enrolled in
+            $data['course_list'] = Course::whereIn('id', $enrolledCourses)->get()->mapWithKeys(function ($course) {
                 return [$course->id => $course->title];
-            } )->toArray();
-
-            // Pass the enrollment data and course list to the view
+            })->toArray();
+    
+            // Pass the enrollment data and selected course list to the view
             $data['enrollment'] = $enrollment;
-            $data['selected_courses'] = $enrollment->courses->pluck( 'id' )->toArray(); // All selected course IDs
-
-            return view( 'EnrollStudent::edit', $data );
-        } catch ( Exception $e ) {
-            Log::error( "Error occurred in EnrollStudentController@edit ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}" );
-            Session::flash( 'error', "Something went wrong during the edit process." );
+            $data['selected_courses'] = $enrollment->courses->pluck('id')->toArray(); // Selected course IDs for this student
+    
+            return view('EnrollStudent::edit', $data);
+        } catch (Exception $e) {
+            Log::error("Error occurred in EnrollStudentController@edit ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during the edit process.");
             return redirect()->back();
         }
     }
+    
+    
+    
 
 }

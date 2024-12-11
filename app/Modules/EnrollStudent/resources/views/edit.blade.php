@@ -13,69 +13,71 @@
 @endsection
 
 @section('content')
-{!! Form::model($enrollment, [
-    'route' => ['enroll_student.store'],
-    'method' => 'post',
-    'id' => 'form_id',
-    'enctype' => 'multipart/form-data',
-    'role' => 'form',
-]) !!}
+    {!! Form::model($enrollment, [
+        'route' => ['enroll_student.store'],
+        'method' => 'post',
+        'id' => 'form_id',
+        'enctype' => 'multipart/form-data',
+        'role' => 'form',
+    ]) !!}
 
-{!! Form::hidden('student_id', $enrollment->student->id) !!}
+    {!! Form::hidden('student_id', $enrollment->student->id) !!}
 
-<div class="row">
-    <div class="col-md-12 p-5 pt-3">
-        <div class="card card-outline card-primary form-card">
-            <div class="card-header">
-                <h3 class="card-title pt-2 pb-2">Update Student Enrollment</h3>
-                <div class="card-tools">
-                    <a href="{{ route('enroll_student.list') }}" class="btn btn-sm btn-primary">
-                        <i class="bx bx-list-ul pr-2"></i> Enrollment List
-                    </a>
-                </div>
-            </div>
-
-            <div class="card-body demo-vertical-spacing">
-                <!-- Student -->
-                <div class="input-group row">
-                    {!! Form::label('student', 'Student: ', ['class' => 'col-md-3 control-label required-star']) !!}
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" value="{{ $enrollment->student->user->name }} - {{ $enrollment->student->user->email }}" readonly>
+    <div class="row">
+        <div class="col-md-12 p-5 pt-3">
+            <div class="card card-outline card-primary form-card">
+                <div class="card-header">
+                    <h3 class="card-title pt-2 pb-2">Update Student Enrollment</h3>
+                    <div class="card-tools">
+                        <a href="{{ route('enroll_student.list') }}" class="btn btn-sm btn-primary">
+                            <i class="bx bx-list-ul pr-2"></i> Enrollment List
+                        </a>
                     </div>
                 </div>
 
-                <!-- Course Selection (Multiple) -->
-                <div class="input-group row">
-                    {!! Form::label('course_id', 'Courses:', ['class' => 'col-md-3 control-label required-star']) !!}
-                    <div class="col-md-9">
-                        {!! Form::select('course_id[]', $course_list, $selected_courses, [
-                            'class' => 'form-control select2 required',
-                            'multiple' => 'multiple',
-                            'data-placeholder' => 'Select Courses'
-                        ]) !!}
-                        {!! $errors->first('course_id', '<span class="help-block">:message</span>') !!}
+                <div class="card-body demo-vertical-spacing">
+                    <!-- Student -->
+                    <div class="input-group row">
+                        {!! Form::label('student', 'Student: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            <input type="text" class="form-control"
+                                value="{{ $enrollment->student->user->name }} - {{ $enrollment->student->user->email }}"
+                                readonly>
+                        </div>
                     </div>
-                </div>
 
-                <hr>
-
-                <!-- Submit Button -->
-                <div class="form-group row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                        {!! Form::button('Update Enrollment', [
-                            'type' => 'submit',
-                            'class' => 'btn btn-primary'
-                        ]) !!}
+                    <!-- Course Selection (Multiple) -->
+                    <div class="input-group row">
+                        {!! Form::label('course_id', 'Courses:', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('course_id[]', $course_list, $selected_courses, [
+                                'class' => 'form-control select2 required',
+                                'multiple' => 'multiple',
+                                'data-placeholder' => 'Select Courses',
+                            ]) !!}
+                            {!! $errors->first('course_id', '<span class="help-block">:message</span>') !!}
+                        </div>
                     </div>
-                </div>
 
+                    <hr>
+
+                    <!-- Submit Button -->
+                    <div class="form-group row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                            {!! Form::button('Update Enrollment', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-primary',
+                            ]) !!}
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-{!! form::close() !!}
+    {!! form::close() !!}
 @endsection
 
 @section('footer-script')
@@ -83,7 +85,7 @@
     <script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.select2').select2({
                 placeholder: 'Select Options',
                 allowClear: true
