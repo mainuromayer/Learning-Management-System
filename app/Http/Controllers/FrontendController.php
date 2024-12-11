@@ -118,7 +118,8 @@ class FrontendController extends Controller
                                        ->first();
         
             if ($enrollment) {
-                return redirect()->route('student.dashboard')->with('message', 'You are already enrolled in this course.');
+                
+                return redirect()->route('student.dashboard')->with('error', 'You are already enrolled in this course.');
             }
         
             // Step 8: Enroll the student in the course by inserting into the enroll_students table

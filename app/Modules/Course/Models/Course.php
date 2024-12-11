@@ -41,8 +41,9 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany(Student::class, 'enroll_students'); // Specify the pivot table name
+        return $this->belongsToMany(Student::class, 'enroll_students'); // Many-to-many relationship
     }
+
 
     public function enrollments()
     {

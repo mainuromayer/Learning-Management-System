@@ -178,8 +178,6 @@ class EnrollStudentController extends Controller
             return redirect()->back();
         }
     }
-    
-    
-    
+
 
 }
