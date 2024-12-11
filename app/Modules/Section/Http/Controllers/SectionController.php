@@ -83,6 +83,7 @@ class SectionController extends Controller
                 $section = new Section();
             }
             $section->title = $request->get('title');
+            $section->course_id = $request->get('course');
             $section->status = $request->get('status');
             $section->created_by = auth()->id();
 
