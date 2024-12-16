@@ -3,7 +3,7 @@
 use App\Modules\Quiz\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
-Route::group( array( 'Module' =>'Quiz', 'middleware' => ['auth'] ), function () {
+Route::group(['Module'=>'Quiz', 'middleware'=>['auth']], function (){
     Route::prefix( 'quiz' )->group( function () {
         Route::match( array( 'get', 'post' ), '/', array( QuizController::class, 'list' ) )->name( 'quiz.list' );
         Route::get( 'create', array( QuizController::class, 'create' ) )->name( 'quiz.create' );

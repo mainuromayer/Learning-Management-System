@@ -49,6 +49,17 @@
                         </div>
                     </div>
 
+                    <!-- Section -->
+                    <div class="input-group row mb-3 {{ $errors->has('section') ? 'has-error' : '' }}">
+                        {!! Form::label('section', 'Section: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('section', $section_list, old('section', $data->course_section_id), [
+                                'class' => 'form-control select2 section required',
+                            ]) !!}
+                            {!! $errors->first('section', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
                     <!-- Description -->
                     <div class="input-group row {{ $errors->has('description') ? 'has-error' : '' }}">
                         {!! Form::label('description', 'Description:', ['class' => 'col-md-3 control-label']) !!}
@@ -81,9 +92,10 @@
                             ]) !!}
 
                             <!-- Show old attachment link if available -->
-                            @if(isset($data->attachment) && json_decode($data->attachment)[0])
+                            @if (isset($data->attachment) && json_decode($data->attachment)[0])
                                 <div class="mt-2">
-                                    <a href="{{ asset(json_decode($data->attachment)[0]) }}" target="_blank">View Current Attachment</a>
+                                    <a href="{{ asset(json_decode($data->attachment)[0]) }}" target="_blank">View Current
+                                        Attachment</a>
                                 </div>
                             @endif
 

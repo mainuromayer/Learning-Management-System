@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Modules\Section\Models\Section;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
@@ -30,15 +31,19 @@ class AssignmentController extends Controller
                 $list = Assignment::with([
                     'instructor.user:id,name,email',
                     'createdBy:id,name',
-                    'updatedBy:id,name'
+                    'updatedBy:id,name',
+                    'section:id,title'
                 ])
-                    ->select('id', 'title', 'description','instructor_id', 'status', 'created_by', 'updated_by')
+                    ->select('id', 'title', 'course_section_id', 'description','instructor_id', 'status', 'created_by', 'updated_by')
                     ->orderBy('id')
                     ->get();
 
                 return Datatables::of($list)
                     ->addColumn('title', function ($list) {
                         return $list->title;
+                    })
+                    ->addColumn('section_title', function($list){
+                        return $list->section->title;
                     })
                     ->addColumn('instructor_name', function ($list) {
                         return $list->instructor->user->name ?? ''; // Fetch user name through instructor
@@ -69,6 +74,7 @@ class AssignmentController extends Controller
 
     public function create(): View | RedirectResponse {
         try {
+            $data['section_list'] = ['' => 'Select One'] + Section::pluck('title', 'id')->toArray();
             $data['instructor_list'] = ['' => 'Select One'] + Instructor::all()->mapWithKeys(function ($instructor) {
                     return [$instructor->id => "{$instructor->user->name} - ({$instructor->user->email})"];
                 })->toArray();
@@ -85,6 +91,7 @@ class AssignmentController extends Controller
 
     public function store(StoreAssignmentRequest $request) {
         try {
+            dd($request);
             if ($request->get('id')) {
                 $assignment = Assignment::findOrFail($request->get('id'));
                 $assignment->updated_by = auth()->id();
@@ -106,6 +113,7 @@ class AssignmentController extends Controller
             $assignment->attachment = !empty($attachmentData) ? json_encode($attachmentData) : null;
 
             $assignment->title = $request->get('title');
+            $assignment->course_section_id = $request->get('section');
             $assignment->description = $request->get('description');
             $assignment->instructor_id = $request->get('instructor');
             $assignment->status = $request->get('status');
@@ -128,6 +136,8 @@ class AssignmentController extends Controller
     public function edit( $id ): View | RedirectResponse {
         try {
             $data['data'] = Assignment::findOrFail( $id );
+            $data['section_list'] = ['' => 'Select One'] + Section::pluck('title', 'id')->toArray();
+
             $data['instructor_list'] = ['' => 'Select One'] + Instructor::all()->mapWithKeys(function ($instructor) {
                     return [$instructor->id => "{$instructor->user->name} - ({$instructor->user->email})"];
                 })->toArray();

@@ -2,52 +2,54 @@
 
 namespace App\Modules\Lesson\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Modules\Lesson\Http\Requests\StoreLessonRequest;
-use App\Modules\Lesson\Models\Lesson;
-use App\Modules\Instructor\Models\Instructor;
-use App\Modules\Section\Models\Section;
-use App\Traits\FileUploadTrait;
 use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use App\Traits\FileUploadTrait;
 use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use App\Modules\Lesson\Models\Lesson;
+use Illuminate\Http\RedirectResponse;
+use App\Modules\AboutUs\Models\AboutUs;
+use App\Modules\Section\Models\Section;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use App\Modules\Instructor\Models\Instructor;
+use Symfony\Component\HttpFoundation\Response;
+use App\Modules\Lesson\Http\Requests\StoreLessonRequest;
 
 class LessonController extends Controller
 {
     use FileUploadTrait;
 
-    public function list(Request $request){
+    public function list(Request $request)
+    {
         try {
-            if($request->ajax() && $request->isMethod('post')){
+            if ($request->ajax() && $request->isMethod('post')) {
                 $list = Lesson::with(['createdBy:id,name', 'updatedBy:id,name', 'section:id,title'])
                     ->select('id', 'title', 'course_section_id', 'status', 'created_by', 'updated_by')
                     ->orderBy('id')
                     ->get();
 
                 return Datatables::of($list)
-                    ->addColumn('id', function ($list){
+                    ->addColumn('id', function ($list) {
                         return $list->id;
                     })
-                    ->addColumn('title', function($list){
+                    ->addColumn('title', function ($list) {
                         return $list->title;
                     })
-                    ->addColumn('section_title', function($list){
+                    ->addColumn('section_title', function ($list) {
                         return $list->section->title;
                     })
-                    ->addColumn('status', function($list){
+                    ->addColumn('status', function ($list) {
                         return $list->status;
                     })
-                    ->addColumn('created_by', function($list){
+                    ->addColumn('created_by', function ($list) {
                         return optional($list->createdBy)->name; // Show the name of the user who created the lesson
                     })
-                    ->addColumn('updated_by', function($list){
+                    ->addColumn('updated_by', function ($list) {
                         return optional($list->updatedBy)->name; // Show the name of the user who updated the lesson
                     })
                     ->addColumn('action', function ($list) {
@@ -58,9 +60,9 @@ class LessonController extends Controller
             } else {
                 return view("Lesson::list");
             }
-        } catch(Exception $exception){
+        } catch (Exception $exception) {
             Log::error("Error occurred in LessonController@list({$exception->getFile()}:{$exception->getLine()}):{$exception->getMessage()}");
-            Session::flash('error',"Something went wrong during application data load [Lesson-101]");
+            Session::flash('error', "Something went wrong during application data load [Lesson-101]");
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -93,7 +95,7 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request)
     {
         try {
-            if ($request->get('id')){
+            if ($request->get('id')) {
                 $lesson = Lesson::findOrFail($request->get('id'));
                 $lesson->updated_by = auth()->id();
             } else {

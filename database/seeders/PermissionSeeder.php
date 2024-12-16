@@ -44,6 +44,29 @@ class PermissionSeeder extends Seeder
         Permission::updateOrCreate(['module_id' => $moduleAppCourse->id, 'title' => 'Delete Course', 'slug' => 'app.course.destroy',]);
 
 
+        // Lesson Permission
+        $moduleAppLesson = Module::updateOrCreate(['title' => 'Lesson', 'slug' => Str::slug('lesson')]);
+        Permission::updateOrCreate(['module_id' => $moduleAppLesson->id, 'title' => 'Access Course Lesson', 'slug' => 'app.lesson.index',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppLesson->id, 'title' => 'Create Course Lesson', 'slug' => 'app.lesson.create',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppLesson->id, 'title' => 'Edit Course Lesson', 'slug' => 'app.lesson.edit',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppLesson->id, 'title' => 'Delete Course Lesson', 'slug' => 'app.lesson.destroy',]);
+
+        // Quiz Permission
+        $moduleAppQuiz = Module::updateOrCreate(['title' => 'Quiz', 'slug' => Str::slug('quiz')]);
+        Permission::updateOrCreate(['module_id' => $moduleAppQuiz->id, 'title' => 'Access Course Quiz', 'slug' => 'app.quiz.index',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppQuiz->id, 'title' => 'Create Course Quiz', 'slug' => 'app.quiz.create',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppQuiz->id, 'title' => 'Edit Course Quiz', 'slug' => 'app.quiz.edit',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppQuiz->id, 'title' => 'Delete Course Quiz', 'slug' => 'app.quiz.destroy',]);
+
+        // Section Permission
+        $moduleAppSection = Module::updateOrCreate(['title' => 'Section', 'slug' => Str::slug('section')]);
+        Permission::updateOrCreate(['module_id' => $moduleAppSection->id, 'title' => 'Access Course Section', 'slug' => 'app.section.index',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppSection->id, 'title' => 'Create Course Section', 'slug' => 'app.section.create',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppSection->id, 'title' => 'Edit Course Section', 'slug' => 'app.section.edit',]);
+        Permission::updateOrCreate(['module_id' => $moduleAppSection->id, 'title' => 'Delete Course Section', 'slug' => 'app.section.destroy',]);
+
+
+
         // EnrollStudent Permission
         $moduleAppEnrollStudent = Module::updateOrCreate(['title' => 'EnrollStudent', 'slug' => Str::slug('enroll_student')]);
         Permission::updateOrCreate(['module_id' => $moduleAppEnrollStudent->id, 'title' => 'Access Enroll Student', 'slug' => 'app.enroll_student.index',]);

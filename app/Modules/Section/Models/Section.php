@@ -2,9 +2,12 @@
 
 namespace App\Modules\Section\Models;
 
+use App\Modules\Quiz\Models\Quiz;
 use App\Modules\User\Models\User;
 use App\Modules\Course\Models\Course;
+use App\Modules\Lesson\Models\Lesson;
 use Illuminate\Database\Eloquent\Model;
+use App\Modules\Assignment\Models\Assignment;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,5 +30,19 @@ class Section extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class, 'course_id');
+    }
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'course_section_id'); // Correct foreign key
+    }
+    
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class, 'course_section_id');
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'course_section_id');
     }
 }

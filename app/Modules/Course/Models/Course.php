@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Course extends Model
 {
-    use HasFactory;
+    use HasFactory; 
     protected $table = 'courses';
 
     public function category(): BelongsTo
@@ -29,15 +29,17 @@ class Course extends Model
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
-    public function lesson():HasMany
+    public function lesson(): HasMany
     {
         return $this->hasMany(Lesson::class); // Assuming a lesson belongs to a course
     }
 
-    public function section():HasMany
+    public function sections()
     {
-        return $this->hasMany(Section::class); // Assuming a section belongs to a course
+        return $this->hasMany(Section::class, 'course_id');
     }
+
+
 
     public function students()
     {
@@ -49,4 +51,30 @@ class Course extends Model
     {
         return $this->hasMany(EnrollStudent::class, 'course_id');
     }
+
+    // In your Course model
+public function getProgress()
+{
+    $student = auth()->user()->student;
+
+    // Get the total number of lessons, quizzes, and assignments for the course
+    $totalItems = $this->sections->sum(function ($section) {
+        $lessonCount = $section->lessons ? $section->lessons->count() : 0;
+        $quizCount = $section->quizzes ? $section->quizzes->count() : 0;
+        $assignmentCount = $section->assignments ? $section->assignments->count() : 0;
+
+        return $lessonCount + $quizCount + $assignmentCount;
+    });
+
+    // Get the number of completed items for the course
+    $completedItems = $student->completedItemsForCourse($this->id);
+
+    // Calculate and return the progress percentage
+    return $totalItems ? round(($completedItems / $totalItems) * 100, 2) : 0;
+}
+
+
+
+
+
 }

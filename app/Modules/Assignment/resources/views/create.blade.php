@@ -46,6 +46,17 @@
                         </div>
                     </div>
 
+                    <!-- Section -->
+                    <div class="input-group row mb-3 {{ $errors->has('section') ? 'has-error' : '' }}">
+                        {!! Form::label('section', 'Section: ', ['class' => 'col-md-3 control-label required-star']) !!}
+                        <div class="col-md-9">
+                            {!! Form::select('section', $section_list, old('section'), [
+                                'class' => 'form-control select2 section required',
+                            ]) !!}
+                            {!! $errors->first('section', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
                     <!-- Description -->
                     <div class="input-group row {{ $errors->has('description') ? 'has-error' : '' }}">
                         {!! Form::label('description', 'Description:', ['class' => 'col-md-3 control-label']) !!}
@@ -104,9 +115,6 @@
     </div>
 
     {!! Form::close() !!}
-
-
-
 @endsection
 
 @section('footer-script')
@@ -115,12 +123,12 @@
 
     <script>
         // Reset form fields and Select2
-        $('#reset_button').click(function () {
+        $('#reset_button').click(function() {
             $('#form_id')[0].reset(); // Reset all form fields
             $('.select2').val(null).trigger('change'); // Reset select2 fields
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.select2').select2({
                 placeholder: 'Select One',
                 allowClear: true

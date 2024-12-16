@@ -14,17 +14,17 @@ class Lesson extends Model
 
     protected $table = 'course_lessons';
 
-    public function section():BelongsTo
+    public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class, 'course_section_id');
     }
 
-    public function createdBy():BelongsTo
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updatedBy():BelongsTo
+    public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
     }

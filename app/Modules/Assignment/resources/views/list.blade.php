@@ -36,6 +36,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
+                                <th>Section</th>
                                 <th>Instructor Name</th>
                                 <th>Status</th>
                                 <th>Created By</th>
@@ -69,6 +70,7 @@
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'title', name: 'title' },
+                    { data: 'section_title', name: 'section_title' },
                     { data: 'instructor_name', name: 'instructor_name' },
                     { data: 'status', name: 'status' },
                     { data: 'created_by', name: 'created_by' },
