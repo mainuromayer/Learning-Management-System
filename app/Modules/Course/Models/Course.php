@@ -2,11 +2,13 @@
 
 namespace App\Modules\Course\Models;
 
+use App\Modules\Quiz\Models\Quiz;
 use App\Modules\Lesson\Models\Lesson;
 use App\Modules\Section\Models\Section;
 use App\Modules\Student\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Category\Models\Category;
+use App\Modules\Assignment\Models\Assignment;
 use App\Modules\Instructor\Models\Instructor;
 use App\Modules\EnrollStudent\Models\EnrollStudent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Course extends Model
 {
-    use HasFactory; 
+    use HasFactory;
     protected $table = 'courses';
 
     public function category(): BelongsTo
@@ -29,22 +31,38 @@ class Course extends Model
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
-    public function lesson(): HasMany
-    {
-        return $this->hasMany(Lesson::class); // Assuming a lesson belongs to a course
-    }
-
-    public function sections()
+    public function sections(): HasMany
     {
         return $this->hasMany(Section::class, 'course_id');
     }
 
-
-
     public function students()
     {
-        return $this->belongsToMany(Student::class, 'enroll_students'); // Many-to-many relationship
+        return $this->belongsToMany(Student::class, 'enroll_students', 'course_id', 'student_id');
     }
+
+
+
+
+
+    public function lessons()
+    {
+        return $this->hasManyThrough(Lesson::class, Section::class);
+    }
+
+    public function quizzes()
+    {
+        return $this->hasManyThrough(Quiz::class, Section::class);
+    }
+
+    public function assignments()
+    {
+        return $this->hasManyThrough(Assignment::class, Section::class);
+    }
+
+
+
+
 
 
     public function enrollments()
@@ -53,25 +71,19 @@ class Course extends Model
     }
 
     // In your Course model
-public function getProgress()
-{
-    $student = auth()->user()->student;
+    public function getProgress()
+    {
+        // Example logic to calculate progress, customize based on your needs
+        $totalLessons = $this->lessons->count();
+        $completedLessons = $this->lessons->where('completed', true)->count();
 
-    // Get the total number of lessons, quizzes, and assignments for the course
-    $totalItems = $this->sections->sum(function ($section) {
-        $lessonCount = $section->lessons ? $section->lessons->count() : 0;
-        $quizCount = $section->quizzes ? $section->quizzes->count() : 0;
-        $assignmentCount = $section->assignments ? $section->assignments->count() : 0;
+        if ($totalLessons > 0) {
+            return round(($completedLessons / $totalLessons) * 100);
+        }
 
-        return $lessonCount + $quizCount + $assignmentCount;
-    });
+        return 0; // Default to 0% if no lessons are available
+    }
 
-    // Get the number of completed items for the course
-    $completedItems = $student->completedItemsForCourse($this->id);
-
-    // Calculate and return the progress percentage
-    return $totalItems ? round(($completedItems / $totalItems) * 100, 2) : 0;
-}
 
 
 

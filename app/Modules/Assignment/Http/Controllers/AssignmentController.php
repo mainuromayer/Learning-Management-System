@@ -46,7 +46,7 @@ class AssignmentController extends Controller
                         return $list->section->title;
                     })
                     ->addColumn('instructor_name', function ($list) {
-                        return $list->instructor->user->name ?? ''; // Fetch user name through instructor
+                        return $list->instructor->user->name ?? '';
                     })
                     ->addColumn('status', function ($list) {
                         return $list->status;
@@ -91,7 +91,6 @@ class AssignmentController extends Controller
 
     public function store(StoreAssignmentRequest $request) {
         try {
-            dd($request);
             if ($request->get('id')) {
                 $assignment = Assignment::findOrFail($request->get('id'));
                 $assignment->updated_by = auth()->id();
@@ -106,7 +105,6 @@ class AssignmentController extends Controller
             if ($request->hasFile('attachment')) {
                 $attachmentData[] = $this->uploadFile($request->file('attachment'));
             } elseif ($oldAttachment) {
-                // Use the old attachment if no new file is uploaded
                 $attachmentData[] = $oldAttachment[0];
             }
 
@@ -154,10 +152,8 @@ class AssignmentController extends Controller
     public function removeImage(Request $request)
 {
     try {
-        // Get the image path from the request
         $imagePath = $request->get('image');
 
-        // Remove the image from the storage
         if (Storage::exists('public/' . $imagePath)) {
             Storage::delete('public/' . $imagePath);
             // Optionally remove the image path from the database if needed

@@ -14,13 +14,16 @@ class Assignment extends Model
     use HasFactory;
     protected $table = 'course_assignments';
 
-    // Define the relationship with Section
+    public function instructor(): BelongsTo
+    {
+        return $this->belongsTo(Instructor::class, 'instructor_id');
+    }
+
     public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class, 'course_section_id');
     }
 
-    // Other relationships like createdBy and updatedBy
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

@@ -13,7 +13,7 @@
 
 @section('content')
     {!! Form::open([
-        'route' => 'about_us.store',
+        'route' => 'assignment.store',
         'method' => 'post',
         'id' => 'form_id',
         'files' => true,

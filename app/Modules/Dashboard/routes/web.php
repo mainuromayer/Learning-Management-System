@@ -15,15 +15,18 @@ Route::group(['middleware' => ['web', 'auth', 'admin']], function () {
     Route::get('/admin/settings', [DashboardController::class, 'settings'])->name('admin.settings');
 });
 
-// Student routes
+
 Route::group(['middleware' => ['auth', 'student']], function () {
+    // Student Dashboard Route
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
-    // Route::post('/student/courses', [StudentDashboardController::class, 'getCourses'])->name('student.courses');
-    // Route::get('/course/{courseId}/index', [StudentDashboardController::class, 'showCourse'])->name('course.show');
-    // Route::get('/lesson/{lessonId}', [StudentDashboardController::class, 'showLesson'])->name('lesson.view');
-    // Route::get('/quiz/{quizId}', [StudentDashboardController::class, 'takeQuiz'])->name('quiz.take');
-    // Route::get('/assignment/{assignmentId}', [StudentDashboardController::class, 'viewAssignment'])->name('assignment.view');
+    
+    // Routes for courses, lessons, quizzes, and assignments
+    Route::get('/course/{courseId}', [StudentDashboardController::class, 'showCourse'])->name('course.show');
+    Route::get('/lesson/{lessonId}', [StudentDashboardController::class, 'showLesson'])->name('lesson.view');
+    Route::get('/quiz/{quizId}', [StudentDashboardController::class, 'takeQuiz'])->name('quiz.take');
+    Route::get('/assignment/{assignmentId}', [StudentDashboardController::class, 'viewAssignment'])->name('assignment.view');
 });
+
 
 
 

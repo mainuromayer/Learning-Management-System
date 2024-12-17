@@ -3,11 +3,11 @@
 namespace App\Modules\Section\Models;
 
 use App\Modules\Quiz\Models\Quiz;
-use App\Modules\User\Models\User;
 use App\Modules\Course\Models\Course;
 use App\Modules\Lesson\Models\Lesson;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Assignment\Models\Assignment;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,32 +17,24 @@ class Section extends Model
 
     protected $table = 'course_sections';
 
-    public function createdBy():BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy():BelongsTo
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
-    public function lessons()
+
+    public function lessons(): HasMany
     {
-        return $this->hasMany(Lesson::class, 'course_section_id'); // Correct foreign key
+        return $this->hasMany(Lesson::class, 'course_section_id');
     }
-    
-    public function quizzes()
+
+    public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class, 'course_section_id');
     }
 
-    public function assignments()
+    public function assignments(): HasMany
     {
         return $this->hasMany(Assignment::class, 'course_section_id');
     }
 }
+
