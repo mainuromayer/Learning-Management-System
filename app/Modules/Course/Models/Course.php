@@ -72,16 +72,25 @@ class Course extends Model
 
     // In your Course model
     public function getProgress()
-    {
-        // Example logic to calculate progress, customize based on your needs
-        $totalLessons = $this->lessons->count();
-        $completedLessons = $this->lessons->where('completed', true)->count();
 
-        if ($totalLessons > 0) {
-            return round(($completedLessons / $totalLessons) * 100);
-        }
+    {
+
+        // Example logic to calculate progress, customize based on your needs
+
+        // $totalLessons = $this->lessons->count();
+
+        // $completedLessons = $this->lessons->where('completed', true)->count();
+
+
+        // if ($totalLessons > 0) {
+
+        //     return round(($completedLessons / $totalLessons) * 100);
+
+        // }
+
 
         return 0; // Default to 0% if no lessons are available
+
     }
 
 

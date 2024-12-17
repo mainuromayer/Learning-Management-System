@@ -16,43 +16,36 @@ class StudentDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $studentId = auth()->user()->id; // Assuming you get the student's ID this way
-    
-        // Fetch the courses, sections, lessons, quizzes, and assignments with raw query
-        $enrolledCourses = DB::table('enroll_students')
-            ->join('courses', 'enroll_students.course_id', '=', 'courses.id')
-            ->join('course_sections', 'courses.id', '=', 'course_sections.course_id')
-            ->leftJoin('course_lessons', 'course_sections.id', '=', 'course_lessons.course_section_id')
-            ->leftJoin('course_quizzes', 'course_sections.id', '=', 'course_quizzes.course_section_id')
-            ->leftJoin('course_assignments', 'course_sections.id', '=', 'course_assignments.course_section_id')
-            ->where('enroll_students.student_id', $studentId)
-            ->select(
-                'courses.id as course_id',
-                'courses.title as course_title',
-                'course_sections.id as section_id',
-                'course_sections.title as section_title',
-                'course_lessons.id as lesson_id',
-                'course_lessons.title as lesson_title',
-                'course_quizzes.id as quiz_id',
-                'course_quizzes.title as quiz_title',
-                'course_assignments.id as assignment_id',
-                'course_assignments.title as assignment_title'
-            )
-            ->get();
-    
-        // // Group the data by course_id and section_id
-        // $groupedCourses = $enrolledCourses->groupBy('course_id')->map(function ($courseGroup) {
-        //     return $courseGroup->groupBy('section_id')->map(function ($sectionGroup) {
-        //         return [
-        //             'section_title' => $sectionGroup->first()->section_title,
-        //             'lessons' => $sectionGroup->pluck('lesson_title'),
-        //             'quizzes' => $sectionGroup->pluck('quiz_title'),
-        //             'assignments' => $sectionGroup->pluck('assignment_title'),
-        //         ];
-        //     });
+        // Fetch the courses along with sections, lessons, quizzes, and assignments
+        $courses = auth()->user()->student->courses()->with([
+            'sections.lessons', 
+            'sections.quizzes', 
+            'sections.assignments'
+        ])->paginate(6);
+        
+        // tap($courses, function ($courses) {
+        //     dd($courses); // This will pause here and show the result.
         // });
-    
-        return view('Dashboard::student.dashboard', ['enrolledCourses' => $enrolledCourses]);
+
+
+        // Add progress information for each course
+        foreach ($courses as $course) {
+            $course->progress = $course->getProgress();
+        }
+
+        // Return the data in JSON format if it's an AJAX request
+        if (request()->ajax()) {
+            return response()->json([
+                'data' => $courses->items(),
+                'pagination' => [
+                    'total' => $courses->total(),
+                    'current_page' => $courses->currentPage(),
+                    'last_page' => $courses->lastPage(),
+                ]
+            ]);
+        }
+
+        return view('Dashboard::student.dashboard', compact('courses'));
     }
 
 
