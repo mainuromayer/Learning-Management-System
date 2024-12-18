@@ -52,10 +52,11 @@ Login
 
                         <div class=" mb-3 form-password-toggle  {{ $errors->has('password') ? 'has-error' : '' }}">
                             <div class="d-flex justify-content-between">
-                                {!! Form::label('password', 'Password', ['class' => 'form-label required-star']) !!}
-                                <a href="auth-forgot-password-basic.html">
+                                {!! Form::label('password', 'Password', ['class' => 'form-label required-star',
+                                        'autofocus' => 'true',]) !!}
+                                {{-- <a href="auth-forgot-password-basic.html">
                                     <small>Forgot Password?</small>
-                                </a>
+                                </a> --}}
                             </div>
 
                             <div class="input-group">
@@ -66,12 +67,12 @@ Login
 
                         </div>
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember-me" />
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                         </div>

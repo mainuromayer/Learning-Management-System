@@ -37,8 +37,6 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Status</th>
-                                <th>Created By</th>
-                                <th>Updated By</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -70,8 +68,6 @@
                     { data: 'id', name: 'id' },
                     { data: 'title', name: 'title' },
                     { data: 'status', name: 'status' },
-                    { data: 'created_by', name: 'created_by' },
-                    { data: 'updated_by', name: 'updated_by' },
                     { data: 'action', name: 'action' }
                 ],
                 "sorting": []

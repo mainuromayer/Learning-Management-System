@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="row">
-        <!-- Display Course Title -->
         <div class="col-12 text-center my-4">
             <h2>{{ $course->title }}</h2>
             <div class="mb-3">
@@ -57,18 +56,20 @@
                             <!-- Assignments -->
                             <div class="section-content mt-3">
                                 <h6>Assignments</h6>
-                                @foreach ($section->assignments as $assignment)
-                                    <button class="btn btn-outline-dark w-100 assignment-toggle" data-toggle="collapse" data-target="#assignment{{ $assignment->id }}" aria-expanded="false" aria-controls="assignment{{ $assignment->id }}">
-                                        <i class="fas fa-caret-right"></i>&nbsp; {{ $assignment->title }}
-                                    </button>
-                                    <div id="assignment{{ $assignment->id }}" class="collapse ml-3 p-3">
-                                        <p><strong>Description:</strong> {{ $assignment->description }}</p>
-                                        <p><strong>Instructor:</strong> {{ $assignment->instructor->user->name }}</p>
-                                        <p><strong>Status:</strong> {{ $assignment->status }}</p>
-                                        @if ($assignment->attachment)
-                                            <p><strong>Attachment:</strong> <a href="{{ asset('/' . json_decode($assignment->attachment)[0]) }}" target="_blank">Download</a></p>
-                                        @endif
-                                    </div>
+                                @foreach ($assignments as $assignment)
+                                    @if ($assignment->course_section_id == $section->id) <!-- Ensure the assignment belongs to the section -->
+                                        <button class="btn btn-outline-dark w-100 assignment-toggle" data-toggle="collapse" data-target="#assignment{{ $assignment->id }}" aria-expanded="false" aria-controls="assignment{{ $assignment->id }}">
+                                            <i class="fas fa-caret-right"></i>&nbsp; {{ $assignment->title }}
+                                        </button>
+                                        <div id="assignment{{ $assignment->id }}" class="collapse ml-3 p-3">
+                                            <p><strong>Description:</strong> {{ $assignment->description }}</p>
+                                            <p><strong>Instructor:</strong> {{ $assignment->instructor->user->name }}</p>
+                                            <p><strong>Status:</strong> {{ $assignment->status }}</p>
+                                            @if ($assignment->attachment)
+                                                <p><strong>Attachment:</strong> <a href="{{ asset('/' . json_decode($assignment->attachment)[0]) }}" target="_blank">Download</a></p>
+                                            @endif
+                                        </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>

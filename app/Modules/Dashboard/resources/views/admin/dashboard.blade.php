@@ -1,7 +1,84 @@
 @extends('Dashboard::index')
 
 @section('content')
-ADMIN DASHBOARD
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Courses</div>
+                    <div class="card-body">
+                        <h5>{{ $totalCourses }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Categories</div>
+                    <div class="card-body">
+                        <h5>{{ $totalCategories }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Assignments</div>
+                    <div class="card-body">
+                        <h5>{{ $totalAssignments }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Lessons</div>
+                    <div class="card-body">
+                        <h5>{{ $totalLessons }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Sections</div>
+                    <div class="card-body">
+                        <h5>{{ $totalSections }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Quizzes</div>
+                    <div class="card-body">
+                        <h5>{{ $totalQuizzes }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Students</div>
+                    <div class="card-body">
+                        <h5>{{ $totalStudents }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">Total Instructors</div>
+                    <div class="card-body">
+                        <h5>{{ $totalInstructors }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 

@@ -3,6 +3,7 @@
 namespace App\Modules\Section\Models;
 
 use App\Modules\Quiz\Models\Quiz;
+use App\Modules\User\Models\User;
 use App\Modules\Course\Models\Course;
 use App\Modules\Lesson\Models\Lesson;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,16 @@ class Section extends Model
     public function assignments(): HasMany
     {
         return $this->hasMany(Assignment::class, 'course_section_id');
+    }
+
+    public function createdBy():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }
 

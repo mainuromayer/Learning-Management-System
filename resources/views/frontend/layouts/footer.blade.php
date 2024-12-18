@@ -4,11 +4,12 @@
         <div class="row g-5">
             <div class="col-lg-4 col-md-6">
                 <h4 class="text-white mb-3">Quick Link</h4>
-                <a class="btn btn-link" href="{{ route('about_page') }}">About Us</a>
-                <a class="btn btn-link" href="javascript:void(0);">Contact Us</a>
-                <a class="btn btn-link" href="javascript:void(0);">Privacy Policy</a>
-                <a class="btn btn-link" href="javascript:void(0);">Terms & Condition</a>
-                <a class="btn btn-link" href="javascript:void(0);">FAQs & Help</a>
+                <a class="btn btn-link" href="{{ route('home') }}">Home</a>
+                <a class="btn btn-link" href="{{ route('instructor_page') }}">Instructor</a>
+                <a class="btn btn-link" href="{{ route('about_page') }}">About</a>
+                <a class="btn btn-link" href="{{ route('courses_page') }}">Courses</a>
+                <a class="btn btn-link" href="{{ route('category_page') }}">Category</a>
+                <a class="btn btn-link" href="{{ route('contact') }}">Contact</a>
             </div>
             <div class="col-lg-4 col-md-6">
                 <h4 class="text-white mb-3">Contact</h4>

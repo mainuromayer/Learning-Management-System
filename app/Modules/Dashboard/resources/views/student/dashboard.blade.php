@@ -4,63 +4,34 @@
     <div class="row">
         @foreach ($courses as $course)
             <div class="col-md-4 p-3">
-                <div class="card card-outline card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title pt-2 pb-2">{{ $course->title }}</h3>
+                <div class="card card-outline card-primary overflow-hidden">
+                    <!-- Display Course Thumbnail -->
+                    <div class="text-center">
+                        <img class="img-fluid" src="{{ asset('/' . $course->thumbnail) }}"
+                            style="width: 100%; height: 200px; object-fit: cover;">
                     </div>
 
                     <div class="card-body mt-4">
-                        <h5 class="text-center">Course Progress: {{ $course->progress }}%</h5>
-                        <div class="accordion" id="courseSections{{ $course->id }}">
-                            @foreach ($course->sections as $section)
-                                <div class="card">
-                                    <div class="card-header" id="heading{{ $section->id }}">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                    data-target="#collapse{{ $section->id }}" aria-expanded="true"
-                                                    aria-controls="collapse{{ $section->id }}">
-                                                {{ $section->title }}
-                                            </button>
-                                        </h5>
-                                    </div>
+                        <p class="fw-bold">{{ $course->title }}</p>
 
-                                    <div id="collapse{{ $section->id }}" class="collapse" aria-labelledby="heading{{ $section->id }}"
-                                         data-parent="#courseSections{{ $course->id }}">
-                                        <div class="card-body">
-                                            <!-- Lessons -->
-                                            <h6>Lessons:</h6>
-                                            <ul>
-                                                @foreach ($section->lessons as $lesson)
-                                                    <li>
-                                                        <a href="{{ route('lesson.view', ['lessonId' => $lesson->id]) }}"
-                                                           class="text-decoration-none">{{ $lesson->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            <!-- Quizzes -->
-                                            <h6>Quizzes:</h6>
-                                            <ul>
-                                                @foreach ($section->quizzes as $quiz)
-                                                    <li>
-                                                        <a href="{{ route('quiz.take', ['quizId' => $quiz->id]) }}"
-                                                           class="text-decoration-none">{{ $quiz->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            <!-- Assignments -->
-                                            <h6>Assignments:</h6>
-                                            <ul>
-                                                @foreach ($section->assignments as $assignment)
-                                                    <li>
-                                                        <a href="{{ route('assignment.view', ['assignmentId' => $assignment->id]) }}"
-                                                           class="text-decoration-none">{{ $assignment->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <p>Lessons
+                                ({{ $course->sections->sum(function ($section) {return count($section->lessons);}) }})</p>
+                            <p>Quizzes
+                                ({{ $course->sections->sum(function ($section) {return count($section->quizzes);}) }})</p>
+                            <p>Assignments
+                                ({{ $course->sections->sum(function ($section) {return count($section->assignments);}) }})
+                            </p>
+                        </div>
+
+                        {{-- <h5 class="text-center">Course Progress: {{ $course->progress }}%</h5> --}}
+
+                        <!-- Continue Button -->
+                        <div class="text-center mt-3">
+                            <a href="{{ route('course.show', ['courseId' => $course->id]) }}" class="btn btn-primary">
+                                Continue to Course
+                            </a>
                         </div>
                     </div>
                 </div>

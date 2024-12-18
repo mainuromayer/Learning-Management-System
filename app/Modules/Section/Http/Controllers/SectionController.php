@@ -40,12 +40,12 @@ class SectionController extends Controller
                     ->addColumn('status', function($list){
                         return $list->status;
                     })
-                    ->addColumn('created_by', function($list){
-                        return optional($list->createdBy)->name; // Show the name of the user who created the section
-                    })
-                    ->addColumn('updated_by', function($list){
-                        return optional($list->updatedBy)->name; // Show the name of the user who updated the section
-                    })
+                    // ->addColumn('created_by', function($list){
+                    //     return optional($list->createdBy)->name; // Show the name of the user who created the section
+                    // })
+                    // ->addColumn('updated_by', function($list){
+                    //     return optional($list->updatedBy)->name; // Show the name of the user who updated the section
+                    // })
                     ->addColumn('action', function ($list) {
                         return '<a href="' . URL::to('section/edit/' . $list->id) . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })

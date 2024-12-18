@@ -3,7 +3,7 @@
   <div class="container">
       <div class="row g-4">
           <!-- Expert Instructors -->
-          <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
               <a href="{{ route('instructor_page') }}" class="text-decoration-none">
                   <div class="service-item d-flex flex-column align-items-center text-center pt-3 h-100">
                       <div class="p-4">
@@ -15,7 +15,7 @@
               </a>
           </div>
           <!-- Interactive Courses -->
-          <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
               <a href="{{ route('courses_page') }}" class="text-decoration-none">
                   <div class="service-item d-flex flex-column align-items-center text-center pt-3 h-100">
                       <div class="p-4">
@@ -26,7 +26,7 @@
                   </div>
               </a>
           </div>
-          <!-- Practical Assignments -->
+          {{-- <!-- Practical Assignments -->
           <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
               <a href="link-to-practical-assignments" class="text-decoration-none">
                   <div class="service-item d-flex flex-column align-items-center text-center pt-3 h-100">
@@ -49,7 +49,7 @@
                       </div>
                   </div>
               </a>
-          </div>
+          </div> --}}
       </div>
   </div>
 </div>

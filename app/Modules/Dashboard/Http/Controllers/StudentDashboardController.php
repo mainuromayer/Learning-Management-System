@@ -29,9 +29,9 @@ class StudentDashboardController extends Controller
 
 
         // Add progress information for each course
-        foreach ($courses as $course) {
-            $course->progress = $course->getProgress();
-        }
+        // foreach ($courses as $course) {
+        //     $course->progress = $course->getProgress();
+        // }
 
         // Return the data in JSON format if it's an AJAX request
         if (request()->ajax()) {
@@ -51,12 +51,18 @@ class StudentDashboardController extends Controller
 
 
 
-    // Show course details
     public function showCourse($courseId)
     {
-        $course = Course::findOrFail($courseId);
-        return view('Dashboard::student.course', compact('course'));
+        // Fetch course with its sections, lessons, quizzes, and assignments
+        $course = Course::with(['sections.lessons', 'sections.quizzes', 'sections.assignments'])->findOrFail($courseId);
+    
+        // You can also compute progress here if needed
+        $course->progress = $course->getProgress();
+    
+        return view('Dashboard::student.course.index', compact('course'));
     }
+    
+
 
     // Show lesson details
     public function showLesson($lessonId)

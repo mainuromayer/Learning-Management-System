@@ -52,7 +52,7 @@ Register
                                 {!! Form::label('password', 'Password', ['class' => 'form-label required-star']) !!}
                                 <div class="input-group">
                                     {!! Form::password('password', ['class' => 'form-control required', 'placeholder' => 'Enter password']) !!}
-                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                    {{-- <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span> --}}
                                 </div>
                                 {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
                             </div>
