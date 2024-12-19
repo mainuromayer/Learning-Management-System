@@ -22,10 +22,10 @@ Route::group(['middleware' => ['auth', 'student']], function () {
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     
     // Routes for courses, lessons, quizzes, and assignments
-    Route::get('/course/{courseId}', [StudentDashboardController::class, 'showCourse'])->name('course.show');
-    Route::get('/lesson/{lessonId}', [StudentDashboardController::class, 'showLesson'])->name('lesson.view');
-    Route::get('/quiz/{quizId}', [StudentDashboardController::class, 'takeQuiz'])->name('quiz.take');
-    Route::get('/assignment/{assignmentId}', [StudentDashboardController::class, 'viewAssignment'])->name('assignment.view');
+    Route::get('student/course/{courseId}', [StudentDashboardController::class, 'showCourse'])->name('course.show');
+    Route::get('student/lesson/{lessonId}', [StudentDashboardController::class, 'showLesson'])->name('lesson.view');
+    Route::get('student/quiz/{quizId}', [StudentDashboardController::class, 'takeQuiz'])->name('quiz.take');
+    Route::get('student/assignment/{assignmentId}', [StudentDashboardController::class, 'viewAssignment'])->name('assignment.view');
 });
 
 
